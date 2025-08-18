@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Hero / Cover -->
+  <section class="h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-pink-200 to-white">
+    <img src="foto-pengantin.jpg" alt="Foto Pengantin" class="w-48 h-48 object-cover rounded-full shadow-lg mb-6">
+    <h1 class="text-4xl md:text-5xl font-bold">Undangan Pernikahan</h1>
+    <p class="mt-2 text-lg">Usman & Aisyah</p>
+    <p class="mt-2">Minggu, 22 Desember 2025</p>
+    <button onclick="document.getElementById('detail').scrollIntoView({behavior:'smooth'})"
+            class="mt-6 px-6 py-3 bg-pink-500 text-white rounded-xl shadow hover:bg-pink-600">
+      Lihat Undangan
+    </button>
+  </section>
+
+  <!-- Detail Acara -->
+  <section id="detail" class="py-12 px-6 md:px-20 bg-white">
+    <h2 class="text-2xl font-bold text-center mb-6">Detail Acara</h2>
+    <div class="grid md:grid-cols-2 gap-8 text-center">
+      <div class="p-6 border rounded-2xl shadow">
+        <h3 class="text-xl font-semibold">Akad Nikah</h3>
+        <p class="mt-2">Minggu, 22 Desember 2025<br>08:00 WIB</p>
+        <p class="mt-2">Masjid Agung Al-Falah, Jakarta</p>
+      </div>
+      <div class="p-6 border rounded-2xl shadow">
+        <h3 class="text-xl font-semibold">Resepsi</h3>
+        <p class="mt-2">Minggu, 22 Desember 2025<br>11:00 WIB</p>
+        <p class="mt-2">Gedung Serbaguna Harmoni, Jakarta</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galeri Foto -->
+  <section class="py-12 px-6 md:px-20 bg-gray-100">
+    <h2 class="text-2xl font-bold text-center mb-6">Galeri</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <img src="foto1.jpg" class="rounded-lg shadow">
+      <img src="foto2.jpg" class="rounded-lg shadow">
+      <img src="foto3.jpg" class="rounded-lg shadow">
+      <img src="foto4.jpg" class="rounded-lg shadow">
+      <img src="foto5.jpg" class="rounded-lg shadow">
+      <img src="foto6.jpg" class="rounded-lg shadow">
+    </div>
+  </section>
+
+  <!-- Daftar Tamu / RSVP -->
+  <section class="py-12 px-6 md:px-20 bg-white">
+    <h2 class="text-2xl font-bold text-center mb-6">Konfirmasi Kehadiran</h2>
+    <form class="max-w-lg mx-auto bg-gray-50 p-6 rounded-xl shadow">
+      <label class="block mb-4">
+        <span class="block mb-1 font-semibold">Nama</span>
+        <input type="text" class="w-full p-2 border rounded-lg" placeholder="Masukkan nama Anda">
+      </label>
+      <label class="block mb-4">
+        <span class="block mb-1 font-semibold">Status Kehadiran</span>
+        <select class="w-full p-2 border rounded-lg">
+          <option>Hadir</option>
+          <option>Tidak Hadir</option>
+        </select>
+      </label>
+      <button type="submit" class="w-full py-3 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600">
+        Kirim
+      </button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 bg-gray-200 text-gray-600">
+    <p>Terima kasih atas doa & restunya ❤️</p>
+  </footer>
+
+</body>
+</html>
