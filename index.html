@@ -361,15 +361,20 @@
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-       const firebaseConfig = {
-  apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
-  authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
-  projectId: "undangan-digital-saya-b970e",
-  storageBucket: "undangan-digital-saya-b970e.firebasestorage.app",
-  messagingSenderId: "776870269876",
-  appId: "1:776870269876:web:760c755c643ab95bbe58e1",
-  measurementId: "G-N8X69CZHBS"
-};
+        // GANTI object di bawah ini dengan konfigurasi dari Firebase Anda
+        const userFirebaseConfig = {
+          apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
+          authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
+          projectId: "undangan-digital-saya-b970e",
+          storageBucket: "undangan-digital-saya-b970e.appspot.com",
+          messagingSenderId: "776870269876",
+          appId: "1:776870269876:web:760c755c643ab95bbe58e1"
+        };
+
+        // Logika ini akan menggunakan konfigurasi Canvas jika tersedia, 
+        // atau konfigurasi Anda jika dijalankan di luar Canvas (misalnya di GitHub)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
 
         try {
             const app = initializeApp(firebaseConfig);
@@ -382,7 +387,6 @@
                 const commentsList = document.getElementById('comments-list');
                 const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
 
-                // PERBAIKAN: Aktifkan tombol submit setelah Firebase siap
                 if(commentSubmitBtn) {
                     commentSubmitBtn.disabled = false;
                 }
@@ -414,7 +418,6 @@
 
                 commentForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    // PERBAIKAN: Baca nama dari input yang benar
                     const name = document.getElementById('comment-name').value.trim();
                     const messageInput = document.getElementById('comment-message');
                     const message = messageInput.value.trim();
@@ -489,7 +492,6 @@
             const musicToggle = document.getElementById('music-toggle');
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
-            // PERBAIKAN: Mengambil elemen input yang benar
             const commentNameInput = document.getElementById('comment-name');
             
             const previewAudio = document.getElementById('preview-audio');
@@ -571,7 +573,6 @@
             const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
             guestNameEl.textContent = guestNameDecoded;
-            // PERBAIKAN: Mengisi nilai input yang benar
             if (commentNameInput) {
                 commentNameInput.value = guestNameDecoded;
             }
