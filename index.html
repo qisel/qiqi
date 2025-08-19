@@ -11,13 +11,14 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Dancing+Script&family=Tangerine:wght@700&display=swap" rel="stylesheet">
     
     <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
     <style>
         /* Custom styles and fonts */
@@ -40,7 +41,7 @@
         .animate-pulse-slow {
             animation: pulse 2s infinite;
         }
-        .font-button.active, .song-button.active {
+        .font-button.active, .song-button.active, .effect-button.active {
             background-color: #0D9488;
             color: white;
             border-color: #0D9488;
@@ -48,7 +49,7 @@
         .color-button.active {
             ring-offset-2 ring-2 ring-teal-500;
         }
-        #cover-font-panel, #cover-link-panel, #cover-song-panel {
+        #cover-font-panel, #cover-link-panel, #cover-song-panel, #cover-effect-panel {
             display: none;
         }
         /* Style for ornaments */
@@ -102,10 +103,20 @@
             transform: scale(1);
         }
 
+        #effect-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
-
+    <canvas id="effect-canvas"></canvas>
     <!-- ====================================================== -->
     <!-- Cover Section (Halaman Depan) -->
     <!-- ====================================================== -->
@@ -125,28 +136,34 @@
         </div>
 
         <!-- Tombol Admin Terpisah -->
-        <button id="font-toggle-button" title="Pilih Font & Warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
-        </button>
-        <button id="song-toggle-button" title="Pilih Lagu" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-        </button>
-        <button id="link-toggle-button" title="Buat Link Tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </button>
+        <div class="absolute bottom-5 left-5 right-5 z-20 flex justify-between items-center max-w-xs mx-auto">
+            <button id="font-toggle-button" title="Pilih Font & Warna" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
+            </button>
+             <button id="effect-toggle-button" title="Pilih Efek" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C9.2 6.3 9 6 9 5.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M19 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5c-.2-.2-.4-.5-.4-.8v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M5 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C2.2 15.3 2 15 2 14.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/></svg>
+            </button>
+            <button id="song-toggle-button" title="Pilih Lagu" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            </button>
+            <button id="link-toggle-button" title="Buat Link Tamu" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </button>
+        </div>
 
         <!-- Panel Font & Color Selector di Cover -->
         <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
             <div class="text-left">
                 <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
                 <div class="grid grid-cols-2 gap-2" id="font-buttons">
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair">Klasik</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="lobster" style="font-family: 'Lobster', cursive;">Latin</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="roboto" style="font-family: 'Roboto', sans-serif;">Modern</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair" style="font-family: 'Playfair Display', serif;">Klasik</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" style="font-family: 'Merriweather', serif;">Elegan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 col-span-2" data-font-id="cinzel" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="greatvibes" style="font-family: 'Great Vibes', cursive; font-size: 1.4rem;">Mewah</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" style="font-family: 'Sacramento', cursive; font-size: 1.4rem;">Script</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="dancingscript" style="font-family: 'Dancing Script', cursive; font-size: 1.2rem;">Menari</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" style="font-family: 'Caveat', cursive; font-size: 1.4rem;">Tulisan</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="tangerine" style="font-family: 'Tangerine', cursive; font-size: 1.8rem;">Kaligrafi</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="cinzel" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
                 </div>
             </div>
              <div class="text-left mt-4">
@@ -154,12 +171,26 @@
                 <div class="flex space-x-3" id="color-buttons">
                     <button class="color-button w-6 h-6 rounded-full bg-white active" data-color-id="white"></button>
                     <button class="color-button w-6 h-6 rounded-full bg-amber-300" data-color-id="gold"></button>
+                    <button class="color-button w-6 h-6 rounded-full bg-slate-300" data-color-id="silver"></button>
                     <button class="color-button w-6 h-6 rounded-full bg-sky-300" data-color-id="lightblue"></button>
                     <button class="color-button w-6 h-6 rounded-full bg-emerald-300" data-color-id="lightgreen"></button>
+                    <button class="color-button w-6 h-6 rounded-full bg-pink-300" data-color-id="lightpink"></button>
                 </div>
             </div>
         </div>
         
+        <!-- Panel Pilihan Efek -->
+        <div id="cover-effect-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
+            <div class="text-left">
+                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Efek Animasi</p>
+                <div class="flex flex-col gap-2" id="effect-buttons">
+                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-effect-id="none">Tidak Ada</button>
+                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="glitter">✨ Gemerlap</button>
+                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="flowers">🌸 Bunga Jatuh</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Panel Pilihan Lagu -->
         <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
             <div class="text-left">
@@ -209,7 +240,7 @@
     <!-- ====================================================== -->
     <!-- Main Content (Konten Utama Undangan) -->
     <!-- ====================================================== -->
-    <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl">
+    <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl relative z-20">
         
         <button id="music-toggle" class="fixed bottom-5 right-5 z-40 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
             <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -484,9 +515,11 @@
             const fontToggleButton = document.getElementById('font-toggle-button');
             const linkToggleButton = document.getElementById('link-toggle-button');
             const songToggleButton = document.getElementById('song-toggle-button');
+            const effectToggleButton = document.getElementById('effect-toggle-button');
             const coverFontPanel = document.getElementById('cover-font-panel');
             const coverLinkPanel = document.getElementById('cover-link-panel');
             const coverSongPanel = document.getElementById('cover-song-panel');
+            const coverEffectPanel = document.getElementById('cover-effect-panel');
             const guestNameEl = document.getElementById('guest-name');
             const audio = document.getElementById('bg-music');
             const musicToggle = document.getElementById('music-toggle');
@@ -499,14 +532,19 @@
             let selectedFontId = 'playfair';
             let selectedColorId = 'white';
             let selectedSongId = 'song3'; 
+            let selectedEffectId = 'none';
+            let effectInterval;
             let currentPreviewId = null;
 
             const fontMap = {
-                'playfair': "'Playfair Display', serif", 'lobster': "'Lobster', cursive", 'roboto': "'Roboto', sans-serif",
-                'merriweather': "'Merriweather', serif", 'sacramento': "'Sacramento', cursive", 'caveat': "'Caveat', cursive", 'cinzel': "'Cinzel Decorative', serif"
+                'playfair': "'Playfair Display', serif", 'merriweather': "'Merriweather', serif", 
+                'greatvibes': "'Great Vibes', cursive", 'sacramento': "'Sacramento', cursive", 
+                'dancingscript': "'Dancing Script', cursive", 'caveat': "'Caveat', cursive", 
+                'tangerine': "'Tangerine', cursive", 'cinzel': "'Cinzel Decorative', serif"
             };
             const colorMap = {
-                'white': '#FFFFFF', 'gold': '#FBBF24', 'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC'
+                'white': '#FFFFFF', 'gold': '#FBBF24', 'silver': '#D1D5DB',
+                'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC', 'lightpink': '#F9A8D4'
             };
             const songMap = {
                 'song1': 'https://files.catbox.moe/18l2h9.mp3',
@@ -565,11 +603,55 @@
                 }
             }
 
+            function applyEffect(effectId) {
+                 document.querySelectorAll('.effect-button').forEach(btn => btn.classList.toggle('active', btn.dataset.effectId === effectId));
+            }
+
+            function runEffect(effectId) {
+                clearInterval(effectInterval);
+                if (effectId === 'none') return;
+
+                const myCanvas = document.getElementById('effect-canvas');
+                const myConfetti = confetti.create(myCanvas, {
+                    resize: true,
+                    useWorker: true
+                });
+
+                if (effectId === 'glitter') {
+                    effectInterval = setInterval(() => {
+                        myConfetti({
+                            particleCount: 30,
+                            startVelocity: 20,
+                            spread: 360,
+                            origin: { x: Math.random(), y: Math.random() - 0.2 },
+                            colors: ['#FFC700', '#FFD700', '#FFFFFF', '#F0F0F0']
+                        });
+                    }, 800);
+                } else if (effectId === 'flowers') {
+                     effectInterval = setInterval(() => {
+                        myConfetti({
+                            particleCount: 10,
+                            angle: 90,
+                            spread: 70,
+                            origin: { y: -0.1, x: Math.random() },
+                            shapes: ['emoji'],
+                            shapeOptions: {
+                                emoji: { value: ['🌸', '🌼', '🌷'] }
+                            },
+                            gravity: 0.3,
+                            drift: Math.random() * 0.4 - 0.2,
+                            scalar: 1.2
+                        });
+                    }, 1000);
+                }
+            }
+
 
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
             const fontParam = urlParams.get('font');
             const colorParam = urlParams.get('color');
+            const effectParam = urlParams.get('effect');
             const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
             guestNameEl.textContent = guestNameDecoded;
@@ -584,6 +666,10 @@
              if (colorParam && colorMap[colorParam]) {
                 selectedColorId = colorParam;
                 applyColor(selectedColorId);
+            }
+            if (effectParam) {
+                selectedEffectId = effectParam;
+                applyEffect(selectedEffectId);
             }
 
             function showInvitation() {
@@ -603,30 +689,45 @@
 
                     musicIconPlay.classList.add('hidden');
                     musicIconPause.classList.remove('hidden');
+                    runEffect(selectedEffectId);
                     AOS.refresh();
                 }, 1000);
             }
 
             openInvitationButton.addEventListener('click', showInvitation);
 
-            fontToggleButton.addEventListener('click', () => {
-                previewAudio.pause();
+            const hideAllPanels = () => {
+                coverFontPanel.style.display = 'none';
                 coverLinkPanel.style.display = 'none';
                 coverSongPanel.style.display = 'none';
-                coverFontPanel.style.display = coverFontPanel.style.display === 'block' ? 'none' : 'block';
+                coverEffectPanel.style.display = 'none';
+            };
+
+            fontToggleButton.addEventListener('click', () => {
+                previewAudio.pause();
+                const isVisible = coverFontPanel.style.display === 'block';
+                hideAllPanels();
+                if (!isVisible) coverFontPanel.style.display = 'block';
             });
 
             linkToggleButton.addEventListener('click', () => {
                 previewAudio.pause();
-                coverFontPanel.style.display = 'none';
-                coverSongPanel.style.display = 'none';
-                coverLinkPanel.style.display = coverLinkPanel.style.display === 'block' ? 'none' : 'block';
+                const isVisible = coverLinkPanel.style.display === 'block';
+                hideAllPanels();
+                if (!isVisible) coverLinkPanel.style.display = 'block';
             });
 
             songToggleButton.addEventListener('click', () => {
-                coverFontPanel.style.display = 'none';
-                coverLinkPanel.style.display = 'none';
-                coverSongPanel.style.display = coverSongPanel.style.display === 'block' ? 'none' : 'block';
+                const isVisible = coverSongPanel.style.display === 'block';
+                hideAllPanels();
+                if (!isVisible) coverSongPanel.style.display = 'block';
+            });
+
+            effectToggleButton.addEventListener('click', () => {
+                previewAudio.pause();
+                const isVisible = coverEffectPanel.style.display === 'block';
+                hideAllPanels();
+                if (!isVisible) coverEffectPanel.style.display = 'block';
             });
 
 
@@ -676,7 +777,7 @@
                 names.forEach(name => {
                     const trimmedName = name.trim();
                     const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}`;
+                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}&effect=${selectedEffectId}`;
                     
                     const invitationText = `*Bismillahirahmanirrahim*\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\n\n**Junior Habib R. Harun**\n\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\n\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\n\n🔗 ${fullUrl}\n\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
 
@@ -686,7 +787,7 @@
                             <div class="flex items-center mt-1">
                                 <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
                                 <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
-                                <button onclick="copyToClipboard(\`${invitationText}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
+                                <button onclick="copyToClipboard(\`${invitationText.replace(/`/g, '\\`')}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
                             </div>
                         </div>`;
                 });
@@ -714,6 +815,12 @@
 
                     selectedSongId = this.dataset.songId;
                     applySong(selectedSongId);
+                });
+            });
+             document.querySelectorAll('.effect-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    selectedEffectId = this.dataset.effectId;
+                    applyEffect(selectedEffectId);
                 });
             });
             
