@@ -75,6 +75,20 @@
                 Buka Undangan
             </button>
         </div>
+
+        <button id="font-toggle-button" title="Pilih Font & Warna" aria-label="Buka panel pilihan font dan warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
+        </button>
+        <button id="song-toggle-button" title="Pilih Lagu" aria-label="Buka panel pilihan lagu latar" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+        </button>
+        <button id="link-toggle-button" title="Buat Link Tamu" aria-label="Buka panel pembuat link tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </button>
+
+        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
     </div>
 
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl">
@@ -110,7 +124,11 @@
                 </div>
             </div>
             <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center">
-                </div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="100"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="200"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="300"><div id="minutes" class="text-3xl font-bold">00</div><div class="text-xs">Menit</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="400"><div id="seconds" class="text-3xl font-bold">00</div><div class="text-xs">Detik</div></div>
+            </div>
         </section>
 
         <section id="attendance" class="p-8 md:p-12 text-center bg-slate-50">
@@ -128,7 +146,6 @@
         <section id="guestbook" class="p-8 md:p-12 text-center bg-white">
             <h2 class="font-serif text-4xl mb-2 animate-letters">Buku Tamu & Ucapan Doa</h2>
             <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
-
             <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
                 <form id="comment-form">
                     <input type="text" id="comment-name" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium" readonly required>
@@ -136,19 +153,49 @@
                     <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400" disabled>Kirim Ucapan</button>
                 </form>
             </div>
-            
-            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
-                </div>
+            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4"></div>
         </section>
-        
+
+        <section id="location" class="p-8 md:p-12 bg-white text-center">
+            <h2 class="font-serif text-4xl mb-8 animate-letters">Lokasi Acara</h2>
+            <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
+                <iframe src="http://googleusercontent.com/maps.google.com/9" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Peta Lokasi Acara"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/1224teB3kar7EA7Q60" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
+        </section>
+
+        <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
+            <h2 class="font-serif text-4xl mb-2 animate-letters">Kirim Hadiah</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
+            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" data-aos="zoom-in">
+                <p class="font-semibold text-lg">Scan QRIS</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Contoh-QRIS-ganti-dengan-data-anda" alt="Contoh Kode QRIS untuk hadiah digital" class="w-48 h-48 mx-auto my-4 rounded-lg">
+                <div class="my-6 border-t border-slate-200"></div>
+                <p class="font-semibold text-lg">Atau Transfer Bank & E-Wallet</p>
+                <p class="text-md mt-2">Bank Syariah Indonesia</p>
+                <p class="text-xl font-bold mt-1">[Nomor Rekening Bank]</p>
+                <p class="text-md mt-1">a.n. [Nama Pemilik Rekening]</p>
+                <button onclick="copyToClipboard('[Nomor Rekening Bank]', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">Salin Rekening</button>
+            </div>
+        </section>
+
     </main>
+    
+    <footer class="text-center py-4 bg-slate-100">
+        <p class="text-xs text-slate-500">
+            Digital Invitation by 
+            <a href="https://wa.me/6285299069883" target="_blank" class="font-bold text-teal-600 hover:underline">arkan.digital</a>
+        </p>
+    </footer>
+
+    <audio id="bg-music" loop src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
+    <audio id="preview-audio"></audio>
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // GANTI DENGAN KONFIGURASI FIREBASE ANDA
         const firebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
           authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
@@ -157,7 +204,6 @@
           messagingSenderId: "776870269876",
           appId: "1:776870269876:web:760c755c643ab95bbe58e1"
         };
-
         const appId = firebaseConfig.projectId;
 
         try {
@@ -165,59 +211,46 @@
             const auth = getAuth(app);
             const db = getFirestore(app);
 
-            // Koleksi terpisah untuk kehadiran dan komentar
             const attendanceCollection = collection(db, `artifacts/${appId}/public/data/attendance`);
             const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
 
             function setupFeatures(guestIdentifier) {
-                // --- Logika Kehadiran ---
                 const attendanceCountEl = document.getElementById('attendance-count');
                 const confirmBtn = document.getElementById('confirm-attendance-btn');
                 const confirmBtnText = confirmBtn.querySelector('span');
 
-                // 1. Hitung dan tampilkan jumlah kehadiran
                 onSnapshot(query(attendanceCollection), (snapshot) => {
                     attendanceCountEl.textContent = snapshot.size;
                 });
 
-                // 2. Event listener untuk tombol konfirmasi
                 confirmBtn.addEventListener('click', async () => {
+                    if (localStorage.getItem(`attendanceConfirmed_${guestIdentifier}`)) return;
                     confirmBtn.disabled = true;
                     try {
-                        // Gunakan nama tamu sebagai ID dokumen untuk memastikan unik
-                        await setDoc(doc(attendanceCollection, guestIdentifier), {
-                            timestamp: serverTimestamp()
-                        });
+                        await setDoc(doc(attendanceCollection, guestIdentifier), { timestamp: serverTimestamp() });
                         localStorage.setItem(`attendanceConfirmed_${guestIdentifier}`, 'true');
                         confirmBtnText.textContent = 'Terima Kasih Atas Konfirmasinya';
                     } catch (error) {
                         console.error("Gagal konfirmasi kehadiran: ", error);
                         confirmBtnText.textContent = 'Gagal, Coba Lagi';
-                        confirmBtn.disabled = false; 
+                        confirmBtn.disabled = false;
                     }
                 });
 
-                // --- Logika Buku Tamu (Komentar) ---
                 const commentForm = document.getElementById('comment-form');
                 const commentSubmitBtn = document.getElementById('comment-submit-btn');
                 const commentsList = document.getElementById('comments-list');
 
-                // 1. Tampilkan komentar yang sudah ada
                 onSnapshot(query(commentsCollection), (snapshot) => {
                     const comments = [];
                     snapshot.forEach((doc) => comments.push(doc.data()));
-                    
-                    // Kelompokkan komentar berdasarkan nama
                     const groupedComments = comments.reduce((acc, comment) => {
-                        if (!acc[comment.name]) {
-                            acc[comment.name] = [];
-                        }
+                        if (!acc[comment.name]) acc[comment.name] = [];
                         acc[comment.name].push(comment);
                         return acc;
                     }, {});
 
                     commentsList.innerHTML = '';
-                    // Urutkan grup berdasarkan komentar terbaru di dalamnya
                     const sortedGroups = Object.entries(groupedComments).sort(([, a], [, b]) => {
                         const lastA = a.sort((c, d) => d.timestamp.seconds - c.timestamp.seconds)[0];
                         const lastB = b.sort((c, d) => d.timestamp.seconds - c.timestamp.seconds)[0];
@@ -227,7 +260,6 @@
                     sortedGroups.forEach(([name, messages]) => {
                         const groupContainer = document.createElement('div');
                         groupContainer.className = 'bg-slate-100 p-4 rounded-lg';
-                        
                         let messagesHtml = messages
                             .sort((a, b) => b.timestamp.seconds - a.timestamp.seconds)
                             .map(msg => {
@@ -237,35 +269,23 @@
                                             <p class="text-xs text-slate-500 mt-1 text-right">${timestamp}</p>
                                         </div>`;
                             }).join('');
-
-                        groupContainer.innerHTML = `
-                            <p class="font-bold text-slate-800 mb-2">${escapeHTML(name)}</p>
-                            <div class="space-y-2">${messagesHtml}</div>
-                        `;
+                        groupContainer.innerHTML = `<p class="font-bold text-slate-800 mb-2">${escapeHTML(name)}</p><div class="space-y-2">${messagesHtml}</div>`;
                         commentsList.appendChild(groupContainer);
                     });
                 });
 
-                // 2. Kirim komentar baru
                 commentForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const name = document.getElementById('comment-name').value.trim();
                     const messageInput = document.getElementById('comment-message');
                     const message = messageInput.value.trim();
-
                     if (name && message) {
                         commentSubmitBtn.disabled = true;
                         commentSubmitBtn.textContent = 'Mengirim...';
                         try {
-                            await addDoc(commentsCollection, {
-                                name: name,
-                                message: message,
-                                timestamp: serverTimestamp()
-                            });
+                            await addDoc(commentsCollection, { name, message, timestamp: serverTimestamp() });
                             messageInput.value = '';
-                        } catch (error) {
-                            console.error("Gagal mengirim komentar: ", error);
-                        } finally {
+                        } catch (error) { console.error("Gagal mengirim komentar: ", error); } finally {
                             commentSubmitBtn.disabled = false;
                             commentSubmitBtn.textContent = 'Kirim Ucapan';
                         }
@@ -275,113 +295,78 @@
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    const guestIdentifier = new URLSearchParams(window.location.search).get('to') || 'Tamu Undangan';
-                    setupFeatures(guestIdentifier.replace(/\s+/g, '_')); // Ganti spasi agar valid sbg ID
+                    const guestIdentifier = (new URLSearchParams(window.location.search).get('to') || 'Tamu_Undangan').replace(/\s+/g, '_');
+                    setupFeatures(guestIdentifier);
                 }
             });
-
             signInAnonymously(auth).catch(error => console.error("Autentikasi gagal:", error));
-
-        } catch (e) {
-            console.error("Gagal inisialisasi Firebase:", e);
-        }
+        } catch (e) { console.error("Gagal inisialisasi Firebase:", e); }
         
         function escapeHTML(str) {
-            const p = document.createElement('p');
-            p.appendChild(document.createTextNode(str));
-            return p.innerHTML;
+            const p = document.createElement('p'); p.appendChild(document.createTextNode(str)); return p.innerHTML;
         }
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({ duration: 1000, once: true, offset: 120 });
 
-            const openInvitationButton = document.getElementById('open-invitation');
-            const guestNameEl = document.getElementById('guest-name');
-            const commentNameInput = document.getElementById('comment-name');
-            const commentMessageInput = document.getElementById('comment-message');
-            const commentSubmitBtn = document.getElementById('comment-submit-btn');
-
-            // --- Logika Nama Tamu & Status Kehadiran Awal ---
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to') || "Tamu Undangan";
             const guestIdentifier = guestName.replace(/\s+/g, '_');
-            
             const guestNameDecoded = guestName.replace(/[+]/g, ' ');
-            guestNameEl.textContent = guestNameDecoded;
-            if (commentNameInput) commentNameInput.value = guestNameDecoded;
 
-            // Cek localStorage untuk status kehadiran
+            document.getElementById('guest-name').textContent = guestNameDecoded;
+            const commentNameInput = document.getElementById('comment-name');
+            if(commentNameInput) commentNameInput.value = guestNameDecoded;
+
             const confirmBtn = document.getElementById('confirm-attendance-btn');
             if (localStorage.getItem(`attendanceConfirmed_${guestIdentifier}`)) {
                 confirmBtn.disabled = true;
                 confirmBtn.querySelector('span').textContent = 'Anda Sudah Konfirmasi';
             }
 
-            // --- Logika Buka Undangan ---
-            openInvitationButton.addEventListener('click', () => {
-                const cover = document.getElementById('cover');
-                const mainContent = document.getElementById('main-content');
-                const audio = document.getElementById('bg-music');
-                
-                cover.style.transition = 'opacity 1s, transform 1s';
-                cover.style.opacity = '0';
-                cover.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cover.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'auto';
-                    audio.play().catch(e => console.log("Autoplay dicegah browser."));
-                    document.getElementById('music-icon-play').classList.add('hidden');
-                    document.getElementById('music-icon-pause').classList.remove('hidden');
-                    AOS.refresh();
-                }, 1000);
+            document.getElementById('open-invitation').addEventListener('click', () => {
+                document.getElementById('cover').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('bg-music').play().catch(e => console.log("Autoplay dicegah."));
+                AOS.refresh();
             });
 
-            // --- Validasi Form Komentar ---
+            const commentMessageInput = document.getElementById('comment-message');
             if (commentMessageInput) {
                 const validateForm = () => {
-                    commentSubmitBtn.disabled = !(commentNameInput.value.trim() && commentMessageInput.value.trim());
+                    document.getElementById('comment-submit-btn').disabled = !(commentNameInput.value.trim() && commentMessageInput.value.trim());
                 };
                 commentMessageInput.addEventListener('keyup', validateForm);
-                validateForm(); // Cek saat awal load
+                validateForm();
             }
 
-            // --- Tombol Musik ---
             document.getElementById('music-toggle').addEventListener('click', () => {
                 const audio = document.getElementById('bg-music');
-                const playIcon = document.getElementById('music-icon-play');
-                const pauseIcon = document.getElementById('music-icon-pause');
-                if (audio.paused) {
-                    audio.play();
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    playIcon.classList.remove('hidden');
-                    pauseIcon.classList.add('hidden');
-                }
+                document.getElementById('music-icon-play').classList.toggle('hidden');
+                document.getElementById('music-icon-pause').classList.toggle('hidden');
+                audio.paused ? audio.play() : audio.pause();
             });
 
-             // --- Animasi Teks ---
             document.querySelectorAll('.animate-letters').forEach(header => {
                 header.innerHTML = header.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
                 const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            anime.timeline({ targets: entry.target.querySelectorAll('.letter') })
-                                .add({
-                                    opacity: [0, 1], translateY: [20, 0],
-                                    easing: 'easeOutExpo', duration: 1000,
-                                    delay: anime.stagger(100)
-                                });
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.5 });
+                    if (entries[0].isIntersecting) {
+                        anime({ targets: entries[0].target.querySelectorAll('.letter'), opacity: [0, 1], translateY: [20, 0], delay: anime.stagger(100) });
+                        observer.unobserve(entries[0].target);
+                    }
+                });
                 observer.observe(header);
             });
         });
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Disalin!';
+                setTimeout(() => { button.textContent = originalText; }, 2000);
+            }).catch(err => console.error('Gagal menyalin:', err));
+        }
     </script>
 </body>
 </html>
