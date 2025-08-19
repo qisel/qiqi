@@ -11,7 +11,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Menambahkan font baru untuk fitur pilihan font -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     
     <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -27,7 +28,7 @@
         }
         /* Style for the cover page to take full screen */
         #cover {
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLViEsJFViUT9YS57Yc33S6GFXd76XAKxbIg&s');
+            background-image: url('https://placehold.co/1080x1920/334155/FFFFFF?text=Foto+Anak\\nAnda+Disini');
             background-size: cover;
             background-position: center;
         }
@@ -43,6 +44,12 @@
         .animate-pulse-slow {
             animation: pulse 2s infinite;
         }
+        /* Style untuk tombol font yang aktif */
+        .font-button.active {
+            background-color: #0D9488; /* Warna Teal-600 dari Tailwind */
+            color: white;
+            border-color: #0D9488;
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
@@ -54,7 +61,8 @@
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10" data-aos="fade-up">
             <p class="text-lg mb-2">Walimatul Khitan</p>
-            <h1 class="font-serif text-5xl md:text-6xl mb-4">[Inang Mopangga]</h1>
+            <!-- Menambahkan class 'target-nama-anak' untuk target JavaScript -->
+            <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">[Inang Mopangga]</h1>
             <div class="border-t border-b border-white py-4 my-8">
                 <p class="text-md">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
                 <h2 id="guest-name" class="text-2xl font-bold mt-2">[Nama Tamu]</h2>
@@ -83,7 +91,8 @@
             <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
                 Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan Tasyakuran Walimatul Khitan putra kami:
             </p>
-            <h1 class="font-serif text-5xl md:text-6xl mt-6" data-aos="zoom-in">[Inang Mopangga]</h1>
+            <!-- Menambahkan class 'target-nama-anak' untuk target JavaScript -->
+            <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">[Inang Mopangga]</h1>
             <p class="mt-4 text-lg" data-aos="fade-up">Putra dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
         </header>
 
@@ -96,8 +105,8 @@
                     <div class="w-full md:w-1/2" data-aos="fade-right">
                         <div class="bg-slate-100 p-6 rounded-lg shadow-md">
                             <h3 class="font-serif text-2xl text-teal-700">Tasyakuran</h3>
-                            <p class="text-xl font-bold mt-2">Sabtu, 28 September 2024</p>
-                            <p class="mt-1">Pukul 10:00 WIB - Selesai</p>
+                            <p class="text-xl font-bold mt-2">Selasa, 19 Agustus 2025</p>
+                            <p class="mt-1">Pukul 10:00 WITA - Selesai</p>
                             <p class="mt-4 text-sm">
                                 Kediaman Bapak [Nama Ayah] <br>
                                 Jl. Raja Panipi Desa Barakati Kecamatan Batudaa
@@ -131,10 +140,9 @@
         <!-- Map Section -->
         <section id="location" class="p-8 md:p-12 bg-slate-100 text-center">
             <h2 class="font-serif text-4xl mb-8" data-aos="fade-up">Lokasi Acara</h2>
-             <!-- Ganti 'src' dengan link embed Google Maps Anda -->
             <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
                 <iframe 
-                    src="https://maps.app.goo.gl/W1kHAxUm2xopPEv78" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.654892437335!2d122.9928333152629!3d0.5513928996504225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b1a7df52e25%3A0x4460c55b3f66e53!2sKantor%20Desa%20Barakati!5e0!3m2!1sid!2sid!4v1663170000000!5m2!1sid!2sid" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
@@ -158,9 +166,27 @@
         </footer>
 
         <!-- ====================================================== -->
+        <!-- Font Selector Section (FITUR BARU) -->
+        <!-- ====================================================== -->
+        <section id="font-selector" class="p-8 md:p-12 bg-slate-50 border-t-2 border-b-2 border-slate-200">
+            <h2 class="font-serif text-3xl text-center mb-2">Pilih Gaya Huruf Nama</h2>
+            <p class="text-center text-slate-500 mb-6">Pilih gaya huruf untuk nama "[Inang Mopangga]" sesuai selera Anda.</p>
+            <div class="flex justify-center flex-wrap gap-3 md:gap-4" id="font-buttons">
+                <button class="font-button px-6 py-2 rounded-lg border-2 transition-colors duration-200 active" data-font="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Klasik</button>
+                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Lobster', cursive" style="font-family: 'Lobster', cursive; font-size: 1.2rem;">Latin</button>
+                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Modern</button>
+                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Merriweather', serif" style="font-family: 'Merriweather', serif;">Elegan</button>
+                <!-- FONT BARU DITAMBAHKAN DI SINI -->
+                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.5rem;">Script</button>
+                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 1.5rem;">Tulisan</button>
+                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Cinzel Decorative', serif" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
+            </div>
+        </section>
+
+        <!-- ====================================================== -->
         <!-- Guest Link Generator (Fitur Pembuat Link Tamu) -->
         <!-- ====================================================== -->
-        <section id="link-generator" class="p-8 md:p-12 bg-white border-t-2 border-slate-200">
+        <section id="link-generator" class="p-8 md:p-12 bg-white">
             <h2 class="font-serif text-3xl text-center mb-6">Buat Link Undangan untuk Tamu</h2>
             <div class="max-w-lg mx-auto text-sm text-slate-600 text-center mb-6">
                 <p>Fitur ini untuk Anda sebagai pemilik acara. Masukkan daftar nama tamu di bawah (satu nama per baris), lalu klik "Buat Link". Anda akan mendapatkan link unik untuk setiap tamu yang bisa langsung Anda salin dan bagikan.</p>
@@ -178,13 +204,12 @@
 
     </main>
 
-
     <!-- Audio Player -->
-    <!-- Ganti 'src' dengan link musik Anda (misal dari Google Drive atau upload ke website lain) -->
-  <audio id="bg-music" loop>
-    <source src="https://drive.google.com/uc?export=download&id=1O8I_G7Z_lO4CWL7VvRTDbOkR0c4bzj6u" type="audio/mpeg">
-    Browser Anda tidak mendukung elemen audio.
-</audio>
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/18l2h9.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+    
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -214,7 +239,6 @@
             const musicIconPause = document.getElementById('music-icon-pause');
             
             // 1. Handle Guest Name from URL
-            // Cara penggunaan: domain.com/undangan.html?to=Nama+Tamu
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
             
@@ -233,16 +257,14 @@
                 setTimeout(() => {
                     cover.style.display = 'none';
                     mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'auto'; // Allow scrolling
+                    document.body.style.overflow = 'auto';
                     
-                    // Play music and update icon
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
                     musicIconPlay.classList.add('hidden');
                     musicIconPause.classList.remove('hidden');
 
-                    // Re-initialize AOS after content is visible to trigger animations correctly
                     AOS.refresh();
-                }, 1000); // Match timeout with transition duration
+                }, 1000);
             });
 
             // 3. Music Toggle Logic
@@ -280,7 +302,7 @@
                 document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
             };
             setInterval(countdown, 1000);
-            countdown(); // initial call
+            countdown();
 
             // 5. Guest Link Generator Logic
             const generateBtn = document.getElementById('generate-links-btn');
@@ -314,6 +336,26 @@
                 });
 
                 linksOutput.innerHTML = htmlOutput;
+            });
+
+            // 6. Font Selector Logic (FITUR BARU)
+            const fontButtons = document.querySelectorAll('.font-button');
+            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
+
+            fontButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Hapus kelas 'active' dari semua tombol
+                    fontButtons.forEach(btn => btn.classList.remove('active'));
+                    // Tambahkan kelas 'active' ke tombol yang diklik
+                    this.classList.add('active');
+
+                    const selectedFont = this.getAttribute('data-font');
+                    
+                    // Terapkan font ke semua elemen nama
+                    targetNamaElements.forEach(el => {
+                        el.style.fontFamily = selectedFont;
+                    });
+                });
             });
         });
 
