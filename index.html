@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Walimatul Khitan - [Inang Mopangga]</title>
+    <title>Undangan Walimatul Khitan - [Junior Habib R. Harun]</title>
     
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -42,6 +42,9 @@
             color: white;
             border-color: #0D9488;
         }
+        .color-button.active {
+            ring-offset-2 ring-2 ring-teal-500;
+        }
         #cover-font-panel, #cover-link-panel {
             display: none;
         }
@@ -56,7 +59,7 @@
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10" data-aos="fade-up">
             <p class="text-lg mb-2">Walimatul Khitan</p>
-            <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">[Inang Mopangga]</h1>
+            <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">[Junior Habib R. Harun]</h1>
             <div class="border-t border-b border-white py-4 my-8">
                 <p class="text-md">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
                 <h2 id="guest-name" class="text-2xl font-bold mt-2">[Nama Tamu]</h2>
@@ -68,24 +71,35 @@
         </div>
 
         <!-- Tombol Admin Terpisah -->
-        <button id="font-toggle-button" title="Pilih Font" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/></svg>
+        <button id="font-toggle-button" title="Pilih Font & Warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
         </button>
         <button id="link-toggle-button" title="Buat Link Tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </button>
 
-        <!-- Panel Font Selector di Cover -->
+        <!-- Panel Font & Color Selector di Cover -->
         <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
-            <p class="text-sm font-bold text-slate-700 mb-3 text-left">Pilih Gaya Huruf</p>
-            <div class="grid grid-cols-2 gap-2" id="font-buttons">
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair" data-font-family="'Playfair Display', serif">Klasik</button>
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="lobster" data-font-family="'Lobster', cursive" style="font-family: 'Lobster', cursive;">Latin</button>
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="roboto" data-font-family="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Modern</button>
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" data-font-family="'Merriweather', serif" style="font-family: 'Merriweather', serif;">Elegan</button>
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" data-font-family="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" data-font-family="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
-                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 col-span-2" data-font-id="cinzel" data-font-family="'Cinzel Decorative', serif" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
+            <div class="text-left">
+                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
+                <div class="grid grid-cols-2 gap-2" id="font-buttons">
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair">Klasik</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="lobster" style="font-family: 'Lobster', cursive;">Latin</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="roboto" style="font-family: 'Roboto', sans-serif;">Modern</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" style="font-family: 'Merriweather', serif;">Elegan</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 col-span-2" data-font-id="cinzel" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
+                </div>
+            </div>
+             <div class="text-left mt-4">
+                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Warna Huruf</p>
+                <div class="flex space-x-3" id="color-buttons">
+                    <button class="color-button w-6 h-6 rounded-full bg-white active" data-color-id="white"></button>
+                    <button class="color-button w-6 h-6 rounded-full bg-amber-300" data-color-id="gold"></button>
+                    <button class="color-button w-6 h-6 rounded-full bg-sky-300" data-color-id="lightblue"></button>
+                    <button class="color-button w-6 h-6 rounded-full bg-emerald-300" data-color-id="lightgreen"></button>
+                </div>
             </div>
         </div>
         
@@ -113,9 +127,23 @@
             <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
                 Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan Tasyakuran Walimatul Khitan putra kami:
             </p>
-            <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">[Inang Mopangga]</h1>
-            <p class="mt-4 text-lg" data-aos="fade-up">Putra dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
+            <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">[Junior Habib R. Harun]</h1>
         </header>
+
+        <!-- Bagian Orang Tua (BARU) -->
+        <section id="parents" class="p-8 md:p-12 text-center bg-slate-50">
+             <p class="text-lg mb-8" data-aos="fade-up">Putra dari Pasangan yang Berbahagia:</p>
+             <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-12">
+                <div class="flex flex-col items-center" data-aos="fade-right">
+                    <img src="https://placehold.co/150x150/a78bfa/FFFFFF?text=Foto+Ayah" alt="Foto Ayah" class="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white">
+                    <h3 class="font-serif text-2xl mt-4">[Rizky R. Harun]</h3>
+                </div>
+                 <div class="flex flex-col items-center" data-aos="fade-left">
+                    <img src="https://placehold.co/150x150/f472b6/FFFFFF?text=Foto+Ibu" alt="Foto Ibu" class="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white">
+                    <h3 class="font-serif text-2xl mt-4">[Inang Mopangga]</h3>
+                </div>
+             </div>
+        </section>
 
         <section id="details" class="p-8 md:p-12 text-center">
             <h2 class="font-serif text-4xl mb-8" data-aos="fade-up">Detail Acara</h2>
@@ -125,11 +153,11 @@
                     <div class="w-full md:w-1/2" data-aos="fade-right">
                         <div class="bg-slate-100 p-6 rounded-lg shadow-md">
                             <h3 class="font-serif text-2xl text-teal-700">Tasyakuran</h3>
-                            <p class="text-xl font-bold mt-2">Selasa, 19 Agustus 2025</p>
-                            <p class="mt-1">Pukul 10:00 WITA - Selesai</p>
+                            <p class="text-xl font-bold mt-2">Sabtu, 23 Agustus 2025</p>
+                            <p class="mt-1">Pukul 08:00 WITA - Selesai</p>
                             <p class="mt-4 text-sm">
-                                Kediaman Bapak [Nama Ayah] <br>
-                                Jl. Raja Panipi Desa Barakati Kecamatan Batudaa
+                                Kediaman Bapak/Ibu [Rizky R. Harun] <br>
+                                Kompleks RO. Taluhu Barakati Kecamatan Batudaa
                             </p>
                         </div>
                     </div>
@@ -144,7 +172,21 @@
             </div>
         </section>
 
-        <section id="location" class="p-8 md:p-12 bg-slate-100 text-center">
+        <!-- Bagian Kirim Hadiah (BARU) -->
+        <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
+            <h2 class="font-serif text-4xl mb-2" data-aos="fade-up">Kirim Hadiah</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
+            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" data-aos="zoom-in">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Bank_Syariah_Indonesia_logo.svg/2560px-Bank_Syariah_Indonesia_logo.svg.png" alt="Logo Bank" class="h-8 mx-auto mb-4">
+                <p class="text-lg font-semibold">[Nomor Rekening]</p>
+                <p class="text-md mt-1">a.n. [Nama Pemilik Rekening]</p>
+                <button onclick="copyToClipboard('[Nomor Rekening]', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
+                    Salin Rekening
+                </button>
+            </div>
+        </section>
+
+        <section id="location" class="p-8 md:p-12 bg-white text-center">
             <h2 class="font-serif text-4xl mb-8" data-aos="fade-up">Lokasi Acara</h2>
             <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.654892437335!2d122.9928333152629!3d0.5513928996504225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b1a7df52e25%3A0x4460c55b3f46e53!2sKantor%20Desa%20Barakati!5e0!3m2!1sid!2sid!4v1663170000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -157,7 +199,7 @@
             <p class="mb-8" data-aos="fade-up">Atas kehadiran dan do'a restunya, kami ucapkan terima kasih.</p>
             <p class="font-serif text-3xl" data-aos="zoom-in">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
             <p class="mt-8 font-bold" data-aos="fade-up">Kami yang berbahagia,</p>
-            <p class="mt-2" data-aos="fade-up">Keluarga Bapak [Nama Ayah]</p>
+            <p class="mt-2" data-aos="fade-up">Turut Mengundang [Kel. Harun & Kel. Mopangga]</p>
         </footer>
     </main>
 
@@ -185,16 +227,15 @@
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
 
-            let selectedFontId = 'playfair'; // Default font
+            let selectedFontId = 'playfair';
+            let selectedColorId = 'white';
 
             const fontMap = {
-                'playfair': "'Playfair Display', serif",
-                'lobster': "'Lobster', cursive",
-                'roboto': "'Roboto', sans-serif",
-                'merriweather': "'Merriweather', serif",
-                'sacramento': "'Sacramento', cursive",
-                'caveat': "'Caveat', cursive",
-                'cinzel': "'Cinzel Decorative', serif"
+                'playfair': "'Playfair Display', serif", 'lobster': "'Lobster', cursive", 'roboto': "'Roboto', sans-serif",
+                'merriweather': "'Merriweather', serif", 'sacramento': "'Sacramento', cursive", 'caveat': "'Caveat', cursive", 'cinzel': "'Cinzel Decorative', serif"
+            };
+            const colorMap = {
+                'white': '#FFFFFF', 'gold': '#FBBF24', 'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC'
             };
 
             const targetNamaElements = document.querySelectorAll('.target-nama-anak');
@@ -202,29 +243,33 @@
             function applyFont(fontId) {
                 const fontFamily = fontMap[fontId];
                 if (fontFamily) {
-                    targetNamaElements.forEach(el => {
-                        el.style.fontFamily = fontFamily;
-                    });
-                    // Update active button state
-                    document.querySelectorAll('.font-button').forEach(btn => {
-                        btn.classList.toggle('active', btn.dataset.fontId === fontId);
-                    });
+                    targetNamaElements.forEach(el => el.style.fontFamily = fontFamily);
+                    document.querySelectorAll('.font-button').forEach(btn => btn.classList.toggle('active', btn.dataset.fontId === fontId));
+                }
+            }
+
+            function applyColor(colorId) {
+                const color = colorMap[colorId];
+                if (color) {
+                    targetNamaElements.forEach(el => el.style.color = color);
+                    document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
                 }
             }
 
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
             const fontParam = urlParams.get('font');
+            const colorParam = urlParams.get('color');
 
-            if (guestName) {
-                guestNameEl.textContent = guestName.replace(/\+/g, ' ');
-            } else {
-                guestNameEl.textContent = "Tamu Undangan";
-            }
+            guestNameEl.textContent = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
             if (fontParam && fontMap[fontParam]) {
                 selectedFontId = fontParam;
                 applyFont(selectedFontId);
+            }
+             if (colorParam && colorMap[colorParam]) {
+                selectedColorId = colorParam;
+                applyColor(selectedColorId);
             }
 
             function showInvitation() {
@@ -300,38 +345,43 @@
                 names.forEach(name => {
                     const trimmedName = name.trim();
                     const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}`;
+                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}`;
                     htmlOutput += `
                         <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
                             <p class="font-semibold text-xs">${trimmedName}</p>
                             <div class="flex items-center mt-1">
                                 <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
-                                <button onclick="copyLink(this, '${fullUrl}')" class="bg-teal-600 text-white px-2 py-1 rounded-r-md hover:bg-teal-700 text-xs">Salin</button>
+                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 rounded-r-md hover:bg-teal-700 text-xs">Salin</button>
                             </div>
                         </div>`;
                 });
                 linksOutput.innerHTML = htmlOutput;
             });
 
-            const fontButtons = document.querySelectorAll('.font-button');
-            fontButtons.forEach(button => {
+            document.querySelectorAll('.font-button').forEach(button => {
                 button.addEventListener('click', function() {
                     selectedFontId = this.dataset.fontId;
                     applyFont(selectedFontId);
                 });
             });
+            document.querySelectorAll('.color-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    selectedColorId = this.dataset.colorId;
+                    applyColor(selectedColorId);
+                });
+            });
         });
 
-        function copyLink(button, url) {
+        function copyToClipboard(text, button) {
             const textArea = document.createElement("textarea");
-            textArea.value = url;
+            textArea.value = text;
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
             try {
                 document.execCommand('copy');
                 const originalText = button.textContent;
-                button.textContent = 'Ok!';
+                button.textContent = 'Disalin!';
                 button.classList.add('bg-green-600');
                 setTimeout(() => {
                     button.textContent = originalText;
