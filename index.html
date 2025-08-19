@@ -30,9 +30,17 @@
             font-family: 'Playfair Display', serif;
         }
         #cover {
+            /* Gambar default untuk mobile (portrait) */
             background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f1.jpeg');
             background-size: cover;
             background-position: center;
+        }
+        /* Media query untuk layar yang lebih lebar (komputer/landscape) */
+        @media (min-width: 768px) {
+            #cover {
+                /* Gambar untuk tampilan landscape */
+                background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f3.png');
+            }
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
