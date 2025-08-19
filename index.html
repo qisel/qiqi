@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Walimatul Khitan - [Junior Habib R. Harun]</title>
+    <title>Undangan Walimatul Khitan - Junior Habib R. Harun</title>
     
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -54,47 +54,59 @@
             height: 8rem;
             fill: currentColor;
         }
-        /* Balloon Animation Styles */
-        .balloon {
-            position: fixed;
-            bottom: -150px;
-            width: 50px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: flyUp 10s linear forwards;
-            pointer-events: none; /* Make balloons unclickable */
-            z-index: 100;
-        }
-        .balloon::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            border-top: 10px solid; /* Color will be inherited */
-        }
-        @keyframes flyUp {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(-120vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
         /* Letter Animation Styles */
         .animate-letters .letter {
             display: inline-block;
             opacity: 0;
             transform: translateY(20px);
         }
+        
+        /* ====================================================== */
+        /* EFEK BARU: Parallax Background */
+        /* ====================================================== */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* ====================================================== */
+        /* EFEK BARU: Image Reveal Animation */
+        /* ====================================================== */
+        .image-reveal-container {
+            position: relative;
+            overflow: hidden; /* Sembunyikan lapisan yang keluar dari kontainer */
+            display: inline-block; /* Agar container pas dengan ukuran gambar */
+        }
+
+        .image-reveal-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #d1fae5; /* Warna teal yang sangat muda */
+            transform: translateX(-101%); /* Sembunyikan lapisan ke kiri */
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); /* Transisi halus */
+        }
+
+        /* Saat animasi AOS aktif, geser lapisan ke kanan untuk "menyibak" */
+        .image-reveal-container.aos-animate::after {
+            transform: translateX(101%);
+        }
+
+        .image-reveal-container img {
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: scale(1.1); /* Sedikit diperbesar awalnya */
+        }
+        
+        /* Efek zoom-out halus pada gambar saat lapisan terbuka */
+        .image-reveal-container.aos-animate img {
+            transform: scale(1);
+        }
+
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
@@ -106,10 +118,10 @@
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10" data-aos="fade-up">
             <p class="text-lg mb-2">Syukuran Khitan & Ulang Tahun</p>
-            <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">[Junior Habib R. Harun]</h1>
+            <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">Junior Habib R. Harun</h1>
             <div class="border-t border-b border-white py-4 my-8">
                 <p class="text-md">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                <h2 id="guest-name" class="text-2xl font-bold mt-2">[Nama Tamu]</h2>
+                <h2 id="guest-name" class="text-2xl font-bold mt-2">Nama Tamu</h2>
             </div>
             <button id="open-invitation" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 animate-pulse-slow">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
@@ -169,12 +181,13 @@
             <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
 
-        <header class="text-center p-12 bg-slate-800 text-white" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
+        <!-- PERUBAHAN: Menambahkan class parallax-bg -->
+        <header class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="text-lg" data-aos="fade-down">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
             <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
                 Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara Tasyakuran Khitan & Ulang Tahun putra kami:
             </p>
-            <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">[Junior Habib R. Harun]</h1>
+            <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">Junior Habib R. Harun</h1>
         </header>
 
         <section id="doa-harapan" class="p-8 md:p-12 text-center bg-white">
@@ -185,32 +198,32 @@
 
         <section id="family" class="p-8 md:p-12 text-center bg-slate-50">
              <p class="text-lg mb-8" data-aos="fade-up">Dengan Penuh Kasih Sayang dari Keluarga Besar:</p>
-             <div class="flex justify-center items-center" data-aos="zoom-in">
-                <div class="flex flex-col items-center">
-                    <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto rounded-lg object-cover shadow-lg border-4 border-white">
-                    <h3 class="font-serif text-2xl mt-4">Kel. Harun & Kel. Mopangga</h3>
-                </div>
+             <!-- PERUBAHAN: Menggunakan image-reveal-container -->
+             <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
+                 <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
              </div>
+             <h3 class="font-serif text-2xl mt-4" data-aos="fade-up" data-aos-delay="200">Kel. Harun & Kel. Mopangga</h3>
         </section>
 
         <section id="details" class="p-8 md:p-12 text-center relative overflow-hidden">
              <div class="absolute top-0 left-0 text-teal-100 -translate-x-1/3 -translate-y-1/3 opacity-50">
-                <svg class="ornament" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path></svg>
-            </div>
-            <div class="absolute bottom-0 right-0 text-teal-100 translate-x-1/3 translate-y-1/3 opacity-50 transform rotate-180">
-                <svg class="ornament" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path></svg>
-            </div>
+                 <svg class="ornament" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path></svg>
+             </div>
+             <div class="absolute bottom-0 right-0 text-teal-100 translate-x-1/3 translate-y-1/3 opacity-50 transform rotate-180">
+                 <svg class="ornament" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path></svg>
+             </div>
             <h2 class="font-serif text-4xl mb-8 animate-letters">Detail Acara</h2>
             <div class="border-t-2 border-b-2 border-teal-500 py-8" data-aos="fade-up">
                 <p class="text-lg mb-4">Insya Allah akan diselenggarakan pada:</p>
                 <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <!-- PERUBAHAN: Animasi fade-right -->
                     <div class="w-full md:w-1/2" data-aos="fade-right">
                         <div class="bg-slate-100 p-6 rounded-lg shadow-md">
                             <h3 class="font-serif text-2xl text-teal-700">Tasyakuran</h3>
                             <p class="text-xl font-bold mt-2">Sabtu, 23 Agustus 2025</p>
                             <p class="mt-1">Pukul 08:00 WITA - Selesai</p>
                             <p class="mt-4 text-sm">
-                                Kediaman Bapak/Ibu [Rizky R. Harun bersama istri] <br>
+                                Kediaman Bapak/Ibu Rizky R. Harun bersama istri <br>
                                 Kompleks RO. Taluhu Barakati Kecamatan Batudaa
                             </p>
                         </div>
@@ -218,15 +231,17 @@
                 </div>
             </div>
             
-            <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center" data-aos="zoom-in-up">
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="minutes" class="text-3xl font-bold">00</div><div class="text-xs">Menit</div></div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="seconds" class="text-3xl font-bold">00</div><div class="text-xs">Detik</div></div>
+            <!-- PERUBAHAN: Variasi delay animasi AOS -->
+            <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center">
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="100"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="200"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="300"><div id="minutes" class="text-3xl font-bold">00</div><div class="text-xs">Menit</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="400"><div id="seconds" class="text-3xl font-bold">00</div><div class="text-xs">Detik</div></div>
             </div>
         </section>
         
-        <footer class="text-center p-12 bg-slate-800 text-white" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
+        <!-- PERUBAHAN: Menambahkan class parallax-bg -->
+        <footer class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="mb-4" data-aos="fade-down">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan do'a restu.</p>
             <p class="mb-8" data-aos="fade-up">Atas kehadiran dan do'a restunya, kami ucapkan terima kasih.</p>
             <p class="font-serif text-3xl" data-aos="zoom-in">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
@@ -281,16 +296,16 @@
                 <p class="font-semibold text-lg">Atau ke Nomor E-Wallet</p>
                 <p class="text-md mt-2">DANA / OVO / GoPay</p>
                 <p class="text-xl font-bold mt-1">0823-1194-5664</p>
-                <p class="text-md mt-1">a.n. [Rizky R. Harun]</p>
+                <p class="text-md mt-1">a.n. Rizky R. Harun</p>
                 <button onclick="copyToClipboard('0823-1194-5664', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
                     Salin Nomor
                 </button>
                 <div class="my-6 border-t border-slate-200"></div>
                 <p class="font-semibold text-lg">Atau Transfer Bank</p>
                 <p class="text-md mt-2">Bank Syariah Indonesia</p>
-                <p class="text-xl font-bold mt-1">[Nomor Rekening]</p>
-                <p class="text-md mt-1">a.n. [Nama Pemilik Rekening]</p>
-                <button onclick="copyToClipboard('[Nomor Rekening]', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
+                <p class="text-xl font-bold mt-1">Nomor Rekening</p>
+                <p class="text-md mt-1">a.n. Nama Pemilik Rekening</p>
+                <button onclick="copyToClipboard('Nomor Rekening', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
                     Salin Rekening
                 </button>
             </div>
@@ -413,7 +428,12 @@
     <script>
         // General UI Logic
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 1000, once: true });
+            AOS.init({ 
+                duration: 1000, 
+                once: true,
+                // Tambahkan offset agar animasi tidak langsung aktif saat elemen sedikit terlihat
+                offset: 120 
+            });
 
             const eventDate = "2025-08-23T08:00:00";
             const cover = document.getElementById('cover');
@@ -489,6 +509,7 @@
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
                     musicIconPlay.classList.add('hidden');
                     musicIconPause.classList.remove('hidden');
+                    // Refresh AOS untuk mendeteksi elemen baru yang muncul
                     AOS.refresh();
                 }, 1000);
             }
@@ -587,10 +608,6 @@
                 });
             });
 
-            mainContent.addEventListener('click', function(e) {
-                createBalloons(e.clientX, e.clientY);
-            });
-
             // Letter animation logic
             const animatedHeaders = document.querySelectorAll('.animate-letters');
             animatedHeaders.forEach(header => {
@@ -639,27 +656,6 @@
                 console.error('Gagal menyalin:', err);
             }
             document.body.removeChild(textArea);
-        }
-
-        function createBalloons(x, y) {
-            const colors = ['#fecaca', '#fde68a', '#a7f3d0', '#bfdbfe', '#ddd6fe'];
-            for (let i = 0; i < 10; i++) {
-                const balloon = document.createElement('div');
-                balloon.className = 'balloon';
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const size = Math.random() * 20 + 30; // size between 30px and 50px
-                balloon.style.backgroundColor = color;
-                balloon.style.borderColor = color;
-                balloon.style.width = `${size}px`;
-                balloon.style.height = `${size * 1.2}px`;
-                balloon.style.left = `${x + (Math.random() - 0.5) * 100}px`;
-                balloon.style.bottom = `calc(100vh - ${y}px)`;
-                balloon.style.animationDuration = `${Math.random() * 5 + 5}s`;
-                document.body.appendChild(balloon);
-                setTimeout(() => {
-                    balloon.remove();
-                }, 10000);
-            }
         }
     </script>
 
