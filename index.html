@@ -361,8 +361,15 @@
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+       const firebaseConfig = {
+  apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
+  authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
+  projectId: "undangan-digital-saya-b970e",
+  storageBucket: "undangan-digital-saya-b970e.firebasestorage.app",
+  messagingSenderId: "776870269876",
+  appId: "1:776870269876:web:760c755c643ab95bbe58e1",
+  measurementId: "G-N8X69CZHBS"
+};
 
         try {
             const app = initializeApp(firebaseConfig);
