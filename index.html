@@ -5,29 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Walimatul Khitan - Junior Habib R. Harun</title>
     
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     
-    <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
     <style>
-        /* Custom styles and fonts */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #F3F4F6; /* Light gray background */
-        }
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: #F3F4F6; }
+        .font-serif { font-family: 'Playfair Display', serif; }
         #cover {
             background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f1.jpeg');
             background-size: cover;
@@ -37,78 +28,39 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        .animate-pulse-slow {
-            animation: pulse 2s infinite;
-        }
+        .animate-pulse-slow { animation: pulse 2s infinite; }
         .font-button.active, .song-button.active {
             background-color: #0D9488;
             color: white;
             border-color: #0D9488;
         }
-        .color-button.active {
-            ring-offset-2 ring-2 ring-teal-500;
-        }
-        #cover-font-panel, #cover-link-panel, #cover-song-panel {
-            display: none;
-        }
-        /* Style for ornaments */
-        .ornament {
-            width: 8rem; /* Adjusted size */
-            height: 8rem;
-            fill: currentColor;
-        }
-        /* Letter Animation Styles */
-        .animate-letters .letter {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        
+        .color-button.active { ring-offset-2 ring-2 ring-teal-500; }
+        #cover-font-panel, #cover-link-panel, #cover-song-panel { display: none; }
+        .ornament { width: 8rem; height: 8rem; fill: currentColor; }
+        .animate-letters .letter { display: inline-block; opacity: 0; transform: translateY(20px); }
         .parallax-bg {
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
         }
-
-        .image-reveal-container {
-            position: relative;
-            overflow: hidden; 
-            display: inline-block; 
-        }
-
+        @media (max-width: 768px) { .parallax-bg { background-attachment: scroll; } }
+        .image-reveal-container { position: relative; overflow: hidden; display: inline-block; }
         .image-reveal-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #d1fae5; 
-            transform: translateX(-101%); 
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #d1fae5; transform: translateX(-101%); 
             transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
-
-        .image-reveal-container.aos-animate::after {
-            transform: translateX(101%);
-        }
-
+        .image-reveal-container.aos-animate::after { transform: translateX(101%); }
         .image-reveal-container img {
             transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
             transform: scale(1.1); 
         }
-        
-        .image-reveal-container.aos-animate img {
-            transform: scale(1);
-        }
-
+        .image-reveal-container.aos-animate img { transform: scale(1); }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
 
-    <!-- ====================================================== -->
-    <!-- Cover Section (Halaman Depan) -->
-    <!-- ====================================================== -->
     <div id="cover" class="fixed top-0 left-0 w-full h-full z-50 flex flex-col items-center justify-center text-white text-center p-8 bg-slate-700">
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10" data-aos="fade-up">
@@ -124,94 +76,24 @@
             </button>
         </div>
 
-        <!-- Tombol Admin Terpisah -->
-        <button id="font-toggle-button" title="Pilih Font & Warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+        <button id="font-toggle-button" title="Pilih Font & Warna" aria-label="Buka panel pilihan font dan warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
         </button>
-        <button id="song-toggle-button" title="Pilih Lagu" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+        <button id="song-toggle-button" title="Pilih Lagu" aria-label="Buka panel pilihan lagu latar" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
         </button>
-        <button id="link-toggle-button" title="Buat Link Tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+        <button id="link-toggle-button" title="Buat Link Tamu" aria-label="Buka panel pembuat link tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </button>
 
-        <!-- Panel Font & Color Selector di Cover -->
-        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
-            <div class="text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
-                <div class="grid grid-cols-2 gap-2" id="font-buttons">
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair">Klasik</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="lobster" style="font-family: 'Lobster', cursive;">Latin</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="roboto" style="font-family: 'Roboto', sans-serif;">Modern</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" style="font-family: 'Merriweather', serif;">Elegan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 col-span-2" data-font-id="cinzel" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
-                </div>
-            </div>
-             <div class="text-left mt-4">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Warna Huruf</p>
-                <div class="flex space-x-3" id="color-buttons">
-                    <button class="color-button w-6 h-6 rounded-full bg-white active" data-color-id="white"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-amber-300" data-color-id="gold"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-sky-300" data-color-id="lightblue"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-emerald-300" data-color-id="lightgreen"></button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Panel Pilihan Lagu -->
-        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
-            <div class="text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Lagu Latar</p>
-                <div class="flex flex-col gap-2" id="song-buttons">
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200 active" data-song-id="song3">Man Ana (Instrumental)</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song3">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song4">Deen Assalam</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song4">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song1">Lagu Juju 1</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song1">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song2">Lagu Juju 2</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song2">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Panel Link Generator di Cover -->
-        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto">
-            <p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p>
-            <textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-teal-500" placeholder="Satu nama per baris..."></textarea>
-            <button id="generate-links-btn" class="mt-2 w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors duration-300">Buat Link</button>
-            <div id="links-output" class="mt-3 max-h-40 overflow-y-auto"></div>
-        </div>
+        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
     </div>
 
-    <!-- ====================================================== -->
-    <!-- Main Content (Konten Utama Undangan) -->
-    <!-- ====================================================== -->
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl">
         
-        <button id="music-toggle" class="fixed bottom-5 right-5 z-40 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+        <button id="music-toggle" class="fixed bottom-5 right-5 z-40 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg" aria-label="Putar atau jeda musik latar">
             <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
             <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
@@ -233,7 +115,7 @@
         <section id="family" class="p-8 md:p-12 text-center bg-slate-50">
              <p class="text-lg mb-8" data-aos="fade-up">Dengan Penuh Kasih Sayang dari Keluarga Besar:</p>
              <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
-                 <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
+                 <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto keluarga besar Harun dan Mopangga" class="max-w-sm w-full h-auto object-cover">
              </div>
              <h3 class="font-serif text-2xl mt-4" data-aos="fade-up" data-aos-delay="200">Kel. Harun & Kel. Mopangga</h3>
         </section>
@@ -249,7 +131,7 @@
             <div class="border-t-2 border-b-2 border-teal-500 py-8" data-aos="fade-up">
                 <p class="text-lg mb-4">Insya Allah akan diselenggarakan pada:</p>
                 <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-                    <div class="w-full md:w-1/2" data-aos="fade-right">
+                    <div class="w-full md:w-auto" data-aos="fade-right">
                         <div class="bg-slate-100 p-6 rounded-lg shadow-md">
                             <h3 class="font-serif text-2xl text-teal-700">Tasyakuran</h3>
                             <p class="text-xl font-bold mt-2">Sabtu, 23 Agustus 2025</p>
@@ -262,12 +144,59 @@
                     </div>
                 </div>
             </div>
-            
             <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center">
                 <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="100"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
                 <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="200"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
                 <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="300"><div id="minutes" class="text-3xl font-bold">00</div><div class="text-xs">Menit</div></div>
                 <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="400"><div id="seconds" class="text-3xl font-bold">00</div><div class="text-xs">Detik</div></div>
+            </div>
+        </section>
+
+        <section id="attendance" class="p-8 md:p-12 text-center bg-slate-50">
+            <h2 class="font-serif text-4xl mb-4 animate-letters">Konfirmasi Kehadiran</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6" data-aos="fade-up">Mohon konfirmasikan kehadiran Anda untuk membantu kami mempersiapkan acara.</p>
+            <div data-aos="fade-up">
+                <p class="text-lg">Jumlah tamu yang akan hadir: <span id="attendance-count" class="font-bold text-2xl text-teal-600">0</span></p>
+                <button id="confirm-attendance-btn" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M20 6 9 17l-5-5"></path></svg>
+                    <span>Konfirmasi Kehadiran Saya</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="guestbook" class="p-8 md:p-12 text-center bg-white">
+            <h2 class="font-serif text-4xl mb-2 animate-letters">Buku Tamu & Ucapan Doa</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
+            <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
+                <form id="comment-form">
+                    <input type="text" id="comment-name" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium" readonly required>
+                    <textarea id="comment-message" rows="4" placeholder="Tulis ucapan Anda di sini..." class="w-full p-3 border border-slate-300 rounded-lg mb-3 focus:ring-2 focus:ring-teal-500" required></textarea>
+                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400" disabled>Kirim Ucapan</button>
+                </form>
+            </div>
+            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4"></div>
+        </section>
+
+        <section id="location" class="p-8 md:p-12 bg-white text-center">
+            <h2 class="font-serif text-4xl mb-8 animate-letters">Lokasi Acara</h2>
+            <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
+                <iframe src="https://maps.app.goo.gl/1224teB3kar7EA7Q60" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Peta Lokasi Acara"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/1224teB3kar7EA7Q61" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
+        </section>
+
+        <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
+            <h2 class="font-serif text-4xl mb-2 animate-letters">Kirim Hadiah</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
+            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" data-aos="zoom-in">
+                <p class="font-semibold text-lg">Scan QRIS</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Contoh-QRIS-ganti-dengan-data-anda" alt="Contoh Kode QRIS untuk hadiah digital" class="w-48 h-48 mx-auto my-4 rounded-lg">
+                <div class="my-6 border-t border-slate-200"></div>
+                <p class="font-semibold text-lg">Atau Transfer Bank & E-Wallet</p>
+                <p class="text-md mt-2">Bank Syariah Indonesia</p>
+                <p class="text-xl font-bold mt-1">[Nomor Rekening Bank]</p>
+                <p class="text-md mt-1">a.n. [Nama Pemilik Rekening]</p>
+                <button onclick="copyToClipboard('[Nomor Rekening Bank]', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">Salin Rekening</button>
             </div>
         </section>
         
@@ -278,91 +207,24 @@
             <p class="mt-8 font-bold" data-aos="fade-up">Kami yang berbahagia,</p>
             <p class="mt-2" data-aos="fade-up">Turut Mengundang: Kel. Harun & Kel. Mopangga</p>
         </footer>
-
-        <section id="location" class="p-8 md:p-12 bg-white text-center">
-            <h2 class="font-serif text-4xl mb-8 animate-letters">Lokasi Acara</h2>
-            <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.655868478335!2d122.9918231747844!3d0.5489858635880668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b1959555555%3A0x8e9237ff2218c63!2sMasjid%20Jami%20Al-Ikhlas%20Batudaa!5e0!3m2!1sid!2sid!4v1724050215712!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <a href="https://maps.app.goo.gl/1224teB3kar7EA7Q6" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
-        </section>
-
-        <section id="guestbook" class="p-8 md:p-12 text-center bg-white">
-            <h2 class="font-serif text-4xl mb-2 animate-letters">Buku Tamu & Ucapan Doa</h2>
-            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
-            <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
-                <form id="comment-form">
-                    <input type="text" id="comment-name" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium" readonly required>
-                    <div class="text-left mb-3">
-                        <p class="text-sm text-slate-600 mb-2">Pilih ucapan atau tulis sendiri:</p>
-                        <div class="flex flex-wrap gap-2">
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Insya Allah akan hadir.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Mohon maaf berhalangan hadir.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Selamat, semoga menjadi anak sholeh.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Barakallah, semoga sehat selalu.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Selamat ulang tahun & khitanan!</button>
-                        </div>
-                    </div>
-                    <textarea id="comment-message" rows="4" placeholder="Tulis ucapan Anda di sini..." class="w-full p-3 border border-slate-300 rounded-lg mb-3 focus:ring-2 focus:ring-teal-500" required></textarea>
-                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400" disabled>Kirim Ucapan</button>
-                </form>
-            </div>
-            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
-                <!-- Komentar akan muncul di sini -->
-            </div>
-        </section>
-
-        <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
-            <h2 class="font-serif text-4xl mb-2 animate-letters">Kirim Hadiah</h2>
-            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
-            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" data-aos="zoom-in">
-                <p class="font-semibold text-lg">Scan QRIS</p>
-                <p class="text-sm text-slate-500">Mendukung semua E-Wallet & M-Banking</p>
-                <img src="https://placehold.co/300x300/ffffff/000000?text=Scan+QRIS+Anda+di+Sini" alt="QRIS Code" class="w-48 h-48 mx-auto my-4 rounded-lg">
-                <div class="flex justify-center items-center">
-                    <img src="https://1.bp.blogspot.com/-Vtb-RArDbaY/YIZA_Kry9qI/AAAAAAAACiw/z3xhKLb2IEccSpL1sTa68YFR8peqB3_dwCLcBGAsYHQ/s0/IMG_20210426_122311.jpg" alt="E-Wallet Logos" class="h-8">
-                </div>
-                <div class="my-6 border-t border-slate-200"></div>
-                <p class="font-semibold text-lg">Atau ke Nomor E-Wallet</p>
-                <p class="text-md mt-2">DANA / OVO / GoPay</p>
-                <p class="text-xl font-bold mt-1">0823-1194-5664</p>
-                <p class="text-md mt-1">a.n. Rizky R. Harun</p>
-                <button onclick="copyToClipboard('0823-1194-5664', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
-                    Salin Nomor
-                </button>
-                <div class="my-6 border-t border-slate-200"></div>
-                <p class="font-semibold text-lg">Atau Transfer Bank</p>
-                <p class="text-md mt-2">Bank Syariah Indonesia</p>
-                <p class="text-xl font-bold mt-1">Nomor Rekening</p>
-                <p class="text-md mt-1">a.n. Nama Pemilik Rekening</p>
-                <button onclick="copyToClipboard('Nomor Rekening', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
-                    Salin Rekening
-                </button>
-            </div>
-        </section>
     </main>
-
-    <!-- Digital Invitation by arkan.digital -->
+    
     <footer class="text-center py-4 bg-slate-100">
         <p class="text-xs text-slate-500">
             Digital Invitation by 
             <a href="https://wa.me/6285299069883" target="_blank" class="font-bold text-teal-600 hover:underline">arkan.digital</a>
-            - Desa Barakati
         </p>
     </footer>
 
-    <audio id="bg-music" src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
+    <audio id="bg-music" loop src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
     <audio id="preview-audio"></audio>
     
-    <!-- Scripts -->
     <script type="module">
-        // Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // GANTI object di bawah ini dengan konfigurasi dari Firebase Anda
-        const userFirebaseConfig = {
+        const firebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
           authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
           projectId: "undangan-digital-saya-b970e",
@@ -370,50 +232,68 @@
           messagingSenderId: "776870269876",
           appId: "1:776870269876:web:760c755c643ab95bbe58e1"
         };
-
-        // Logika ini akan menggunakan konfigurasi Canvas jika tersedia, 
-        // atau konfigurasi Anda jika dijalankan di luar Canvas (misalnya di GitHub)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
+        const appId = firebaseConfig.projectId;
 
         try {
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
 
-            function setupGuestbook() {
+            const attendanceCollection = collection(db, `artifacts/${appId}/public/data/attendance`);
+            const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
+
+            function setupFeatures(guestIdentifier) {
+                const attendanceCountEl = document.getElementById('attendance-count');
+                const confirmBtn = document.getElementById('confirm-attendance-btn');
+                const confirmBtnText = confirmBtn.querySelector('span');
+
+                onSnapshot(query(attendanceCollection), (snapshot) => {
+                    attendanceCountEl.textContent = snapshot.size;
+                });
+
+                confirmBtn.addEventListener('click', async () => {
+                    if (localStorage.getItem(`attendanceConfirmed_${guestIdentifier}`)) return;
+                    confirmBtn.disabled = true;
+                    try {
+                        await setDoc(doc(attendanceCollection, guestIdentifier), { timestamp: serverTimestamp() });
+                        localStorage.setItem(`attendanceConfirmed_${guestIdentifier}`, 'true');
+                        confirmBtnText.textContent = 'Terima Kasih Atas Konfirmasinya';
+                    } catch (error) {
+                        console.error("Gagal konfirmasi kehadiran: ", error);
+                        confirmBtnText.textContent = 'Gagal, Coba Lagi';
+                        confirmBtn.disabled = false;
+                    }
+                });
+
                 const commentForm = document.getElementById('comment-form');
                 const commentSubmitBtn = document.getElementById('comment-submit-btn');
                 const commentsList = document.getElementById('comments-list');
-                const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
 
-                if(commentSubmitBtn) {
-                    commentSubmitBtn.disabled = false;
-                }
-
-                const q = query(commentsCollection);
-                onSnapshot(q, (snapshot) => {
-                    commentsList.innerHTML = '';
+                onSnapshot(query(commentsCollection), (snapshot) => {
                     const comments = [];
-                    snapshot.forEach((doc) => {
-                        comments.push({ id: doc.id, ...doc.data() });
+                    snapshot.forEach((doc) => comments.push(doc.data()));
+                    const groupedComments = comments.reduce((acc, comment) => {
+                        if (!acc[comment.name]) acc[comment.name] = [];
+                        acc[comment.name].push(comment);
+                        return acc;
+                    }, {});
+
+                    commentsList.innerHTML = '';
+                    const sortedGroups = Object.entries(groupedComments).sort(([, a], [, b]) => {
+                        const lastA = a.sort((c, d) => (d.timestamp?.seconds || 0) - (c.timestamp?.seconds || 0))[0];
+                        const lastB = b.sort((c, d) => (d.timestamp?.seconds || 0) - (c.timestamp?.seconds || 0))[0];
+                        return (lastB.timestamp?.seconds || 0) - (lastA.timestamp?.seconds || 0);
                     });
-                    comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                    comments.forEach((comment) => {
-                        const commentElement = document.createElement('div');
-                        commentElement.className = 'bg-slate-100 p-4 rounded-lg';
-                        const timestamp = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Baru saja';
-                        commentElement.innerHTML = `
-                            <div class="flex justify-between items-center mb-2">
-                                <p class="font-bold text-slate-800">${escapeHTML(comment.name)}</p>
-                                <p class="text-xs text-slate-500">${timestamp}</p>
-                            </div>
-                            <p class="text-slate-600">${escapeHTML(comment.message)}</p>
-                        `;
-                        commentsList.appendChild(commentElement);
+
+                    sortedGroups.forEach(([name, messages]) => {
+                        const groupContainer = document.createElement('div');
+                        groupContainer.className = 'bg-slate-100 p-4 rounded-lg';
+                        let messagesHtml = messages
+                            .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0))
+                            .map(msg => `<p class="text-slate-600 pb-2 mb-2 border-b border-slate-200 last:border-b-0 last:pb-0 last:mb-0">${escapeHTML(msg.message)}</p>`).join('');
+                        groupContainer.innerHTML = `<p class="font-bold text-slate-800 mb-2">${escapeHTML(name)}</p><div class="space-y-2">${messagesHtml}</div>`;
+                        commentsList.appendChild(groupContainer);
                     });
-                }, (error) => {
-                    console.error("Snapshot listener error:", error);
                 });
 
                 commentForm.addEventListener('submit', async (e) => {
@@ -421,20 +301,13 @@
                     const name = document.getElementById('comment-name').value.trim();
                     const messageInput = document.getElementById('comment-message');
                     const message = messageInput.value.trim();
-
                     if (name && message) {
                         commentSubmitBtn.disabled = true;
                         commentSubmitBtn.textContent = 'Mengirim...';
                         try {
-                            await addDoc(commentsCollection, {
-                                name: name,
-                                message: message,
-                                timestamp: serverTimestamp()
-                            });
+                            await addDoc(commentsCollection, { name, message, timestamp: serverTimestamp() });
                             messageInput.value = '';
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                        } finally {
+                        } catch (error) { console.error("Gagal mengirim komentar: ", error); } finally {
                             commentSubmitBtn.disabled = false;
                             commentSubmitBtn.textContent = 'Kirim Ucapan';
                         }
@@ -444,381 +317,133 @@
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    setupGuestbook();
+                    const guestIdentifier = (new URLSearchParams(window.location.search).get('to') || 'Tamu_Undangan').replace(/\s+/g, '_');
+                    setupFeatures(guestIdentifier);
                 }
             });
-            
-            (async () => {
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            })().catch(error => {
-                console.error("Authentication failed:", error);
-            });
-
-        } catch (e) {
-            console.error("Error initializing Firebase:", e);
-        }
+            signInAnonymously(auth).catch(error => console.error("Autentikasi gagal:", error));
+        } catch (e) { console.error("Gagal inisialisasi Firebase:", e); }
         
         function escapeHTML(str) {
-            return str.replace(/[&<>"']/g, function(match) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
-            });
+            const p = document.createElement('p'); p.appendChild(document.createTextNode(str)); return p.innerHTML;
         }
     </script>
     <script>
-        // General UI Logic
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ 
-                duration: 1000, 
-                once: true,
-                offset: 120 
-            });
+            AOS.init({ duration: 1000, once: true, offset: 120 });
 
-            const eventDate = "2025-08-23T08:00:00";
-            const cover = document.getElementById('cover');
-            const mainContent = document.getElementById('main-content');
-            const openInvitationButton = document.getElementById('open-invitation');
-            const fontToggleButton = document.getElementById('font-toggle-button');
-            const linkToggleButton = document.getElementById('link-toggle-button');
-            const songToggleButton = document.getElementById('song-toggle-button');
-            const coverFontPanel = document.getElementById('cover-font-panel');
-            const coverLinkPanel = document.getElementById('cover-link-panel');
-            const coverSongPanel = document.getElementById('cover-song-panel');
-            const guestNameEl = document.getElementById('guest-name');
-            const audio = document.getElementById('bg-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIconPlay = document.getElementById('music-icon-play');
-            const musicIconPause = document.getElementById('music-icon-pause');
-            const commentNameInput = document.getElementById('comment-name');
-            
-            const previewAudio = document.getElementById('preview-audio');
-
+            // Variabel Global
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestName = urlParams.get('to') || "Tamu Undangan";
+            const guestIdentifier = guestName.replace(/\s+/g, '_');
+            const guestNameDecoded = guestName.replace(/[+]/g, ' ');
             let selectedFontId = 'playfair';
             let selectedColorId = 'white';
-            let selectedSongId = 'song3'; 
-            let currentPreviewId = null;
 
-            const fontMap = {
-                'playfair': "'Playfair Display', serif", 'lobster': "'Lobster', cursive", 'roboto': "'Roboto', sans-serif",
-                'merriweather': "'Merriweather', serif", 'sacramento': "'Sacramento', cursive", 'caveat': "'Caveat', cursive", 'cinzel': "'Cinzel Decorative', serif"
-            };
-            const colorMap = {
-                'white': '#FFFFFF', 'gold': '#FBBF24', 'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC'
-            };
-            const songMap = {
-                'song1': 'https://files.catbox.moe/18l2h9.mp3',
-                'song2': 'https://files.catbox.moe/51rfqh.mp3',
-                'song3': 'https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3',
-                'song4': 'https://ia902806.us.archive.org/28/items/SABYAN-DEENASSALAM/SABYAN%20-%20DEEN%20ASSALAM.mp3'
-            };
+            // Elemen DOM
+            const guestNameEl = document.getElementById('guest-name');
+            const commentNameInput = document.getElementById('comment-name');
+            const commentMessageInput = document.getElementById('comment-message');
+            const confirmBtn = document.getElementById('confirm-attendance-btn');
 
-            const playlist = ['song3', 'song4'];
-            let currentSongIndex = 0;
-            let isSequencePlaying = false;
-
-            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
-
-            function applyFont(fontId) {
-                const fontFamily = fontMap[fontId];
-                if (fontFamily) {
-                    targetNamaElements.forEach(el => el.style.fontFamily = fontFamily);
-                    document.querySelectorAll('.font-button').forEach(btn => btn.classList.toggle('active', btn.dataset.fontId === fontId));
-                }
-            }
-
-            function applyColor(colorId) {
-                const color = colorMap[colorId];
-                if (color) {
-                    targetNamaElements.forEach(el => el.style.color = color);
-                    document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
-                }
-            }
-            
-            function playNextSongInSequence() {
-                currentSongIndex = (currentSongIndex + 1) % playlist.length;
-                const nextSongId = playlist[currentSongIndex];
-                audio.src = songMap[nextSongId];
-                audio.play().catch(e => console.error("Error playing next song:", e));
-                document.querySelectorAll('.song-button').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.songId === nextSongId);
-                });
-            }
-
-            function applySong(songId) {
-                const songUrl = songMap[songId];
-                if (songUrl) {
-                    const isPlaying = !audio.paused;
-                    audio.src = songUrl;
-                    if (isPlaying) {
-                        audio.play().catch(e => {
-                            if (e.name !== 'AbortError') {
-                                console.error("Error playing new song:", e);
-                            }
-                        });
-                    }
-                    document.querySelectorAll('.song-button').forEach(btn => {
-                        btn.classList.toggle('active', btn.dataset.songId === songId);
-                    });
-                }
-            }
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to');
-            const fontParam = urlParams.get('font');
-            const colorParam = urlParams.get('color');
-            const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
-
+            // --- Inisialisasi Awal ---
             guestNameEl.textContent = guestNameDecoded;
-            if (commentNameInput) {
-                commentNameInput.value = guestNameDecoded;
+            if(commentNameInput) commentNameInput.value = guestNameDecoded;
+
+            if (localStorage.getItem(`attendanceConfirmed_${guestIdentifier}`)) {
+                confirmBtn.disabled = true;
+                confirmBtn.querySelector('span').textContent = 'Anda Sudah Konfirmasi';
             }
-
-            if (fontParam && fontMap[fontParam]) {
-                selectedFontId = fontParam;
-                applyFont(selectedFontId);
-            }
-             if (colorParam && colorMap[colorParam]) {
-                selectedColorId = colorParam;
-                applyColor(selectedColorId);
-            }
-
-            function showInvitation() {
-                previewAudio.pause(); 
-                cover.style.transition = 'opacity 1s, transform 1s';
-                cover.style.opacity = '0';
-                cover.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cover.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'auto';
-                    
-                    isSequencePlaying = true;
-                    audio.loop = false; 
-                    audio.addEventListener('ended', playNextSongInSequence);
-                    audio.play().catch(error => console.log("Autoplay was prevented.", error));
-
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                    AOS.refresh();
-                }, 1000);
-            }
-
-            openInvitationButton.addEventListener('click', showInvitation);
-
-            fontToggleButton.addEventListener('click', () => {
-                previewAudio.pause();
-                coverLinkPanel.style.display = 'none';
-                coverSongPanel.style.display = 'none';
-                coverFontPanel.style.display = coverFontPanel.style.display === 'block' ? 'none' : 'block';
-            });
-
-            linkToggleButton.addEventListener('click', () => {
-                previewAudio.pause();
-                coverFontPanel.style.display = 'none';
-                coverSongPanel.style.display = 'none';
-                coverLinkPanel.style.display = coverLinkPanel.style.display === 'block' ? 'none' : 'block';
-            });
-
-            songToggleButton.addEventListener('click', () => {
-                coverFontPanel.style.display = 'none';
-                coverLinkPanel.style.display = 'none';
-                coverSongPanel.style.display = coverSongPanel.style.display === 'block' ? 'none' : 'block';
-            });
-
-
-            musicToggle.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    musicIconPlay.classList.remove('hidden');
-                    musicIconPause.classList.add('hidden');
-                }
-            });
-
-            const countdown = () => {
-                const targetDate = new Date(eventDate).getTime();
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-                if (distance < 0) {
-                    document.getElementById('countdown').innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
-                    return;
-                }
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('days').innerText = String(days).padStart(2, '0');
-                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-            };
-            setInterval(countdown, 1000);
-            countdown();
-
-            const generateBtn = document.getElementById('generate-links-btn');
-            const guestListInput = document.getElementById('guest-list-input');
-            const linksOutput = document.getElementById('links-output');
-            generateBtn.addEventListener('click', () => {
-                const names = guestListInput.value.split('\n').filter(name => name.trim() !== '');
-                if (names.length === 0) {
-                    linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
-                    return;
-                }
-                const baseUrl = window.location.href.split('?')[0];
-                let htmlOutput = '';
-                names.forEach(name => {
-                    const trimmedName = name.trim();
-                    const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}`;
-                    
-                    const invitationText = `*Bismillahirahmanirrahim*\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\n\n**Junior Habib R. Harun**\n\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\n\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\n\n🔗 ${fullUrl}\n\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
-
-                    htmlOutput += `
-                        <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
-                            <p class="font-semibold text-xs">${trimmedName}</p>
-                            <div class="flex items-center mt-1">
-                                <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
-                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
-                                <button onclick="copyToClipboard(\`${invitationText}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
-                            </div>
-                        </div>`;
-                });
-                linksOutput.innerHTML = htmlOutput;
-            });
-
-            document.querySelectorAll('.font-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedFontId = this.dataset.fontId;
-                    applyFont(selectedFontId);
-                });
-            });
-            document.querySelectorAll('.color-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedColorId = this.dataset.colorId;
-                    applyColor(selectedColorId);
-                });
-            });
-            document.querySelectorAll('.song-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    previewAudio.pause();
-                    isSequencePlaying = false;
-                    audio.removeEventListener('ended', playNextSongInSequence);
-                    audio.loop = true;
-
-                    selectedSongId = this.dataset.songId;
-                    applySong(selectedSongId);
-                });
+            
+            // --- Logika Buka Undangan ---
+            document.getElementById('open-invitation').addEventListener('click', () => {
+                document.getElementById('cover').style.display = 'none';
+                document.getElementById('main-content').classList.remove('hidden');
+                document.getElementById('bg-music').play().catch(e => console.log("Autoplay dicegah."));
+                document.getElementById('music-icon-play').classList.add('hidden');
+                document.getElementById('music-icon-pause').classList.remove('hidden');
+                AOS.refresh();
             });
             
-            document.querySelectorAll('.preview-button').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const songId = this.dataset.songId;
-                    const songUrl = songMap[songId];
-                    
-                    if (currentPreviewId === songId && !previewAudio.paused) {
-                        previewAudio.pause();
-                    } else {
-                        currentPreviewId = songId;
-                        previewAudio.src = songUrl;
-                        previewAudio.play().catch(err => {
-                            if (err.name !== 'AbortError') {
-                                console.error("Preview play failed:", err);
-                            }
-                        });
-                    }
-                });
+            // --- Validasi Form Komentar ---
+            if (commentMessageInput) {
+                const validateForm = () => {
+                    document.getElementById('comment-submit-btn').disabled = !(commentNameInput.value.trim() && commentMessageInput.value.trim());
+                };
+                commentMessageInput.addEventListener('keyup', validateForm);
+                validateForm();
+            }
+
+            // --- Tombol Musik ---
+            document.getElementById('music-toggle').addEventListener('click', () => {
+                const audio = document.getElementById('bg-music');
+                document.getElementById('music-icon-play').classList.toggle('hidden');
+                document.getElementById('music-icon-pause').classList.toggle('hidden');
+                audio.paused ? audio.play() : audio.pause();
             });
 
-            previewAudio.onplay = function() {
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    const playIcon = btn.querySelector('.preview-icon-play');
-                    const pauseIcon = btn.querySelector('.preview-icon-pause');
-                    if (btn.dataset.songId === currentPreviewId) {
-                        playIcon.classList.add('hidden');
-                        pauseIcon.classList.remove('hidden');
-                    } else {
-                        playIcon.classList.remove('hidden');
-                        pauseIcon.classList.add('hidden');
-                    }
-                });
-            };
-
-            previewAudio.onpause = function() {
-                currentPreviewId = null;
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    btn.querySelector('.preview-icon-play').classList.remove('hidden');
-                    btn.querySelector('.preview-icon-pause').classList.add('hidden');
-                });
-            };
-
-
-            document.querySelectorAll('.comment-template-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const messageInput = document.getElementById('comment-message');
-                    if(messageInput) {
-                        messageInput.value = this.textContent;
-                    }
-                });
-            });
-
-            // Letter animation logic
-            const animatedHeaders = document.querySelectorAll('.animate-letters');
-            animatedHeaders.forEach(header => {
+            // --- Animasi Teks ---
+            document.querySelectorAll('.animate-letters').forEach(header => {
                 header.innerHTML = header.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-            });
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        anime.timeline({
-                            targets: entry.target.querySelectorAll('.letter'),
-                            easing: 'easeOutExpo',
-                            duration: 1000,
-                            delay: anime.stagger(100)
-                        })
-                        .add({
-                            opacity: [0, 1],
-                            translateY: [20, 0]
-                        });
-                        observer.unobserve(entry.target);
+                const observer = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        anime({ targets: entries[0].target.querySelectorAll('.letter'), opacity: [0, 1], translateY: [20, 0], delay: anime.stagger(100), easing: 'easeOutExpo' });
+                        observer.unobserve(entries[0].target);
                     }
-                });
-            }, { threshold: 0.5 });
-
-            animatedHeaders.forEach(header => {
+                }, { threshold: 0.5 });
                 observer.observe(header);
             });
-        });
 
+            // --- Logika Countdown ---
+            const countdownEl = document.getElementById('countdown');
+            const targetDate = new Date("2025-08-23T08:00:00").getTime();
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                if(distance < 0) {
+                    countdownEl.innerHTML = '<p class="text-xl font-bold">Acara telah selesai</p>';
+                    clearInterval(countdownInterval);
+                    return;
+                }
+                document.getElementById('days').innerText = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('hours').innerText = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+            }, 1000);
+
+            // --- Panel Admin ---
+            const fontPanel = document.getElementById('cover-font-panel');
+            const songPanel = document.getElementById('cover-song-panel');
+            const linkPanel = document.getElementById('cover-link-panel');
+
+            fontPanel.innerHTML = `
+                <div class="text-left"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p><div class="grid grid-cols-2 gap-2" id="font-buttons"><button class="font-button text-sm px-3 py-1.5 rounded-md border-2" data-font-id="playfair">Klasik</button><button class="font-button text-sm px-3 py-1.5 rounded-md border-2" data-font-id="lobster" style="font-family: 'Lobster', cursive;">Latin</button></div></div>
+                <div class="text-left mt-4"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Warna Huruf</p><div class="flex space-x-3" id="color-buttons"><button class="color-button w-6 h-6 rounded-full bg-white" data-color-id="white"></button><button class="color-button w-6 h-6 rounded-full bg-amber-300" data-color-id="gold"></button></div></div>`;
+            songPanel.innerHTML = `<div class="text-left"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Lagu</p><div class="flex flex-col gap-2" id="song-buttons"><button class="song-button text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2" data-song-id="song3">Man Ana</button><button class="song-button text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2" data-song-id="song4">Deen Assalam</button></div></div>`;
+            linkPanel.innerHTML = `<p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p><textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border rounded-lg text-slate-800" placeholder="Satu nama..."></textarea><button id="generate-links-btn" class="mt-2 w-full bg-slate-700 text-white font-bold py-2 px-4 rounded-lg text-sm">Buat Link</button><div id="links-output" class="mt-3"></div>`;
+
+            function togglePanel(panelId) { [fontPanel, songPanel, linkPanel].forEach(p => p.style.display = (p.id === panelId && p.style.display !== 'block') ? 'block' : 'none'); }
+            document.getElementById('font-toggle-button').addEventListener('click', () => togglePanel('cover-font-panel'));
+            document.getElementById('song-toggle-button').addEventListener('click', () => togglePanel('cover-song-panel'));
+            document.getElementById('link-toggle-button').addEventListener('click', () => togglePanel('cover-link-panel'));
+            
+            document.getElementById('generate-links-btn').addEventListener('click', () => {
+                const names = document.getElementById('guest-list-input').value.split('\n').filter(n => n.trim());
+                const baseUrl = window.location.href.split('?')[0];
+                document.getElementById('links-output').innerHTML = names.map(name => {
+                    const url = `${baseUrl}?to=${encodeURIComponent(name.trim())}&font=${selectedFontId}&color=${selectedColorId}`;
+                    return `<div class="text-xs text-left p-1 bg-slate-100 rounded"><strong>${name.trim()}:</strong> <a href="${url}" target="_blank" class="text-blue-600 hover:underline">Salin Link</a></div>`;
+                }).join('');
+            });
+        });
+        
         function copyToClipboard(text, button) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
+            navigator.clipboard.writeText(text).then(() => {
                 const originalText = button.textContent;
                 button.textContent = 'Disalin!';
-                button.classList.add('bg-green-600');
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('bg-green-600');
-                }, 1500);
-            } catch (err) {
-                console.error('Gagal menyalin:', err);
-            }
-            document.body.removeChild(textArea);
+                setTimeout(() => { button.textContent = originalText; }, 2000);
+            }).catch(err => console.error('Gagal menyalin:', err));
         }
     </script>
-
 </body>
 </html>
