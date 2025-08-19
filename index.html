@@ -183,19 +183,49 @@
             <a href="https://maps.app.goo.gl/W1kHAxUm2xopPEv78" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
         </section>
 
-        <!-- Bagian Kirim Hadiah (DIUBAH) -->
+        <section id="guestbook" class="p-8 md:p-12 text-center bg-white">
+            <h2 class="font-serif text-4xl mb-2" data-aos="fade-up">Buku Tamu & Ucapan Doa</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
+            <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
+                <form id="comment-form">
+                    <input type="text" id="comment-name" placeholder="Nama Anda" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200" readonly required>
+                    <div class="text-left mb-3">
+                        <p class="text-sm text-slate-600 mb-2">Pilih ucapan atau tulis sendiri:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Selamat ya!</button>
+                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Semoga jadi anak sholeh</button>
+                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Barakallah</button>
+                        </div>
+                    </div>
+                    <textarea id="comment-message" rows="4" placeholder="Tulis ucapan Anda di sini..." class="w-full p-3 border border-slate-300 rounded-lg mb-3 focus:ring-2 focus:ring-teal-500" required></textarea>
+                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">Kirim Ucapan</button>
+                </form>
+            </div>
+            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
+                <!-- Komentar akan muncul di sini -->
+            </div>
+        </section>
+
         <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
             <h2 class="font-serif text-4xl mb-2" data-aos="fade-up">Kirim Hadiah</h2>
             <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
             <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" data-aos="zoom-in">
                 <p class="font-semibold text-lg">Scan QRIS</p>
-                <p class="text-sm text-slate-500">Mendukung semua E-Wallet</p>
+                <p class="text-sm text-slate-500">Mendukung semua E-Wallet & M-Banking</p>
                 <img src="https://placehold.co/300x300/ffffff/000000?text=Scan+QRIS+Anda+di+Sini" alt="QRIS Code" class="w-48 h-48 mx-auto my-4 rounded-lg">
                 <div class="flex justify-center items-center space-x-4">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/DANA_logo.svg" alt="DANA" class="h-5">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/OVO_logo.svg" alt="OVO" class="h-5">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay" class="h-5">
                 </div>
+                <div class="my-6 border-t border-slate-200"></div>
+                <p class="font-semibold text-lg">Atau ke Nomor E-Wallet</p>
+                <p class="text-md mt-2">DANA / OVO / GoPay</p>
+                <p class="text-xl font-bold mt-1">[Nomor HP Anda]</p>
+                <p class="text-md mt-1">a.n. [Nama Pemilik E-Wallet]</p>
+                <button onclick="copyToClipboard('[Nomor HP Anda]', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
+                    Salin Nomor
+                </button>
                 <div class="my-6 border-t border-slate-200"></div>
                 <p class="font-semibold text-lg">Atau Transfer Bank</p>
                 <p class="text-md mt-2">Bank Syariah Indonesia</p>
@@ -212,13 +242,111 @@
         <source src="https://files.catbox.moe/18l2h9.mp3" type="audio/mpeg">
     </audio>
     
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 1000, once: true });
+    <script type="module">
+        // Firebase SDK
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        const eventDate = "2025-08-23T08:00:00";
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            function setupGuestbook() {
+                const commentForm = document.getElementById('comment-form');
+                const commentSubmitBtn = document.getElementById('comment-submit-btn');
+                const commentsList = document.getElementById('comments-list');
+                const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
+
+                const q = query(commentsCollection);
+                onSnapshot(q, (snapshot) => {
+                    commentsList.innerHTML = '';
+                    const comments = [];
+                    snapshot.forEach((doc) => {
+                        comments.push({ id: doc.id, ...doc.data() });
+                    });
+                    comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                    comments.forEach((comment) => {
+                        const commentElement = document.createElement('div');
+                        commentElement.className = 'bg-slate-100 p-4 rounded-lg';
+                        const timestamp = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Baru saja';
+                        commentElement.innerHTML = `
+                            <div class="flex justify-between items-center mb-2">
+                                <p class="font-bold text-slate-800">${escapeHTML(comment.name)}</p>
+                                <p class="text-xs text-slate-500">${timestamp}</p>
+                            </div>
+                            <p class="text-slate-600">${escapeHTML(comment.message)}</p>
+                        `;
+                        commentsList.appendChild(commentElement);
+                    });
+                }, (error) => {
+                    console.error("Snapshot listener error:", error);
+                });
+
+                commentForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('comment-name').value.trim();
+                    const message = document.getElementById('comment-message').value.trim();
+                    if (name && message) {
+                        commentSubmitBtn.disabled = true;
+                        commentSubmitBtn.textContent = 'Mengirim...';
+                        try {
+                            await addDoc(commentsCollection, {
+                                name: name,
+                                message: message,
+                                timestamp: serverTimestamp()
+                            });
+                            commentForm.reset();
+                            // Keep the name field filled
+                            document.getElementById('comment-name').value = name;
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                        } finally {
+                            commentSubmitBtn.disabled = false;
+                            commentSubmitBtn.textContent = 'Kirim Ucapan';
+                        }
+                    }
+                });
+            }
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    setupGuestbook();
+                }
+            });
+            
+            (async () => {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            })().catch(error => {
+                console.error("Authentication failed:", error);
+            });
+
+        } catch (e) {
+            console.error("Error initializing Firebase:", e);
+        }
         
+        function escapeHTML(str) {
+            return str.replace(/[&<>"']/g, function(match) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
+            });
+        }
+    </script>
+    <script>
+        // General UI Logic
         document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ duration: 1000, once: true });
+
+            const eventDate = "2025-08-23T08:00:00";
             const cover = document.getElementById('cover');
             const mainContent = document.getElementById('main-content');
             const openInvitationButton = document.getElementById('open-invitation');
@@ -231,6 +359,8 @@
             const musicToggle = document.getElementById('music-toggle');
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
+            const commentNameInput = document.getElementById('comment-name');
+            const commentMessageInput = document.getElementById('comment-message');
 
             let selectedFontId = 'playfair';
             let selectedColorId = 'white';
@@ -265,8 +395,10 @@
             const guestName = urlParams.get('to');
             const fontParam = urlParams.get('font');
             const colorParam = urlParams.get('color');
+            const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
-            guestNameEl.textContent = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
+            guestNameEl.textContent = guestNameDecoded;
+            commentNameInput.value = guestNameDecoded;
 
             if (fontParam && fontMap[fontParam]) {
                 selectedFontId = fontParam;
@@ -377,6 +509,12 @@
                 button.addEventListener('click', function() {
                     selectedColorId = this.dataset.colorId;
                     applyColor(selectedColorId);
+                });
+            });
+
+            document.querySelectorAll('.comment-template-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    commentMessageInput.value = this.textContent;
                 });
             });
         });
