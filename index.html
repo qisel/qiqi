@@ -292,8 +292,7 @@
             <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
             <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
                 <form id="comment-form">
-                    <div id="comment-name-display" class="w-full p-3 border border-slate-200 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium"></div>
-                    <input type="hidden" id="comment-name-hidden">
+                    <input type="text" id="comment-name" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium" readonly required>
                     <div class="text-left mb-3">
                         <p class="text-sm text-slate-600 mb-2">Pilih ucapan atau tulis sendiri:</p>
                         <div class="flex flex-wrap gap-2">
@@ -305,7 +304,7 @@
                         </div>
                     </div>
                     <textarea id="comment-message" rows="4" placeholder="Tulis ucapan Anda di sini..." class="w-full p-3 border border-slate-300 rounded-lg mb-3 focus:ring-2 focus:ring-teal-500" required></textarea>
-                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">Kirim Ucapan</button>
+                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400" disabled>Kirim Ucapan</button>
                 </form>
             </div>
             <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
@@ -376,6 +375,11 @@
                 const commentsList = document.getElementById('comments-list');
                 const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
 
+                // PERBAIKAN: Aktifkan tombol submit setelah Firebase siap
+                if(commentSubmitBtn) {
+                    commentSubmitBtn.disabled = false;
+                }
+
                 const q = query(commentsCollection);
                 onSnapshot(q, (snapshot) => {
                     commentsList.innerHTML = '';
@@ -403,7 +407,8 @@
 
                 commentForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    const name = document.getElementById('comment-name-hidden').value.trim();
+                    // PERBAIKAN: Baca nama dari input yang benar
+                    const name = document.getElementById('comment-name').value.trim();
                     const messageInput = document.getElementById('comment-message');
                     const message = messageInput.value.trim();
 
@@ -477,8 +482,8 @@
             const musicToggle = document.getElementById('music-toggle');
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
-            const commentNameDisplay = document.getElementById('comment-name-display');
-            const commentNameHidden = document.getElementById('comment-name-hidden');
+            // PERBAIKAN: Mengambil elemen input yang benar
+            const commentNameInput = document.getElementById('comment-name');
             
             const previewAudio = document.getElementById('preview-audio');
 
@@ -559,11 +564,9 @@
             const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
             guestNameEl.textContent = guestNameDecoded;
-            if (commentNameDisplay) {
-                commentNameDisplay.textContent = guestNameDecoded;
-            }
-            if (commentNameHidden) {
-                commentNameHidden.value = guestNameDecoded;
+            // PERBAIKAN: Mengisi nilai input yang benar
+            if (commentNameInput) {
+                commentNameInput.value = guestNameDecoded;
             }
 
             if (fontParam && fontMap[fontParam]) {
