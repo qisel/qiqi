@@ -42,7 +42,7 @@
             color: white;
             border-color: #0D9488;
         }
-        #cover-admin-panel {
+        #cover-font-panel, #cover-link-panel {
             display: none;
         }
     </style>
@@ -62,38 +62,39 @@
                 <h2 id="guest-name" class="text-2xl font-bold mt-2">[Nama Tamu]</h2>
             </div>
             <button id="open-invitation" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 animate-pulse-slow">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                 Buka Undangan
             </button>
         </div>
 
-        <!-- Tombol Admin (Icon) -->
-        <button id="admin-toggle-button" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        <!-- Tombol Admin Terpisah -->
+        <button id="font-toggle-button" title="Pilih Font" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/></svg>
+        </button>
+        <button id="link-toggle-button" title="Buat Link Tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </button>
 
-        <!-- Panel Admin di Cover -->
-        <div id="cover-admin-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto">
-            <!-- Font Selector -->
-            <div class="text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
-                <div class="grid grid-cols-2 gap-2" id="font-buttons">
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Klasik</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Lobster', cursive" style="font-family: 'Lobster', cursive;">Latin</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Modern</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Merriweather', serif" style="font-family: 'Merriweather', serif;">Elegan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200 col-span-2" data-font="'Cinzel Decorative', serif" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
-                </div>
+        <!-- Panel Font Selector di Cover -->
+        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
+            <p class="text-sm font-bold text-slate-700 mb-3 text-left">Pilih Gaya Huruf</p>
+            <div class="grid grid-cols-2 gap-2" id="font-buttons">
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair" data-font-family="'Playfair Display', serif">Klasik</button>
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="lobster" data-font-family="'Lobster', cursive" style="font-family: 'Lobster', cursive;">Latin</button>
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="roboto" data-font-family="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Modern</button>
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" data-font-family="'Merriweather', serif" style="font-family: 'Merriweather', serif;">Elegan</button>
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" data-font-family="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" data-font-family="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
+                <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 col-span-2" data-font-id="cinzel" data-font-family="'Cinzel Decorative', serif" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
             </div>
-            <!-- Link Generator -->
-            <div class="text-left mt-6">
-                <p class="text-sm font-bold text-slate-700 mb-3">Buat Link Tamu</p>
-                <textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-teal-500" placeholder="Satu nama per baris..."></textarea>
-                <button id="generate-links-btn" class="mt-2 w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors duration-300">Buat Link</button>
-                <div id="links-output" class="mt-3 max-h-40 overflow-y-auto"></div>
-            </div>
+        </div>
+        
+        <!-- Panel Link Generator di Cover -->
+        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto">
+            <p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p>
+            <textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-teal-500" placeholder="Satu nama per baris..."></textarea>
+            <button id="generate-links-btn" class="mt-2 w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors duration-300">Buat Link</button>
+            <div id="links-output" class="mt-3 max-h-40 overflow-y-auto"></div>
         </div>
     </div>
 
@@ -103,7 +104,7 @@
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl">
         
         <button id="music-toggle" class="fixed bottom-5 right-5 z-40 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-            <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
             <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
 
@@ -174,20 +175,56 @@
             const cover = document.getElementById('cover');
             const mainContent = document.getElementById('main-content');
             const openInvitationButton = document.getElementById('open-invitation');
-            const adminToggleButton = document.getElementById('admin-toggle-button');
-            const coverAdminPanel = document.getElementById('cover-admin-panel');
+            const fontToggleButton = document.getElementById('font-toggle-button');
+            const linkToggleButton = document.getElementById('link-toggle-button');
+            const coverFontPanel = document.getElementById('cover-font-panel');
+            const coverLinkPanel = document.getElementById('cover-link-panel');
             const guestNameEl = document.getElementById('guest-name');
             const audio = document.getElementById('bg-music');
             const musicToggle = document.getElementById('music-toggle');
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
 
+            let selectedFontId = 'playfair'; // Default font
+
+            const fontMap = {
+                'playfair': "'Playfair Display', serif",
+                'lobster': "'Lobster', cursive",
+                'roboto': "'Roboto', sans-serif",
+                'merriweather': "'Merriweather', serif",
+                'sacramento': "'Sacramento', cursive",
+                'caveat': "'Caveat', cursive",
+                'cinzel': "'Cinzel Decorative', serif"
+            };
+
+            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
+
+            function applyFont(fontId) {
+                const fontFamily = fontMap[fontId];
+                if (fontFamily) {
+                    targetNamaElements.forEach(el => {
+                        el.style.fontFamily = fontFamily;
+                    });
+                    // Update active button state
+                    document.querySelectorAll('.font-button').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.fontId === fontId);
+                    });
+                }
+            }
+
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
+            const fontParam = urlParams.get('font');
+
             if (guestName) {
                 guestNameEl.textContent = guestName.replace(/\+/g, ' ');
             } else {
                 guestNameEl.textContent = "Tamu Undangan";
+            }
+
+            if (fontParam && fontMap[fontParam]) {
+                selectedFontId = fontParam;
+                applyFont(selectedFontId);
             }
 
             function showInvitation() {
@@ -207,11 +244,17 @@
 
             openInvitationButton.addEventListener('click', showInvitation);
 
-            adminToggleButton.addEventListener('click', function() {
-                coverAdminPanel.style.display = coverAdminPanel.style.display === 'block' ? 'none' : 'block';
+            fontToggleButton.addEventListener('click', () => {
+                coverLinkPanel.style.display = 'none';
+                coverFontPanel.style.display = coverFontPanel.style.display === 'block' ? 'none' : 'block';
             });
 
-            musicToggle.addEventListener('click', function() {
+            linkToggleButton.addEventListener('click', () => {
+                coverFontPanel.style.display = 'none';
+                coverLinkPanel.style.display = coverLinkPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
+            musicToggle.addEventListener('click', () => {
                 if (audio.paused) {
                     audio.play();
                     musicIconPlay.classList.add('hidden');
@@ -235,10 +278,10 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('days').innerText = days.toString().padStart(2, '0');
-                document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
-                document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
-                document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
             };
             setInterval(countdown, 1000);
             countdown();
@@ -246,7 +289,7 @@
             const generateBtn = document.getElementById('generate-links-btn');
             const guestListInput = document.getElementById('guest-list-input');
             const linksOutput = document.getElementById('links-output');
-            generateBtn.addEventListener('click', function() {
+            generateBtn.addEventListener('click', () => {
                 const names = guestListInput.value.split('\n').filter(name => name.trim() !== '');
                 if (names.length === 0) {
                     linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
@@ -257,7 +300,7 @@
                 names.forEach(name => {
                     const trimmedName = name.trim();
                     const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}`;
+                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}`;
                     htmlOutput += `
                         <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
                             <p class="font-semibold text-xs">${trimmedName}</p>
@@ -271,21 +314,15 @@
             });
 
             const fontButtons = document.querySelectorAll('.font-button');
-            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
             fontButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    fontButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    const selectedFont = this.getAttribute('data-font');
-                    targetNamaElements.forEach(el => {
-                        el.style.fontFamily = selectedFont;
-                    });
+                    selectedFontId = this.dataset.fontId;
+                    applyFont(selectedFontId);
                 });
             });
         });
 
         function copyLink(button, url) {
-            // Fallback for non-secure contexts or older browsers
             const textArea = document.createElement("textarea");
             textArea.value = url;
             document.body.appendChild(textArea);
@@ -301,7 +338,7 @@
                     button.classList.remove('bg-green-600');
                 }, 1500);
             } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
+                console.error('Gagal menyalin:', err);
             }
             document.body.removeChild(textArea);
         }
