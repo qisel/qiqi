@@ -11,7 +11,6 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Menambahkan font baru untuk fitur pilihan font -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     
     <!-- AOS (Animate On Scroll) for animations -->
@@ -26,29 +25,25 @@
         .font-serif {
             font-family: 'Playfair Display', serif;
         }
-        /* Style for the cover page to take full screen */
         #cover {
             background-image: url('https://placehold.co/1080x1920/334155/FFFFFF?text=Foto+Anak\\nAnda+Disini');
             background-size: cover;
             background-position: center;
         }
-        /* Custom animation for the pulsing button */
         @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         .animate-pulse-slow {
             animation: pulse 2s infinite;
         }
-        /* Style untuk tombol font yang aktif */
         .font-button.active {
-            background-color: #0D9488; /* Warna Teal-600 dari Tailwind */
+            background-color: #0D9488;
             color: white;
             border-color: #0D9488;
+        }
+        #cover-admin-panel {
+            display: none;
         }
     </style>
 </head>
@@ -61,7 +56,6 @@
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10" data-aos="fade-up">
             <p class="text-lg mb-2">Walimatul Khitan</p>
-            <!-- Menambahkan class 'target-nama-anak' untuk target JavaScript -->
             <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">[Inang Mopangga]</h1>
             <div class="border-t border-b border-white py-4 my-8">
                 <p class="text-md">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
@@ -72,6 +66,35 @@
                 Buka Undangan
             </button>
         </div>
+
+        <!-- Tombol Admin (Icon) -->
+        <button id="admin-toggle-button" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+
+        <!-- Panel Admin di Cover -->
+        <div id="cover-admin-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto">
+            <!-- Font Selector -->
+            <div class="text-left">
+                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
+                <div class="grid grid-cols-2 gap-2" id="font-buttons">
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Klasik</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Lobster', cursive" style="font-family: 'Lobster', cursive;">Latin</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Modern</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Merriweather', serif" style="font-family: 'Merriweather', serif;">Elegan</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.2rem;">Script</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 1.2rem;">Tulisan</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600 transition-colors duration-200 col-span-2" data-font="'Cinzel Decorative', serif" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
+                </div>
+            </div>
+            <!-- Link Generator -->
+            <div class="text-left mt-6">
+                <p class="text-sm font-bold text-slate-700 mb-3">Buat Link Tamu</p>
+                <textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-teal-500" placeholder="Satu nama per baris..."></textarea>
+                <button id="generate-links-btn" class="mt-2 w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors duration-300">Buat Link</button>
+                <div id="links-output" class="mt-3 max-h-40 overflow-y-auto"></div>
+            </div>
+        </div>
     </div>
 
     <!-- ====================================================== -->
@@ -79,24 +102,20 @@
     <!-- ====================================================== -->
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl">
         
-        <!-- Music Player Button -->
         <button id="music-toggle" class="fixed bottom-5 right-5 z-40 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
             <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
 
-        <!-- Hero Section -->
         <header class="text-center p-12 bg-slate-800 text-white" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="text-lg" data-aos="fade-down">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
             <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
                 Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan Tasyakuran Walimatul Khitan putra kami:
             </p>
-            <!-- Menambahkan class 'target-nama-anak' untuk target JavaScript -->
             <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">[Inang Mopangga]</h1>
             <p class="mt-4 text-lg" data-aos="fade-up">Putra dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
         </header>
 
-        <!-- Event Details Section -->
         <section id="details" class="p-8 md:p-12 text-center">
             <h2 class="font-serif text-4xl mb-8" data-aos="fade-up">Detail Acara</h2>
             <div class="border-t-2 border-b-2 border-teal-500 py-8" data-aos="fade-up">
@@ -116,47 +135,22 @@
                 </div>
             </div>
             
-            <!-- Countdown Timer -->
             <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center" data-aos="zoom-in-up">
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20">
-                    <div id="days" class="text-3xl font-bold">00</div>
-                    <div class="text-xs">Hari</div>
-                </div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20">
-                    <div id="hours" class="text-3xl font-bold">00</div>
-                    <div class="text-xs">Jam</div>
-                </div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20">
-                    <div id="minutes" class="text-3xl font-bold">00</div>
-                    <div class="text-xs">Menit</div>
-                </div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20">
-                    <div id="seconds" class="text-3xl font-bold">00</div>
-                    <div class="text-xs">Detik</div>
-                </div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="minutes" class="text-3xl font-bold">00</div><div class="text-xs">Menit</div></div>
+                <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div id="seconds" class="text-3xl font-bold">00</div><div class="text-xs">Detik</div></div>
             </div>
         </section>
 
-        <!-- Map Section -->
         <section id="location" class="p-8 md:p-12 bg-slate-100 text-center">
             <h2 class="font-serif text-4xl mb-8" data-aos="fade-up">Lokasi Acara</h2>
             <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.654892437335!2d122.9928333152629!3d0.5513928996504225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b1a7df52e25%3A0x4460c55b3f66e53!2sKantor%20Desa%20Barakati!5e0!3m2!1sid!2sid!4v1663170000000!5m2!1sid!2sid" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.654892437335!2d122.9928333152629!3d0.5513928996504225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b1a7df52e25%3A0x4460c55b3f46e53!2sKantor%20Desa%20Barakati!5e0!3m2!1sid!2sid!4v1663170000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <a href="https://maps.app.goo.gl/W1kHAxUm2xopPEv78" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">
-                Buka di Google Maps
-            </a>
+            <a href="https://maps.app.goo.gl/W1kHAxUm2xopPEv78" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
         </section>
 
-        <!-- Closing Section -->
         <footer class="text-center p-12 bg-slate-800 text-white" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="mb-4" data-aos="fade-down">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan do'a restu.</p>
             <p class="mb-8" data-aos="fade-up">Atas kehadiran dan do'a restunya, kami ucapkan terima kasih.</p>
@@ -164,110 +158,59 @@
             <p class="mt-8 font-bold" data-aos="fade-up">Kami yang berbahagia,</p>
             <p class="mt-2" data-aos="fade-up">Keluarga Bapak [Nama Ayah]</p>
         </footer>
-
-        <!-- ====================================================== -->
-        <!-- Font Selector Section (FITUR BARU) -->
-        <!-- ====================================================== -->
-        <section id="font-selector" class="p-8 md:p-12 bg-slate-50 border-t-2 border-b-2 border-slate-200">
-            <h2 class="font-serif text-3xl text-center mb-2">Pilih Gaya Huruf Nama</h2>
-            <p class="text-center text-slate-500 mb-6">Pilih gaya huruf untuk nama "[Inang Mopangga]" sesuai selera Anda.</p>
-            <div class="flex justify-center flex-wrap gap-3 md:gap-4" id="font-buttons">
-                <button class="font-button px-6 py-2 rounded-lg border-2 transition-colors duration-200 active" data-font="'Playfair Display', serif" style="font-family: 'Playfair Display', serif;">Klasik</button>
-                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Lobster', cursive" style="font-family: 'Lobster', cursive; font-size: 1.2rem;">Latin</button>
-                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Roboto', sans-serif" style="font-family: 'Roboto', sans-serif;">Modern</button>
-                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Merriweather', serif" style="font-family: 'Merriweather', serif;">Elegan</button>
-                <!-- FONT BARU DITAMBAHKAN DI SINI -->
-                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Sacramento', cursive" style="font-family: 'Sacramento', cursive; font-size: 1.5rem;">Script</button>
-                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Caveat', cursive" style="font-family: 'Caveat', cursive; font-size: 1.5rem;">Tulisan</button>
-                <button class="font-button px-6 py-2 rounded-lg border-2 border-slate-400 text-slate-600 transition-colors duration-200" data-font="'Cinzel Decorative', serif" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
-            </div>
-        </section>
-
-        <!-- ====================================================== -->
-        <!-- Guest Link Generator (Fitur Pembuat Link Tamu) -->
-        <!-- ====================================================== -->
-        <section id="link-generator" class="p-8 md:p-12 bg-white">
-            <h2 class="font-serif text-3xl text-center mb-6">Buat Link Undangan untuk Tamu</h2>
-            <div class="max-w-lg mx-auto text-sm text-slate-600 text-center mb-6">
-                <p>Fitur ini untuk Anda sebagai pemilik acara. Masukkan daftar nama tamu di bawah (satu nama per baris), lalu klik "Buat Link". Anda akan mendapatkan link unik untuk setiap tamu yang bisa langsung Anda salin dan bagikan.</p>
-            </div>
-            <div class="max-w-lg mx-auto">
-                <textarea id="guest-list-input" rows="8" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Contoh:&#10;Bapak Budi & Keluarga&#10;Andi Wijaya&#10;Siti Aisyah"></textarea>
-                <button id="generate-links-btn" class="mt-4 w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
-                    Buat Link
-                </button>
-            </div>
-            <div id="links-output" class="mt-8 max-w-lg mx-auto">
-                <!-- Generated links will appear here -->
-            </div>
-        </section>
-
     </main>
 
-    <!-- Audio Player -->
     <audio id="bg-music" loop>
         <source src="https://files.catbox.moe/18l2h9.mp3" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
     </audio>
     
-    <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS (Animate On Scroll)
-        AOS.init({
-            duration: 1000,
-            once: true,
-        });
+        AOS.init({ duration: 1000, once: true });
 
-        // ======================================================
-        // CONFIGURATION - UBAH BAGIAN INI
-        // ======================================================
-        const eventDate = "2025-08-19T10:00:00"; // Format: YYYY-MM-DDTHH:MM:SS
-        
-        // ======================================================
-        // SCRIPT LOGIC - JANGAN UBAH JIKA TIDAK PERLU
-        // ======================================================
+        const eventDate = "2025-08-19T10:00:00";
         
         document.addEventListener('DOMContentLoaded', function() {
             const cover = document.getElementById('cover');
             const mainContent = document.getElementById('main-content');
-            const openButton = document.getElementById('open-invitation');
+            const openInvitationButton = document.getElementById('open-invitation');
+            const adminToggleButton = document.getElementById('admin-toggle-button');
+            const coverAdminPanel = document.getElementById('cover-admin-panel');
             const guestNameEl = document.getElementById('guest-name');
             const audio = document.getElementById('bg-music');
             const musicToggle = document.getElementById('music-toggle');
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
-            
-            // 1. Handle Guest Name from URL
+
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
-            
             if (guestName) {
                 guestNameEl.textContent = guestName.replace(/\+/g, ' ');
             } else {
                 guestNameEl.textContent = "Tamu Undangan";
             }
 
-            // 2. Open Invitation Logic
-            openButton.addEventListener('click', function() {
+            function showInvitation() {
                 cover.style.transition = 'opacity 1s, transform 1s';
                 cover.style.opacity = '0';
                 cover.style.transform = 'scale(1.2)';
-                
                 setTimeout(() => {
                     cover.style.display = 'none';
                     mainContent.classList.remove('hidden');
                     document.body.style.overflow = 'auto';
-                    
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
                     musicIconPlay.classList.add('hidden');
                     musicIconPause.classList.remove('hidden');
-
                     AOS.refresh();
                 }, 1000);
+            }
+
+            openInvitationButton.addEventListener('click', showInvitation);
+
+            adminToggleButton.addEventListener('click', function() {
+                coverAdminPanel.style.display = coverAdminPanel.style.display === 'block' ? 'none' : 'block';
             });
 
-            // 3. Music Toggle Logic
             musicToggle.addEventListener('click', function() {
                 if (audio.paused) {
                     audio.play();
@@ -280,22 +223,18 @@
                 }
             });
 
-            // 4. Countdown Timer Logic
             const countdown = () => {
                 const targetDate = new Date(eventDate).getTime();
                 const now = new Date().getTime();
                 const distance = targetDate - now;
-
                 if (distance < 0) {
                     document.getElementById('countdown').innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
                     return;
                 }
-
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
                 document.getElementById('days').innerText = days.toString().padStart(2, '0');
                 document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
                 document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
@@ -304,54 +243,40 @@
             setInterval(countdown, 1000);
             countdown();
 
-            // 5. Guest Link Generator Logic
             const generateBtn = document.getElementById('generate-links-btn');
             const guestListInput = document.getElementById('guest-list-input');
             const linksOutput = document.getElementById('links-output');
-
             generateBtn.addEventListener('click', function() {
                 const names = guestListInput.value.split('\n').filter(name => name.trim() !== '');
                 if (names.length === 0) {
-                    linksOutput.innerHTML = '<p class="text-red-500 text-center">Silakan masukkan nama tamu terlebih dahulu.</p>';
+                    linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
                     return;
                 }
-                
                 const baseUrl = window.location.href.split('?')[0];
-                let htmlOutput = '<h3 class="font-bold text-lg mb-4">Link Berhasil Dibuat:</h3>';
-                
+                let htmlOutput = '';
                 names.forEach(name => {
                     const trimmedName = name.trim();
                     const encodedName = encodeURIComponent(trimmedName);
                     const fullUrl = `${baseUrl}?to=${encodedName}`;
-                    
                     htmlOutput += `
-                        <div class="mb-3 p-3 bg-slate-100 rounded-lg">
-                            <p class="font-semibold text-slate-700">${trimmedName}</p>
-                            <div class="flex items-center mt-2">
-                                <input type="text" value="${fullUrl}" readonly class="w-full p-2 border border-slate-300 rounded-l-md bg-white text-sm">
-                                <button onclick="copyLink(this, '${fullUrl}')" class="bg-teal-600 text-white px-4 py-2 rounded-r-md hover:bg-teal-700 text-sm">Salin</button>
+                        <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
+                            <p class="font-semibold text-xs">${trimmedName}</p>
+                            <div class="flex items-center mt-1">
+                                <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
+                                <button onclick="copyLink(this, '${fullUrl}')" class="bg-teal-600 text-white px-2 py-1 rounded-r-md hover:bg-teal-700 text-xs">Salin</button>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
-
                 linksOutput.innerHTML = htmlOutput;
             });
 
-            // 6. Font Selector Logic (FITUR BARU)
             const fontButtons = document.querySelectorAll('.font-button');
             const targetNamaElements = document.querySelectorAll('.target-nama-anak');
-
             fontButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    // Hapus kelas 'active' dari semua tombol
                     fontButtons.forEach(btn => btn.classList.remove('active'));
-                    // Tambahkan kelas 'active' ke tombol yang diklik
                     this.classList.add('active');
-
                     const selectedFont = this.getAttribute('data-font');
-                    
-                    // Terapkan font ke semua elemen nama
                     targetNamaElements.forEach(el => {
                         el.style.fontFamily = selectedFont;
                     });
@@ -359,19 +284,26 @@
             });
         });
 
-        // Helper function to copy link to clipboard
         function copyLink(button, url) {
-            navigator.clipboard.writeText(url).then(() => {
+            // Fallback for non-secure contexts or older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = url;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
                 const originalText = button.textContent;
-                button.textContent = 'Disalin!';
+                button.textContent = 'Ok!';
                 button.classList.add('bg-green-600');
                 setTimeout(() => {
                     button.textContent = originalText;
                     button.classList.remove('bg-green-600');
-                }, 2000);
-            }).catch(err => {
-                console.error('Gagal menyalin link: ', err);
-            });
+                }, 1500);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            document.body.removeChild(textArea);
         }
     </script>
 
