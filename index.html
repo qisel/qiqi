@@ -48,39 +48,32 @@
         #cover-font-panel, #cover-link-panel, #cover-song-panel {
             display: none;
         }
-        /* Style for ornaments */
         .ornament {
-            width: 8rem; /* Adjusted size */
+            width: 8rem;
             height: 8rem;
             fill: currentColor;
         }
-        /* Letter Animation Styles */
         .animate-letters .letter {
             display: inline-block;
             opacity: 0;
             transform: translateY(20px);
         }
-        
         .parallax-bg {
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
         }
-
-        /* Disable parallax on mobile for performance */
         @media (max-width: 768px) {
             .parallax-bg {
                 background-attachment: scroll;
             }
         }
-
         .image-reveal-container {
             position: relative;
             overflow: hidden; 
             display: inline-block; 
         }
-
         .image-reveal-container::after {
             content: '';
             position: absolute;
@@ -92,18 +85,24 @@
             transform: translateX(-101%); 
             transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
-
         .image-reveal-container.aos-animate::after {
             transform: translateX(101%);
         }
-
         .image-reveal-container img {
             transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
             transform: scale(1.1); 
         }
-        
         .image-reveal-container.aos-animate img {
             transform: scale(1);
+        }
+        
+        /* Gaya untuk Ticker Komentar */
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); } /* Berhenti di setengah untuk loop yang mulus */
+        }
+        .animate-scroll-left {
+            animation: scroll-left 60s linear infinite;
         }
 
     </style>
@@ -277,7 +276,7 @@
             <h2 class="font-serif text-4xl mb-8 animate-letters">Lokasi Acara</h2>
             <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.479576472255!2d123.01890131534438!3d0.6405822634283105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x327ed52253f86e5d%3A0x6b8f3b2361658d5!2sMasjid%20Jami'%20Baiturrahim%20Barakati!5e0!3m2!1sid!2sid!4v1663423712345!5m2!1sid!2sid" 
+                    src="http://googleusercontent.com/maps.google.com/7" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
@@ -287,12 +286,18 @@
                     title="Peta Lokasi Acara">
                 </iframe>
             </div>
-            <a href="https://maps.app.goo.gl/gXn9v8s7q6R3A2B78" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
+            <a href="http://googleusercontent.com/maps.google.com/8" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
         </section>
 
-        <section id="guestbook" class="p-8 md:p-12 text-center bg-white">
+        <section id="guestbook" class="p-8 md:p-12 text-center bg-white overflow-hidden">
             <h2 class="font-serif text-4xl mb-2 animate-letters">Buku Tamu & Ucapan Doa</h2>
-            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
+            <p class="text-slate-600 max-w-xl mx-auto mb-6" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
+
+            <div id="comments-ticker-container" class="w-full max-w-3xl mx-auto overflow-hidden relative h-24 mb-6" data-aos="fade-up">
+                <div id="comments-list" class="flex items-center absolute top-0 left-0 h-full">
+                     </div>
+            </div>
+
             <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
                 <form id="comment-form">
                     <input type="text" id="comment-name" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium" readonly required>
@@ -336,8 +341,6 @@
                     <p class="text-slate-500 text-center">Memuat data kehadiran...</p>
                 </div>
             </div>
-            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
-                </div>
         </section>
 
         <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
@@ -415,7 +418,6 @@
 
                 const q = query(commentsCollection);
                 onSnapshot(q, (snapshot) => {
-                    commentsList.innerHTML = '';
                     const comments = [];
                     snapshot.forEach((doc) => {
                         comments.push({ id: doc.id, ...doc.data() });
@@ -423,6 +425,7 @@
                     
                     comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
+                    // --- Render Daftar Hadir ---
                     const attendanceList = document.getElementById('attendance-list');
                     const attendanceCount = document.getElementById('attendance-count');
                     const attendees = comments.filter(comment => comment.kehadiran === 'Hadir');
@@ -441,29 +444,42 @@
                         attendanceList.innerHTML = '<p class="text-slate-500 text-center text-sm">Belum ada tamu yang konfirmasi hadir.</p>';
                     }
 
-                    comments.forEach((comment) => {
-                        const commentElement = document.createElement('div');
-                        commentElement.className = 'bg-slate-100 p-4 rounded-lg';
-                        const timestamp = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Baru saja';
-                        
-                        let attendanceBadge = '';
-                        if (comment.kehadiran) {
-                            let badgeColor = 'bg-slate-400';
-                            if(comment.kehadiran === 'Hadir') badgeColor = 'bg-teal-500';
-                            if(comment.kehadiran === 'Tidak Hadir') badgeColor = 'bg-red-500';
-                            attendanceBadge = `<span class="text-xs text-white ${badgeColor} px-2 py-1 rounded-full">${escapeHTML(comment.kehadiran)}</span>`;
-                        }
+                    // --- Render Ticker Komentar ---
+                    commentsList.innerHTML = '';
+                    if (comments.length > 0) {
+                        const fragment = document.createDocumentFragment();
+                        comments.forEach((comment) => {
+                            const commentElement = document.createElement('div');
+                            commentElement.className = 'flex-shrink-0 bg-white p-3 rounded-lg shadow-md mx-2 w-64 border-l-4 border-teal-500';
 
-                        commentElement.innerHTML = `
-                            <div class="flex justify-between items-center mb-2">
-                                <p class="font-bold text-slate-800">${escapeHTML(comment.name)}</p>
-                                ${attendanceBadge}
-                            </div>
-                            <p class="text-slate-600">${escapeHTML(comment.message)}</p>
-                            <p class="text-right text-xs text-slate-500 mt-2">${timestamp}</p>
-                        `;
-                        commentsList.appendChild(commentElement);
-                    });
+                            let attendanceBadge = '';
+                            if (comment.kehadiran) {
+                                let badgeColor = 'bg-slate-400';
+                                if(comment.kehadiran === 'Hadir') badgeColor = 'bg-teal-500';
+                                if(comment.kehadiran === 'Tidak Hadir') badgeColor = 'bg-red-500';
+                                attendanceBadge = `<span class="text-xs text-white ${badgeColor} px-2 py-1 rounded-full">${escapeHTML(comment.kehadiran)}</span>`;
+                            }
+                            
+                            commentElement.innerHTML = `
+                                <div class="flex items-center justify-between">
+                                    <p class="font-bold text-sm text-slate-800 truncate">${escapeHTML(comment.name)}</p>
+                                    ${attendanceBadge}
+                                </div>
+                                <p class="text-slate-600 text-xs italic mt-1 truncate">"${escapeHTML(comment.message)}"</p>
+                            `;
+                            fragment.appendChild(commentElement);
+                        });
+                        
+                        commentsList.appendChild(fragment.cloneNode(true));
+                        // Duplikasi untuk efek scroll mulus jika ada cukup konten
+                        if (comments.length > 3) {
+                            commentsList.appendChild(fragment.cloneNode(true));
+                        }
+                        commentsList.classList.add('animate-scroll-left');
+                    } else {
+                        commentsList.classList.remove('animate-scroll-left');
+                    }
+
                 }, (error) => {
                     console.error("Gagal mengambil data komentar:", error);
                 });
@@ -624,6 +640,7 @@
 
             function startCountdown() {
                 const countdownEl = document.getElementById('countdown');
+                if (!countdownEl) return;
                 const targetDate = new Date(eventDate).getTime();
 
                 const interval = setInterval(() => {
