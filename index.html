@@ -259,10 +259,16 @@
     <!-- ====================================================== -->
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl relative z-20">
         
-        <button id="music-toggle" class="fixed bottom-5 right-5 z-40 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-            <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-        </button>
+        <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
+            <button id="fullscreen-toggle" title="Layar Penuh" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                <svg id="fullscreen-icon-enter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                <svg id="fullscreen-icon-exit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
+            </button>
+            <button id="music-toggle" title="Musik" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
+                <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            </button>
+        </div>
 
         <header class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="text-lg" data-aos="fade-down">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
@@ -569,6 +575,9 @@
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
             const commentNameInput = document.getElementById('comment-name');
+            const fullscreenToggle = document.getElementById('fullscreen-toggle');
+            const fullscreenIconEnter = document.getElementById('fullscreen-icon-enter');
+            const fullscreenIconExit = document.getElementById('fullscreen-icon-exit');
             
             const previewAudio = document.getElementById('preview-audio');
 
@@ -800,6 +809,30 @@
                     audio.pause();
                     musicIconPlay.classList.remove('hidden');
                     musicIconPause.classList.add('hidden');
+                }
+            });
+
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            fullscreenToggle.addEventListener('click', toggleFullScreen);
+
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    fullscreenIconEnter.classList.add('hidden');
+                    fullscreenIconExit.classList.remove('hidden');
+                } else {
+                    fullscreenIconEnter.classList.remove('hidden');
+                    fullscreenIconExit.classList.add('hidden');
                 }
             });
 
