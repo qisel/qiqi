@@ -16,6 +16,9 @@
     <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
     <style>
         /* Custom styles and fonts */
         body {
@@ -37,7 +40,7 @@
         .animate-pulse-slow {
             animation: pulse 2s infinite;
         }
-        .font-button.active {
+        .font-button.active, .song-button.active {
             background-color: #0D9488;
             color: white;
             border-color: #0D9488;
@@ -45,7 +48,7 @@
         .color-button.active {
             ring-offset-2 ring-2 ring-teal-500;
         }
-        #cover-font-panel, #cover-link-panel {
+        #cover-font-panel, #cover-link-panel, #cover-song-panel {
             display: none;
         }
         /* Style for ornaments */
@@ -61,9 +64,6 @@
             transform: translateY(20px);
         }
         
-        /* ====================================================== */
-        /* EFEK BARU: Parallax Background */
-        /* ====================================================== */
         .parallax-bg {
             background-attachment: fixed;
             background-position: center;
@@ -71,13 +71,10 @@
             background-size: cover;
         }
 
-        /* ====================================================== */
-        /* EFEK BARU: Image Reveal Animation */
-        /* ====================================================== */
         .image-reveal-container {
             position: relative;
-            overflow: hidden; /* Sembunyikan lapisan yang keluar dari kontainer */
-            display: inline-block; /* Agar container pas dengan ukuran gambar */
+            overflow: hidden; 
+            display: inline-block; 
         }
 
         .image-reveal-container::after {
@@ -87,22 +84,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #d1fae5; /* Warna teal yang sangat muda */
-            transform: translateX(-101%); /* Sembunyikan lapisan ke kiri */
-            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); /* Transisi halus */
+            background-color: #d1fae5; 
+            transform: translateX(-101%); 
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* Saat animasi AOS aktif, geser lapisan ke kanan untuk "menyibak" */
         .image-reveal-container.aos-animate::after {
             transform: translateX(101%);
         }
 
         .image-reveal-container img {
             transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-            transform: scale(1.1); /* Sedikit diperbesar awalnya */
+            transform: scale(1.1); 
         }
         
-        /* Efek zoom-out halus pada gambar saat lapisan terbuka */
         .image-reveal-container.aos-animate img {
             transform: scale(1);
         }
@@ -133,6 +128,9 @@
         <button id="font-toggle-button" title="Pilih Font & Warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
         </button>
+        <button id="song-toggle-button" title="Pilih Lagu" class="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+        </button>
         <button id="link-toggle-button" title="Buat Link Tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </button>
@@ -162,6 +160,43 @@
             </div>
         </div>
         
+        <!-- Panel Pilihan Lagu -->
+        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
+            <div class="text-left">
+                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Lagu Latar</p>
+                <div class="flex flex-col gap-2" id="song-buttons">
+                    <div class="flex items-center justify-between gap-2">
+                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200 active" data-song-id="song3">Man Ana (Instrumental)</button>
+                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song3">
+                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between gap-2">
+                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song4">Deen Assalam</button>
+                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song4">
+                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between gap-2">
+                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song1">Lagu Juju 1</button>
+                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song1">
+                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between gap-2">
+                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song2">Lagu Juju 2</button>
+                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song2">
+                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Panel Link Generator di Cover -->
         <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto">
             <p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p>
@@ -181,7 +216,6 @@
             <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
         </button>
 
-        <!-- PERUBAHAN: Menambahkan class parallax-bg -->
         <header class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="text-lg" data-aos="fade-down">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
             <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
@@ -198,7 +232,6 @@
 
         <section id="family" class="p-8 md:p-12 text-center bg-slate-50">
              <p class="text-lg mb-8" data-aos="fade-up">Dengan Penuh Kasih Sayang dari Keluarga Besar:</p>
-             <!-- PERUBAHAN: Menggunakan image-reveal-container -->
              <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
                  <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
              </div>
@@ -216,7 +249,6 @@
             <div class="border-t-2 border-b-2 border-teal-500 py-8" data-aos="fade-up">
                 <p class="text-lg mb-4">Insya Allah akan diselenggarakan pada:</p>
                 <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-                    <!-- PERUBAHAN: Animasi fade-right -->
                     <div class="w-full md:w-1/2" data-aos="fade-right">
                         <div class="bg-slate-100 p-6 rounded-lg shadow-md">
                             <h3 class="font-serif text-2xl text-teal-700">Tasyakuran</h3>
@@ -231,7 +263,6 @@
                 </div>
             </div>
             
-            <!-- PERUBAHAN: Variasi delay animasi AOS -->
             <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center">
                 <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="100"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
                 <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="200"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
@@ -240,7 +271,6 @@
             </div>
         </section>
         
-        <!-- PERUBAHAN: Menambahkan class parallax-bg -->
         <footer class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="mb-4" data-aos="fade-down">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan do'a restu.</p>
             <p class="mb-8" data-aos="fade-up">Atas kehadiran dan do'a restunya, kami ucapkan terima kasih.</p>
@@ -321,13 +351,10 @@
         </p>
     </footer>
 
-    <audio id="bg-music" loop>
-        <source src="https://files.catbox.moe/18l2h9.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bg-music" src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
+    <audio id="preview-audio"></audio>
     
     <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script type="module">
         // Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -387,7 +414,6 @@
                                 timestamp: serverTimestamp()
                             });
                             commentForm.reset();
-                            // Keep the name field filled
                             document.getElementById('comment-name').value = name;
                         } catch (error) {
                             console.error("Error adding document: ", error);
@@ -431,7 +457,6 @@
             AOS.init({ 
                 duration: 1000, 
                 once: true,
-                // Tambahkan offset agar animasi tidak langsung aktif saat elemen sedikit terlihat
                 offset: 120 
             });
 
@@ -441,8 +466,10 @@
             const openInvitationButton = document.getElementById('open-invitation');
             const fontToggleButton = document.getElementById('font-toggle-button');
             const linkToggleButton = document.getElementById('link-toggle-button');
+            const songToggleButton = document.getElementById('song-toggle-button');
             const coverFontPanel = document.getElementById('cover-font-panel');
             const coverLinkPanel = document.getElementById('cover-link-panel');
+            const coverSongPanel = document.getElementById('cover-song-panel');
             const guestNameEl = document.getElementById('guest-name');
             const audio = document.getElementById('bg-music');
             const musicToggle = document.getElementById('music-toggle');
@@ -450,9 +477,13 @@
             const musicIconPause = document.getElementById('music-icon-pause');
             const commentNameInput = document.getElementById('comment-name');
             const commentMessageInput = document.getElementById('comment-message');
+            
+            const previewAudio = document.getElementById('preview-audio');
 
             let selectedFontId = 'playfair';
             let selectedColorId = 'white';
+            let selectedSongId = 'song3'; 
+            let currentPreviewId = null; // PERBAIKAN: Variabel untuk melacak lagu preview
 
             const fontMap = {
                 'playfair': "'Playfair Display', serif", 'lobster': "'Lobster', cursive", 'roboto': "'Roboto', sans-serif",
@@ -461,6 +492,16 @@
             const colorMap = {
                 'white': '#FFFFFF', 'gold': '#FBBF24', 'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC'
             };
+            const songMap = {
+                'song1': 'https://files.catbox.moe/18l2h9.mp3',
+                'song2': 'https://files.catbox.moe/51rfqh.mp3',
+                'song3': 'https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3',
+                'song4': 'https://ia902806.us.archive.org/28/items/SABYAN-DEENASSALAM/SABYAN%20-%20DEEN%20ASSALAM.mp3'
+            };
+
+            const playlist = ['song3', 'song4'];
+            let currentSongIndex = 0;
+            let isSequencePlaying = false;
 
             const targetNamaElements = document.querySelectorAll('.target-nama-anak');
 
@@ -479,6 +520,35 @@
                     document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
                 }
             }
+            
+            function playNextSongInSequence() {
+                currentSongIndex = (currentSongIndex + 1) % playlist.length;
+                const nextSongId = playlist[currentSongIndex];
+                audio.src = songMap[nextSongId];
+                audio.play().catch(e => console.error("Error playing next song:", e));
+                document.querySelectorAll('.song-button').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.songId === nextSongId);
+                });
+            }
+
+            function applySong(songId) {
+                const songUrl = songMap[songId];
+                if (songUrl) {
+                    const isPlaying = !audio.paused;
+                    audio.src = songUrl;
+                    if (isPlaying) {
+                        audio.play().catch(e => {
+                            if (e.name !== 'AbortError') {
+                                console.error("Error playing new song:", e);
+                            }
+                        });
+                    }
+                    document.querySelectorAll('.song-button').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.songId === songId);
+                    });
+                }
+            }
+
 
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
@@ -499,6 +569,7 @@
             }
 
             function showInvitation() {
+                previewAudio.pause(); 
                 cover.style.transition = 'opacity 1s, transform 1s';
                 cover.style.opacity = '0';
                 cover.style.transform = 'scale(1.2)';
@@ -506,10 +577,14 @@
                     cover.style.display = 'none';
                     mainContent.classList.remove('hidden');
                     document.body.style.overflow = 'auto';
+                    
+                    isSequencePlaying = true;
+                    audio.loop = false; 
+                    audio.addEventListener('ended', playNextSongInSequence);
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
+
                     musicIconPlay.classList.add('hidden');
                     musicIconPause.classList.remove('hidden');
-                    // Refresh AOS untuk mendeteksi elemen baru yang muncul
                     AOS.refresh();
                 }, 1000);
             }
@@ -517,14 +592,25 @@
             openInvitationButton.addEventListener('click', showInvitation);
 
             fontToggleButton.addEventListener('click', () => {
+                previewAudio.pause();
                 coverLinkPanel.style.display = 'none';
+                coverSongPanel.style.display = 'none';
                 coverFontPanel.style.display = coverFontPanel.style.display === 'block' ? 'none' : 'block';
             });
 
             linkToggleButton.addEventListener('click', () => {
+                previewAudio.pause();
                 coverFontPanel.style.display = 'none';
+                coverSongPanel.style.display = 'none';
                 coverLinkPanel.style.display = coverLinkPanel.style.display === 'block' ? 'none' : 'block';
             });
+
+            songToggleButton.addEventListener('click', () => {
+                coverFontPanel.style.display = 'none';
+                coverLinkPanel.style.display = 'none';
+                coverSongPanel.style.display = coverSongPanel.style.display === 'block' ? 'none' : 'block';
+            });
+
 
             musicToggle.addEventListener('click', () => {
                 if (audio.paused) {
@@ -601,6 +687,60 @@
                     applyColor(selectedColorId);
                 });
             });
+            document.querySelectorAll('.song-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    previewAudio.pause();
+                    isSequencePlaying = false;
+                    audio.removeEventListener('ended', playNextSongInSequence);
+                    audio.loop = true;
+
+                    selectedSongId = this.dataset.songId;
+                    applySong(selectedSongId);
+                });
+            });
+            
+            document.querySelectorAll('.preview-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const songId = this.dataset.songId;
+                    const songUrl = songMap[songId];
+                    
+                    if (currentPreviewId === songId && !previewAudio.paused) {
+                        previewAudio.pause();
+                    } else {
+                        currentPreviewId = songId;
+                        previewAudio.src = songUrl;
+                        previewAudio.play().catch(err => {
+                            if (err.name !== 'AbortError') {
+                                console.error("Preview play failed:", err);
+                            }
+                        });
+                    }
+                });
+            });
+
+            previewAudio.onplay = function() {
+                document.querySelectorAll('.preview-button').forEach(btn => {
+                    const playIcon = btn.querySelector('.preview-icon-play');
+                    const pauseIcon = btn.querySelector('.preview-icon-pause');
+                    if (btn.dataset.songId === currentPreviewId) {
+                        playIcon.classList.add('hidden');
+                        pauseIcon.classList.remove('hidden');
+                    } else {
+                        playIcon.classList.remove('hidden');
+                        pauseIcon.classList.add('hidden');
+                    }
+                });
+            };
+
+            previewAudio.onpause = function() {
+                currentPreviewId = null;
+                document.querySelectorAll('.preview-button').forEach(btn => {
+                    btn.querySelector('.preview-icon-play').classList.remove('hidden');
+                    btn.querySelector('.preview-icon-pause').classList.add('hidden');
+                });
+            };
+
 
             document.querySelectorAll('.comment-template-btn').forEach(button => {
                 button.addEventListener('click', function() {
