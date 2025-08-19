@@ -88,7 +88,7 @@
 
         <div id="cover-font-panel" class="absolute bottom-20 left-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
         <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
-        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto"></div>
     </div>
 
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl">
@@ -216,7 +216,7 @@
         </p>
     </footer>
 
-    <audio id="bg-music" loop src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
+    <audio id="bg-music" src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
     <audio id="preview-audio"></audio>
     
     <script type="module">
@@ -337,15 +337,25 @@
             const guestName = urlParams.get('to') || "Tamu Undangan";
             const guestIdentifier = guestName.replace(/\s+/g, '_');
             const guestNameDecoded = guestName.replace(/[+]/g, ' ');
-            let selectedFontId = 'playfair';
-            let selectedColorId = 'white';
+            
+            let selectedFontId = urlParams.get('font') || 'playfair';
+            let selectedColorId = urlParams.get('color') || 'white';
+            let currentPreviewId = null;
 
             // Elemen DOM
             const guestNameEl = document.getElementById('guest-name');
             const commentNameInput = document.getElementById('comment-name');
             const commentMessageInput = document.getElementById('comment-message');
             const confirmBtn = document.getElementById('confirm-attendance-btn');
+            const audio = document.getElementById('bg-music');
+            const previewAudio = document.getElementById('preview-audio');
+            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
 
+            // --- Database Lokal ---
+            const fontMap = { 'playfair': "'Playfair Display', serif", 'lobster': "'Lobster', cursive", 'roboto': "'Roboto', sans-serif", 'merriweather': "'Merriweather', serif", 'sacramento': "'Sacramento', cursive", 'caveat': "'Caveat', cursive", 'cinzel': "'Cinzel Decorative', serif" };
+            const colorMap = { 'white': '#FFFFFF', 'gold': '#FBBF24', 'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC' };
+            const songMap = { 'song1': 'https://files.catbox.moe/18l2h9.mp3', 'song2': 'https://files.catbox.moe/51rfqh.mp3', 'song3': 'https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3', 'song4': 'https://ia902806.us.archive.org/28/items/SABYAN-DEENASSALAM/SABYAN%20-%20DEEN%20ASSALAM.mp3' };
+            
             // --- Inisialisasi Awal ---
             guestNameEl.textContent = guestNameDecoded;
             if(commentNameInput) commentNameInput.value = guestNameDecoded;
@@ -359,7 +369,7 @@
             document.getElementById('open-invitation').addEventListener('click', () => {
                 document.getElementById('cover').style.display = 'none';
                 document.getElementById('main-content').classList.remove('hidden');
-                document.getElementById('bg-music').play().catch(e => console.log("Autoplay dicegah."));
+                audio.play().catch(e => console.log("Autoplay dicegah."));
                 document.getElementById('music-icon-play').classList.add('hidden');
                 document.getElementById('music-icon-pause').classList.remove('hidden');
                 AOS.refresh();
@@ -376,9 +386,10 @@
 
             // --- Tombol Musik ---
             document.getElementById('music-toggle').addEventListener('click', () => {
-                const audio = document.getElementById('bg-music');
-                document.getElementById('music-icon-play').classList.toggle('hidden');
-                document.getElementById('music-icon-pause').classList.toggle('hidden');
+                const playIcon = document.getElementById('music-icon-play');
+                const pauseIcon = document.getElementById('music-icon-pause');
+                playIcon.classList.toggle('hidden');
+                pauseIcon.classList.toggle('hidden');
                 audio.paused ? audio.play() : audio.pause();
             });
 
@@ -415,26 +426,64 @@
             const fontPanel = document.getElementById('cover-font-panel');
             const songPanel = document.getElementById('cover-song-panel');
             const linkPanel = document.getElementById('cover-link-panel');
+            
+            function applyFontAndColor(fontId, colorId) {
+                targetNamaElements.forEach(el => el.style.fontFamily = fontMap[fontId]);
+                targetNamaElements.forEach(el => el.style.color = colorMap[colorId]);
+                document.querySelectorAll('.font-button').forEach(btn => btn.classList.toggle('active', btn.dataset.fontId === fontId));
+                document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
+            }
+            
+            function applySong(songId) {
+                audio.src = songMap[songId];
+                document.querySelectorAll('.song-button').forEach(btn => btn.classList.toggle('active', btn.dataset.songId === songId));
+            }
 
-            fontPanel.innerHTML = `
-                <div class="text-left"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p><div class="grid grid-cols-2 gap-2" id="font-buttons"><button class="font-button text-sm px-3 py-1.5 rounded-md border-2" data-font-id="playfair">Klasik</button><button class="font-button text-sm px-3 py-1.5 rounded-md border-2" data-font-id="lobster" style="font-family: 'Lobster', cursive;">Latin</button></div></div>
-                <div class="text-left mt-4"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Warna Huruf</p><div class="flex space-x-3" id="color-buttons"><button class="color-button w-6 h-6 rounded-full bg-white" data-color-id="white"></button><button class="color-button w-6 h-6 rounded-full bg-amber-300" data-color-id="gold"></button></div></div>`;
-            songPanel.innerHTML = `<div class="text-left"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Lagu</p><div class="flex flex-col gap-2" id="song-buttons"><button class="song-button text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2" data-song-id="song3">Man Ana</button><button class="song-button text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2" data-song-id="song4">Deen Assalam</button></div></div>`;
-            linkPanel.innerHTML = `<p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p><textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border rounded-lg text-slate-800" placeholder="Satu nama..."></textarea><button id="generate-links-btn" class="mt-2 w-full bg-slate-700 text-white font-bold py-2 px-4 rounded-lg text-sm">Buat Link</button><div id="links-output" class="mt-3"></div>`;
+            fontPanel.innerHTML = `<div class="text-left"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p><div class="grid grid-cols-2 gap-2" id="font-buttons">${Object.keys(fontMap).map(f=>`<button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="${f}" style="font-family:${fontMap[f]}">${f.charAt(0).toUpperCase()+f.slice(1)}</button>`).join('')}</div></div><div class="text-left mt-4"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Warna</p><div class="flex space-x-3" id="color-buttons">${Object.keys(colorMap).map(c=>`<button class="color-button w-6 h-6 rounded-full" data-color-id="${c}" style="background-color:${colorMap[c]}"></button>`).join('')}</div></div>`;
+            songPanel.innerHTML = `<div class="text-left"><p class="text-sm font-bold text-slate-700 mb-3">Pilih Lagu</p><div class="flex flex-col gap-2" id="song-buttons">${Object.keys(songMap).map(s=>`<div class="flex items-center justify-between gap-2"><button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400" data-song-id="${s}">${s}</button><button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="${s}"><svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg></button></div>`).join('')}</div></div>`;
+            linkPanel.innerHTML = `<p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p><textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border rounded-lg text-slate-800" placeholder="Satu nama per baris..."></textarea><button id="generate-links-btn" class="mt-2 w-full bg-slate-700 text-white font-bold py-2 px-4 rounded-lg text-sm">Buat Link</button><div id="links-output" class="mt-3"></div>`;
 
+            applyFontAndColor(selectedFontId, selectedColorId);
+            applySong('song3');
+
+            fontPanel.addEventListener('click', e => {
+                if (e.target.closest('.font-button')) { selectedFontId = e.target.closest('.font-button').dataset.fontId; applyFontAndColor(selectedFontId, selectedColorId); }
+                if (e.target.closest('.color-button')) { selectedColorId = e.target.closest('.color-button').dataset.colorId; applyFontAndColor(selectedFontId, selectedColorId); }
+            });
+            songPanel.addEventListener('click', e => {
+                const songBtn = e.target.closest('.song-button');
+                const previewBtn = e.target.closest('.preview-button');
+                if (songBtn) applySong(songBtn.dataset.songId);
+                if (previewBtn) {
+                    const songId = previewBtn.dataset.songId;
+                    if (currentPreviewId === songId && !previewAudio.paused) { previewAudio.pause(); } else {
+                        currentPreviewId = songId;
+                        previewAudio.src = songMap[songId];
+                        previewAudio.play();
+                    }
+                }
+            });
+            previewAudio.onplay = () => document.querySelectorAll('.preview-button').forEach(btn => {
+                btn.querySelector('.preview-icon-play').classList.toggle('hidden', btn.dataset.songId === currentPreviewId);
+                btn.querySelector('.preview-icon-pause').classList.toggle('hidden', btn.dataset.songId !== currentPreviewId);
+            });
+            previewAudio.onpause = () => document.querySelectorAll('.preview-button').forEach(btn => {
+                btn.querySelector('.preview-icon-play').classList.remove('hidden');
+                btn.querySelector('.preview-icon-pause').classList.add('hidden');
+            });
+
+            linkPanel.querySelector('#generate-links-btn').addEventListener('click', () => {
+                const names = linkPanel.querySelector('#guest-list-input').value.split('\n').filter(n => n.trim());
+                linkPanel.querySelector('#links-output').innerHTML = names.map(name => {
+                    const url = `${window.location.href.split('?')[0]}?to=${encodeURIComponent(name.trim())}&font=${selectedFontId}&color=${selectedColorId}`;
+                    return `<div class="text-xs text-left p-1 bg-slate-100 rounded"><strong>${name.trim()}:</strong> <button onclick="copyToClipboard('${url}', this)" class="text-blue-600 hover:underline">Salin</button></div>`;
+                }).join('');
+            });
+            
             function togglePanel(panelId) { [fontPanel, songPanel, linkPanel].forEach(p => p.style.display = (p.id === panelId && p.style.display !== 'block') ? 'block' : 'none'); }
             document.getElementById('font-toggle-button').addEventListener('click', () => togglePanel('cover-font-panel'));
             document.getElementById('song-toggle-button').addEventListener('click', () => togglePanel('cover-song-panel'));
             document.getElementById('link-toggle-button').addEventListener('click', () => togglePanel('cover-link-panel'));
-            
-            document.getElementById('generate-links-btn').addEventListener('click', () => {
-                const names = document.getElementById('guest-list-input').value.split('\n').filter(n => n.trim());
-                const baseUrl = window.location.href.split('?')[0];
-                document.getElementById('links-output').innerHTML = names.map(name => {
-                    const url = `${baseUrl}?to=${encodeURIComponent(name.trim())}&font=${selectedFontId}&color=${selectedColorId}`;
-                    return `<div class="text-xs text-left p-1 bg-slate-100 rounded"><strong>${name.trim()}:</strong> <a href="${url}" target="_blank" class="text-blue-600 hover:underline">Salin Link</a></div>`;
-                }).join('');
-            });
         });
         
         function copyToClipboard(text, button) {
