@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Dancing+Script&family=Tangerine:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Dancing+Script&family=Tangerine:wght@700&family=Alex+Brush&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
     
     <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -165,9 +165,11 @@
                 <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
                 <div class="grid grid-cols-2 gap-2" id="font-buttons">
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair" style="font-family: 'Playfair Display', serif;">Klasik</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="cormorant" style="font-family: 'Cormorant Garamond', serif;">Garamond</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" style="font-family: 'Merriweather', serif;">Elegan</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="greatvibes" style="font-family: 'Great Vibes', cursive; font-size: 1.4rem;">Mewah</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" style="font-family: 'Sacramento', cursive; font-size: 1.4rem;">Script</button>
+                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="alexbrush" style="font-family: 'Alex Brush', cursive; font-size: 1.4rem;">Artistik</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="dancingscript" style="font-family: 'Dancing Script', cursive; font-size: 1.2rem;">Menari</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" style="font-family: 'Caveat', cursive; font-size: 1.4rem;">Tulisan</button>
                     <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="tangerine" style="font-family: 'Tangerine', cursive; font-size: 1.8rem;">Kaligrafi</button>
@@ -195,6 +197,7 @@
                     <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-effect-id="none">Tidak Ada</button>
                     <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="glitter">✨ Gemerlap</button>
                     <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="flowers">🌸 Bunga Jatuh</button>
+                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="leaves">🍂 Daun Berguguran</button>
                 </div>
             </div>
         </div>
@@ -368,14 +371,6 @@
                 <p class="text-md mt-1">a.n. Rizky R. Harun</p>
                 <button onclick="copyToClipboard('0823-1194-5664', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
                     Salin Nomor
-                </button>
-                <div class="my-6 border-t border-slate-200"></div>
-                <p class="font-semibold text-lg">Atau Transfer Bank</p>
-                <p class="text-md mt-2">Bank Syariah Indonesia</p>
-                <p class="text-xl font-bold mt-1">Nomor Rekening</p>
-                <p class="text-md mt-1">a.n. Nama Pemilik Rekening</p>
-                <button onclick="copyToClipboard('Nomor Rekening', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
-                    Salin Rekening
                 </button>
             </div>
         </section>
@@ -582,7 +577,8 @@
                 'playfair': "'Playfair Display', serif", 'merriweather': "'Merriweather', serif", 
                 'greatvibes': "'Great Vibes', cursive", 'sacramento': "'Sacramento', cursive", 
                 'dancingscript': "'Dancing Script', cursive", 'caveat': "'Caveat', cursive", 
-                'tangerine': "'Tangerine', cursive", 'cinzel': "'Cinzel Decorative', serif"
+                'tangerine': "'Tangerine', cursive", 'cinzel': "'Cinzel Decorative', serif",
+                'alexbrush': "'Alex Brush', cursive", 'cormorant': "'Cormorant Garamond', serif"
             };
             const colorMap = {
                 'white': '#FFFFFF', 'gold': '#FBBF24', 'silver': '#D1D5DB',
@@ -685,6 +681,22 @@
                             scalar: 1.2
                         });
                     }, 1000);
+                } else if (effectId === 'leaves') {
+                     effectInterval = setInterval(() => {
+                        myConfetti({
+                            particleCount: 10,
+                            angle: 90,
+                            spread: 120,
+                            origin: { y: -0.1, x: Math.random() },
+                            shapes: ['emoji'],
+                            shapeOptions: {
+                                emoji: { value: ['🍂', '🍁'] }
+                            },
+                            gravity: 0.2,
+                            drift: Math.random() * 0.6 - 0.3,
+                            scalar: 1.1
+                        });
+                    }, 1200);
                 }
             }
 
