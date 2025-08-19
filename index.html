@@ -141,7 +141,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
             </button>
              <button id="effect-toggle-button" title="Pilih Efek" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C9.2 6.3 9 6 9 5.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M19 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5c-.2-.2-.4-.5-.4-.8v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M5 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C2.2 15.3 2 15 2 14.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C9.2 6.3 9 6 9 5.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M19 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5c-.2-.2-.4-.5-.4-.8v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M5 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C2.2 15.3 2 15 2 14.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/></svg>
             </button>
             <button id="song-toggle-button" title="Pilih Lagu" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
@@ -429,23 +429,57 @@
                     snapshot.forEach((doc) => {
                         comments.push({ id: doc.id, ...doc.data() });
                     });
+                    
+                    // Urutkan komentar berdasarkan waktu (terbaru dulu)
                     comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                    comments.forEach((comment) => {
-                        const commentElement = document.createElement('div');
-                        commentElement.className = 'bg-slate-100 p-4 rounded-lg';
-                        const timestamp = comment.timestamp ? new Date(comment.timestamp.seconds * 1000).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : 'Baru saja';
-                        commentElement.innerHTML = `
+
+                    // Kelompokkan komentar berdasarkan nama tamu dan tanggal
+                    const groupedComments = {};
+                    comments.forEach(comment => {
+                        if (!comment.timestamp || !comment.name) return; // Lewati komentar yang tidak valid
+
+                        const date = new Date(comment.timestamp.seconds * 1000);
+                        const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+                        const key = `${comment.name}_${dateString}`;
+
+                        if (!groupedComments[key]) {
+                            groupedComments[key] = {
+                                name: comment.name,
+                                date: dateString,
+                                messages: [],
+                                latestTimestamp: comment.timestamp.seconds
+                            };
+                        }
+                        // Tambahkan pesan ke awal array agar urutannya kronologis (dari lama ke baru) saat ditampilkan
+                        groupedComments[key].messages.unshift(escapeHTML(comment.message));
+                    });
+
+                    // Ubah objek grup menjadi array dan urutkan grup berdasarkan komentar terbaru
+                    const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
+
+                    // Tampilkan komentar yang sudah dikelompokkan
+                    sortedGroups.forEach(group => {
+                        const groupElement = document.createElement('div');
+                        groupElement.className = 'bg-slate-100 p-4 rounded-lg';
+
+                        // Gabungkan semua pesan dalam satu grup
+                        const messagesHTML = group.messages.map(message => 
+                            `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
+                        ).join('');
+
+                        groupElement.innerHTML = `
                             <div class="flex justify-between items-center mb-2">
-                                <p class="font-bold text-slate-800">${escapeHTML(comment.name)}</p>
-                                <p class="text-xs text-slate-500">${timestamp}</p>
+                                <p class="font-bold text-slate-800">${escapeHTML(group.name)}</p>
+                                <p class="text-xs text-slate-500">${group.date}</p>
                             </div>
-                            <p class="text-slate-600">${escapeHTML(comment.message)}</p>
+                            <div>${messagesHTML}</div>
                         `;
-                        commentsList.appendChild(commentElement);
+                        commentsList.appendChild(groupElement);
                     });
                 }, (error) => {
                     console.error("Snapshot listener error:", error);
                 });
+
 
                 commentForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
