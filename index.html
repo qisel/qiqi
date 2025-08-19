@@ -26,7 +26,6 @@
             font-family: 'Playfair Display', serif;
         }
         #cover {
-            /* Background image updated with GitHub link */
             background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f1.jpeg');
             background-size: cover;
             background-position: center;
@@ -73,10 +72,10 @@
 
         <!-- Tombol Admin Terpisah -->
         <button id="font-toggle-button" title="Pilih Font & Warna" class="absolute bottom-5 left-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
         </button>
         <button id="link-toggle-button" title="Buat Link Tamu" class="absolute bottom-5 right-5 z-20 bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </button>
 
         <!-- Panel Font & Color Selector di Cover -->
@@ -131,7 +130,6 @@
             <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">[Junior Habib R. Harun]</h1>
         </header>
 
-        <!-- Bagian Keluarga Besar (DIUBAH) -->
         <section id="family" class="p-8 md:p-12 text-center bg-slate-50">
              <p class="text-lg mb-8" data-aos="fade-up">Dengan Penuh Kasih Sayang dari Keluarga Besar:</p>
              <div class="flex justify-center items-center" data-aos="zoom-in">
@@ -169,7 +167,6 @@
             </div>
         </section>
 
-        <!-- Bagian Kirim Hadiah -->
         <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
             <h2 class="font-serif text-4xl mb-2" data-aos="fade-up">Kirim Hadiah</h2>
             <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
@@ -343,12 +340,16 @@
                     const trimmedName = name.trim();
                     const encodedName = encodeURIComponent(trimmedName);
                     const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}`;
+                    
+                    const invitationText = `*Bismillahirahmanirrahim*\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\n\n**Junior Habib R. Harun**\n\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\n\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\n\n🔗 ${fullUrl}\n\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
+
                     htmlOutput += `
                         <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
                             <p class="font-semibold text-xs">${trimmedName}</p>
                             <div class="flex items-center mt-1">
                                 <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
-                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 rounded-r-md hover:bg-teal-700 text-xs">Salin</button>
+                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
+                                <button onclick="copyToClipboard(\`${invitationText}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
                             </div>
                         </div>`;
                 });
