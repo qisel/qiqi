@@ -438,10 +438,11 @@
     <!-- Scripts -->
     <script type="module">
         // Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
+        // Konfigurasi Firebase Anda
         const userFirebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
           authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
@@ -467,7 +468,6 @@
                 const commentSubmitBtn = document.getElementById('comment-submit-btn');
                 const commentsList = document.getElementById('comments-list');
                 const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
-                const reviewCommentContainer = document.getElementById('review-comment-container');
                 const reviewCommentText = document.getElementById('review-comment-text');
 
                 if(commentSubmitBtn) {
@@ -487,10 +487,10 @@
                     reviewCommentText.classList.add('quote-exit');
                     
                     setTimeout(() => {
-                        reviewCommentText.innerHTML = `<b>${comment.name}</b>: ${shortMessage}`;
+                        reviewCommentText.innerHTML = `<b>${escapeHTML(comment.name)}</b>: ${escapeHTML(shortMessage)}`;
                         reviewCommentText.classList.remove('quote-exit');
                         reviewCommentText.classList.add('quote-enter');
-                    }, 1000); // Tunggu animasi fadeOut selesai
+                    }, 1000);
 
                     currentReviewIndex = (currentReviewIndex + 1) % allComments.length;
                 }
@@ -499,7 +499,7 @@
                     if (commentLoopInterval) clearInterval(commentLoopInterval);
                     
                     if (allComments.length > 0) {
-                        showNextReviewComment(); // Tampilkan komentar pertama segera
+                        showNextReviewComment();
                     } else {
                         reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
                     }
@@ -508,100 +508,94 @@
                         const coverElement = document.getElementById('cover');
                         if (allComments.length > 0 && coverElement && window.getComputedStyle(coverElement).display !== 'none') {
                             showNextReviewComment();
-                        } else {
-                            if (commentLoopInterval) {
-                                clearInterval(commentLoopInterval);
-                                commentLoopInterval = null;
-                            }
                         }
-                    }, 5000); // Ganti komentar setiap 5 detik
+                    }, 5000);
                 }
                 
                 document.getElementById('open-invitation').addEventListener('click', () => {
                     if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    commentLoopInterval = null;
                 });
 
                 const q = query(commentsCollection);
                 onSnapshot(q, (snapshot) => {
-                    commentsList.innerHTML = '';
                     const comments = [];
-                    
                     snapshot.forEach(doc => {
                         comments.push({ id: doc.id, ...doc.data() });
                     });
                     
                     allComments = comments;
-
-                    if (!commentLoopInterval) {
-                        startReviewCommentLoop();
+                    if (document.getElementById('cover').style.display !== 'none') {
+                       startReviewCommentLoop();
                     }
 
                     comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                    
+                    if (commentsList) {
+                        commentsList.innerHTML = '';
+                        const groupedComments = {};
+                        comments.forEach(comment => {
+                            if (!comment.timestamp || !comment.name) return;
+                            const date = new Date(comment.timestamp.seconds * 1000);
+                            const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+                            const key = `${comment.name}_${dateString}`;
+                            if (!groupedComments[key]) {
+                                groupedComments[key] = {
+                                    name: comment.name,
+                                    date: dateString,
+                                    messages: [],
+                                    latestTimestamp: comment.timestamp.seconds
+                                };
+                            }
+                            groupedComments[key].messages.unshift(escapeHTML(comment.message));
+                        });
 
-                    const groupedComments = {};
-                    comments.forEach(comment => {
-                        if (!comment.timestamp || !comment.name) return;
-                        const date = new Date(comment.timestamp.seconds * 1000);
-                        const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-                        const key = `${comment.name}_${dateString}`;
-                        if (!groupedComments[key]) {
-                            groupedComments[key] = {
-                                name: comment.name,
-                                date: dateString,
-                                messages: [],
-                                latestTimestamp: comment.timestamp.seconds
-                            };
-                        }
-                        groupedComments[key].messages.unshift(escapeHTML(comment.message));
-                    });
+                        const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
 
-                    const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
+                        sortedGroups.forEach(group => {
+                            const groupElement = document.createElement('div');
+                            groupElement.className = 'bg-slate-100 p-4 rounded-lg';
+                            const messagesHTML = group.messages.map(message => 
+                                `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
+                            ).join('');
 
-                    sortedGroups.forEach(group => {
-                        const groupElement = document.createElement('div');
-                        groupElement.className = 'bg-slate-100 p-4 rounded-lg';
-                        const messagesHTML = group.messages.map(message => 
-                            `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
-                        ).join('');
-
-                        groupElement.innerHTML = `
-                            <div class="flex justify-between items-center mb-2">
-                                <p class="font-bold text-slate-800">${escapeHTML(group.name)}</p>
-                                <p class="text-xs text-slate-500">${group.date}</p>
-                            </div>
-                            <div>${messagesHTML}</div>
-                        `;
-                        commentsList.appendChild(groupElement);
-                    });
-                }, (error) => {
-                    console.error("Snapshot listener error:", error);
-                });
-
-                commentForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('comment-name').value.trim();
-                    const messageInput = document.getElementById('comment-message');
-                    const message = messageInput.value.trim();
-
-                    if (name && message) {
-                        commentSubmitBtn.disabled = true;
-                        commentSubmitBtn.textContent = 'Mengirim...';
-                        try {
-                            await addDoc(commentsCollection, {
-                                name: name,
-                                message: message,
-                                timestamp: serverTimestamp()
-                            });
-                            messageInput.value = '';
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                        } finally {
-                            commentSubmitBtn.disabled = false;
-                            commentSubmitBtn.textContent = 'Kirim Ucapan';
-                        }
+                            groupElement.innerHTML = `
+                                <div class="flex justify-between items-center mb-2">
+                                    <p class="font-bold text-slate-800">${escapeHTML(group.name)}</p>
+                                    <p class="text-xs text-slate-500">${group.date}</p>
+                                </div>
+                                <div>${messagesHTML}</div>
+                            `;
+                            commentsList.appendChild(groupElement);
+                        });
                     }
                 });
+
+                if (commentForm) {
+                    commentForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const name = document.getElementById('comment-name').value.trim();
+                        const messageInput = document.getElementById('comment-message');
+                        const message = messageInput.value.trim();
+
+                        if (name && message) {
+                            commentSubmitBtn.disabled = true;
+                            commentSubmitBtn.textContent = 'Mengirim...';
+                            try {
+                                await addDoc(commentsCollection, {
+                                    name: name,
+                                    message: message,
+                                    timestamp: serverTimestamp()
+                                });
+                                messageInput.value = '';
+                            } catch (error) {
+                                console.error("Error adding document: ", error);
+                            } finally {
+                                commentSubmitBtn.disabled = false;
+                                commentSubmitBtn.textContent = 'Kirim Ucapan';
+                            }
+                        }
+                    });
+                }
             }
 
             onAuthStateChanged(auth, (user) => {
@@ -611,17 +605,7 @@
             });
             
             (async () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const guestName = urlParams.get('to');
-                if (guestName) {
-                    // Jika ada nama tamu, sembunyikan tombol admin
-                    document.getElementById('admin-buttons').classList.add('hidden');
-                } else {
-                    // Jika tidak ada nama tamu, tampilkan tombol admin
-                    document.getElementById('admin-buttons').classList.remove('hidden');
-                }
-
-                if (typeof __initial_auth_token !== 'undefined') {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
@@ -635,6 +619,7 @@
         }
         
         function escapeHTML(str) {
+            if (!str) return "";
             return str.replace(/[&<>"']/g, function(match) {
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
             });
@@ -649,6 +634,7 @@
                 offset: 120 
             });
 
+            // Variabel dan konstanta
             const eventDate = "2025-08-23T08:00:00";
             const cover = document.getElementById('cover');
             const mainContent = document.getElementById('main-content');
@@ -671,9 +657,8 @@
             const fullscreenIconEnter = document.getElementById('fullscreen-icon-enter');
             const fullscreenIconExit = document.getElementById('fullscreen-icon-exit');
             const guestInfoEl = document.getElementById('guest-info');
-            
             const previewAudio = document.getElementById('preview-audio');
-
+            
             let selectedFontId = 'playfair';
             let selectedColorId = 'white';
             let selectedSongId = 'song3'; 
@@ -705,6 +690,7 @@
 
             const targetNamaElements = document.querySelectorAll('.target-nama-anak');
 
+            // Fungsi untuk menerapkan font
             function applyFont(fontId) {
                 const fontFamily = fontMap[fontId];
                 if (fontFamily) {
@@ -713,6 +699,7 @@
                 }
             }
 
+            // Fungsi untuk menerapkan warna
             function applyColor(colorId) {
                 const color = colorMap[colorId];
                 if (color) {
@@ -721,14 +708,25 @@
                 }
             }
             
+            // ====================================================== //
+            // PERBAIKAN 1: Fungsi applySong ditambahkan kembali
+            // ====================================================== //
+            function applySong(songId) {
+                const songUrl = songMap[songId];
+                if (songUrl) {
+                    audio.src = songUrl;
+                    document.querySelectorAll('.song-button').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.songId === songId);
+                    });
+                }
+            }
+
             function playNextSongInSequence() {
                 currentSongIndex = (currentSongIndex + 1) % playlist.length;
                 const nextSongId = playlist[currentSongIndex];
-                audio.src = songMap[nextSongId];
+                selectedSongId = nextSongId;
+                applySong(nextSongId);
                 audio.play().catch(e => console.error("Error playing next song:", e));
-                document.querySelectorAll('.song-button').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.songId === nextSongId);
-                });
             }
 
             function applyEffect(effectId) {
@@ -747,81 +745,50 @@
 
                 if (effectId === 'glitter') {
                     effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 30,
-                            startVelocity: 20,
-                            spread: 360,
-                            origin: { x: Math.random(), y: Math.random() - 0.2 },
-                            colors: ['#FFC700', '#FFD700', '#FFFFFF', '#F0F0F0']
-                        });
+                        myConfetti({ particleCount: 30, startVelocity: 20, spread: 360, origin: { x: Math.random(), y: Math.random() - 0.2 }, colors: ['#FFC700', '#FFD700', '#FFFFFF', '#F0F0F0'] });
                     }, 800);
                 } else if (effectId === 'flowers') {
                      effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 10,
-                            angle: 90,
-                            spread: 70,
-                            origin: { y: -0.1, x: Math.random() },
-                            shapes: ['emoji'],
-                            shapeOptions: {
-                                emoji: { value: ['🌸', '🌼', '🌷'] }
-                            },
-                            gravity: 0.3,
-                            drift: Math.random() * 0.4 - 0.2,
-                            scalar: 1.2
-                        });
+                        myConfetti({ particleCount: 10, angle: 90, spread: 70, origin: { y: -0.1, x: Math.random() }, shapes: ['emoji'], shapeOptions: { emoji: { value: ['🌸', '🌼', '🌷'] } }, gravity: 0.3, drift: Math.random() * 0.4 - 0.2, scalar: 1.2 });
                     }, 1000);
                 } else if (effectId === 'leaves') {
                      effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 10,
-                            angle: 90,
-                            spread: 120,
-                            origin: { y: -0.1, x: Math.random() },
-                            shapes: ['emoji'],
-                            shapeOptions: {
-                                emoji: { value: ['🍂', '🍁'] }
-                            },
-                            gravity: 0.2,
-                            drift: Math.random() * 0.6 - 0.3,
-                            scalar: 1.1
-                        });
+                        myConfetti({ particleCount: 10, angle: 90, spread: 120, origin: { y: -0.1, x: Math.random() }, shapes: ['emoji'], shapeOptions: { emoji: { value: ['🍂', '🍁'] } }, gravity: 0.2, drift: Math.random() * 0.6 - 0.3, scalar: 1.1 });
                     }, 1200);
                 }
             }
 
-
+            // Inisialisasi dari URL
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
             const fontParam = urlParams.get('font');
             const colorParam = urlParams.get('color');
             const effectParam = urlParams.get('effect');
+            const songParam = urlParams.get('song');
             const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
-            // Menampilkan bagian nama tamu hanya jika parameter 'to' ada di URL
             if (guestName) {
                 guestInfoEl.classList.remove('hidden');
                 guestNameEl.textContent = guestNameDecoded;
+                document.getElementById('admin-buttons').classList.add('hidden');
             } else {
                 guestInfoEl.classList.add('hidden');
+                document.getElementById('admin-buttons').classList.remove('hidden');
             }
 
             if (commentNameInput) {
                 commentNameInput.value = guestNameDecoded;
             }
 
-            if (fontParam && fontMap[fontParam]) {
-                selectedFontId = fontParam;
-                applyFont(selectedFontId);
-            }
-             if (colorParam && colorMap[colorParam]) {
-                selectedColorId = colorParam;
-                applyColor(selectedColorId);
-            }
-            if (effectParam) {
-                selectedEffectId = effectParam;
-                applyEffect(selectedEffectId);
-            }
+            if (fontParam && fontMap[fontParam]) selectedFontId = fontParam;
+            if (colorParam && colorMap[colorParam]) selectedColorId = colorParam;
+            if (effectParam) selectedEffectId = effectParam;
+            if (songParam && songMap[songParam]) selectedSongId = songParam;
+            
+            applyFont(selectedFontId);
+            applyColor(selectedColorId);
+            applyEffect(selectedEffectId);
+            applySong(selectedSongId);
 
             function showInvitation() {
                 previewAudio.pause(); 
@@ -835,6 +802,7 @@
                     
                     isSequencePlaying = true;
                     audio.loop = false; 
+                    audio.removeEventListener('ended', playNextSongInSequence); // Hapus listener lama
                     audio.addEventListener('ended', playNextSongInSequence);
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
 
@@ -847,29 +815,28 @@
 
             openInvitationButton.addEventListener('click', showInvitation);
 
-            const hideAllPanels = () => {
-                coverFontPanel.style.display = 'none';
-                coverLinkPanel.style.display = 'none';
-                coverSongPanel.style.display = 'none';
-                coverEffectPanel.style.display = 'none';
+            // ====================================================== //
+            // PERBAIKAN 2: Logika toggle untuk panel admin
+            // ====================================================== //
+            const hideAllPanels = (exceptPanel = null) => {
+                const panels = [coverFontPanel, coverLinkPanel, coverSongPanel, coverEffectPanel];
+                panels.forEach(panel => {
+                    if (panel !== exceptPanel) {
+                        panel.style.display = 'none';
+                    }
+                });
             };
 
-            fontToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverFontPanel.style.display = 'block';
-            });
-            linkToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverLinkPanel.style.display = 'block';
-            });
-            songToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverSongPanel.style.display = 'block';
-            });
-            effectToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverEffectPanel.style.display = 'block';
-            });
+            function togglePanel(panel) {
+                const isVisible = panel.style.display === 'block';
+                hideAllPanels(panel);
+                panel.style.display = isVisible ? 'none' : 'block';
+            }
+
+            fontToggleButton.addEventListener('click', () => togglePanel(coverFontPanel));
+            linkToggleButton.addEventListener('click', () => togglePanel(coverLinkPanel));
+            songToggleButton.addEventListener('click', () => togglePanel(coverSongPanel));
+            effectToggleButton.addEventListener('click', () => togglePanel(coverEffectPanel));
 
 
             musicToggle.addEventListener('click', () => {
@@ -886,26 +853,17 @@
 
             function toggleFullScreen() {
                 if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                    });
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
+                    document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`));
+                } else if (document.exitFullscreen) {
+                    document.exitFullscreen();
                 }
             }
 
             fullscreenToggle.addEventListener('click', toggleFullScreen);
-
             document.addEventListener('fullscreenchange', () => {
-                if (document.fullscreenElement) {
-                    fullscreenIconEnter.classList.add('hidden');
-                    fullscreenIconExit.classList.remove('hidden');
-                } else {
-                    fullscreenIconEnter.classList.remove('hidden');
-                    fullscreenIconExit.classList.add('hidden');
-                }
+                const isFullscreen = !!document.fullscreenElement;
+                fullscreenIconEnter.classList.toggle('hidden', isFullscreen);
+                fullscreenIconExit.classList.toggle('hidden', !isFullscreen);
             });
 
             const countdown = () => {
@@ -916,60 +874,44 @@
                     document.getElementById('countdown').innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
                     return;
                 }
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('days').innerText = String(days).padStart(2, '0');
-                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+                document.getElementById('days').innerText = String(Math.floor(distance / 86400000)).padStart(2, '0');
+                document.getElementById('hours').innerText = String(Math.floor((distance % 86400000) / 3600000)).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(Math.floor((distance % 3600000) / 60000)).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(Math.floor((distance % 60000) / 1000)).padStart(2, '0');
             };
             setInterval(countdown, 1000);
             countdown();
 
-            const generateBtn = document.getElementById('generate-links-btn');
-            const guestListInput = document.getElementById('guest-list-input');
-            const linksOutput = document.getElementById('links-output');
-            generateBtn.addEventListener('click', () => {
-                const names = guestListInput.value.split('\n').filter(name => name.trim() !== '');
+            document.getElementById('generate-links-btn').addEventListener('click', () => {
+                const names = document.getElementById('guest-list-input').value.split('\n').filter(name => name.trim() !== '');
+                const linksOutput = document.getElementById('links-output');
                 if (names.length === 0) {
                     linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
                     return;
                 }
                 const baseUrl = window.location.href.split('?')[0];
-                let htmlOutput = '';
-                names.forEach(name => {
+                linksOutput.innerHTML = names.map(name => {
                     const trimmedName = name.trim();
                     const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}&effect=${selectedEffectId}`;
-                    
-                    const invitationText = `*Bismillahirahmanirrahim*\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\n\n**Junior Habib R. Harun**\n\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\n\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\n\n🔗 ${fullUrl}\n\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
-
-                    htmlOutput += `
+                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}&effect=${selectedEffectId}&song=${selectedSongId}`;
+                    const invitationText = `*Bismillahirahmanirrahim*\\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\\n\\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\\n\\n**Junior Habib R. Harun**\\n\\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\\n\\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\\n\\n🔗 ${fullUrl}\\n\\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\\n\\nHormat kami,\\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
+                    return `
                         <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
                             <p class="font-semibold text-xs">${trimmedName}</p>
                             <div class="flex items-center mt-1">
                                 <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
                                 <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
-                                <button onclick="copyToClipboard(\`${invitationText.replace(/`/g, '\\`')}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
+                                <button onclick="copyToClipboard('${invitationText.replace(/'/g, "\\'")}', this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
                             </div>
                         </div>`;
-                });
-                linksOutput.innerHTML = htmlOutput;
+                }).join('');
             });
 
             document.querySelectorAll('.font-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedFontId = this.dataset.fontId;
-                    applyFont(selectedFontId);
-                });
+                button.addEventListener('click', function() { selectedFontId = this.dataset.fontId; applyFont(selectedFontId); });
             });
             document.querySelectorAll('.color-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedColorId = this.dataset.colorId;
-                    applyColor(selectedColorId);
-                });
+                button.addEventListener('click', function() { selectedColorId = this.dataset.colorId; applyColor(selectedColorId); });
             });
             document.querySelectorAll('.song-button').forEach(button => {
                 button.addEventListener('click', function() {
@@ -977,53 +919,36 @@
                     isSequencePlaying = false;
                     audio.removeEventListener('ended', playNextSongInSequence);
                     audio.loop = true;
-
                     selectedSongId = this.dataset.songId;
                     applySong(selectedSongId);
                 });
             });
-             document.querySelectorAll('.effect-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedEffectId = this.dataset.effectId;
-                    applyEffect(selectedEffectId);
-                });
+            document.querySelectorAll('.effect-button').forEach(button => {
+                button.addEventListener('click', function() { selectedEffectId = this.dataset.effectId; applyEffect(selectedEffectId); });
             });
             
             document.querySelectorAll('.preview-button').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const songId = this.dataset.songId;
-                    const songUrl = songMap[songId];
-                    
                     if (currentPreviewId === songId && !previewAudio.paused) {
                         previewAudio.pause();
                     } else {
                         currentPreviewId = songId;
-                        previewAudio.src = songUrl;
-                        previewAudio.play().catch(err => {
-                            if (err.name !== 'AbortError') {
-                                console.error("Preview play failed:", err);
-                            }
-                        });
+                        previewAudio.src = songMap[songId];
+                        previewAudio.play().catch(err => console.error("Preview play failed:", err));
                     }
                 });
             });
 
-            previewAudio.onplay = function() {
+            previewAudio.onplay = () => {
                 document.querySelectorAll('.preview-button').forEach(btn => {
-                    const playIcon = btn.querySelector('.preview-icon-play');
-                    const pauseIcon = btn.querySelector('.preview-icon-pause');
-                    if (btn.dataset.songId === currentPreviewId) {
-                        playIcon.classList.add('hidden');
-                        pauseIcon.classList.remove('hidden');
-                    } else {
-                        playIcon.classList.remove('hidden');
-                        pauseIcon.classList.add('hidden');
-                    }
+                    const isCurrent = btn.dataset.songId === currentPreviewId;
+                    btn.querySelector('.preview-icon-play').classList.toggle('hidden', isCurrent);
+                    btn.querySelector('.preview-icon-pause').classList.toggle('hidden', !isCurrent);
                 });
             };
-
-            previewAudio.onpause = function() {
+            previewAudio.onpause = () => {
                 currentPreviewId = null;
                 document.querySelectorAll('.preview-button').forEach(btn => {
                     btn.querySelector('.preview-icon-play').classList.remove('hidden');
@@ -1031,50 +956,34 @@
                 });
             };
 
-
             document.querySelectorAll('.comment-template-btn').forEach(button => {
                 button.addEventListener('click', function() {
-                    const messageInput = document.getElementById('comment-message');
-                    if(messageInput) {
-                        messageInput.value = this.textContent;
+                    if(document.getElementById('comment-message')) {
+                        document.getElementById('comment-message').value = this.textContent;
                     }
                 });
             });
 
-            // Letter animation logic
-            const animatedHeaders = document.querySelectorAll('.animate-letters');
-            animatedHeaders.forEach(header => {
+            // Animasi huruf
+            document.querySelectorAll('.animate-letters').forEach(header => {
                 header.innerHTML = header.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-            });
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        anime.timeline({
-                            targets: entry.target.querySelectorAll('.letter'),
-                            easing: 'easeOutExpo',
-                            duration: 1000,
-                            delay: anime.stagger(100)
-                        })
-                        .add({
-                            opacity: [0, 1],
-                            translateY: [20, 0]
-                        });
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            animatedHeaders.forEach(header => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            anime.timeline({ targets: entry.target.querySelectorAll('.letter'), easing: 'easeOutExpo', duration: 1000, delay: anime.stagger(100) })
+                            .add({ opacity: [0, 1], translateY: [20, 0] });
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
                 observer.observe(header);
             });
         });
 
         function copyToClipboard(text, button) {
             const textArea = document.createElement("textarea");
-            textArea.value = text;
+            textArea.value = text.replace(/\\n/g, '\n');
             document.body.appendChild(textArea);
-            textArea.focus();
             textArea.select();
             try {
                 document.execCommand('copy');
@@ -1091,1327 +1000,5 @@
             document.body.removeChild(textArea);
         }
     </script>
-    <script type="module">
-        // Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        
-        const userFirebaseConfig = {
-          apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
-          authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
-          projectId: "undangan-digital-saya-b970e",
-          storageBucket: "undangan-digital-saya-b970e.appspot.com",
-          messagingSenderId: "776870269876",
-          appId: "1:776870269876:web:760c755c643ab95bbe58e1"
-        };
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
-
-        try {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-
-            let allComments = [];
-            let commentLoopInterval = null;
-            let currentReviewIndex = 0;
-
-            function setupGuestbook() {
-                const commentForm = document.getElementById('comment-form');
-                const commentSubmitBtn = document.getElementById('comment-submit-btn');
-                const commentsList = document.getElementById('comments-list');
-                const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
-                const reviewCommentContainer = document.getElementById('review-comment-container');
-                const reviewCommentText = document.getElementById('review-comment-text');
-
-                if(commentSubmitBtn) {
-                    commentSubmitBtn.disabled = false;
-                }
-
-                function showNextReviewComment() {
-                    if (allComments.length === 0) {
-                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                        return;
-                    }
-                    
-                    const comment = allComments[currentReviewIndex];
-                    const shortMessage = comment.message.length > 50 ? comment.message.substring(0, 50) + '...' : comment.message;
-                    
-                    reviewCommentText.classList.remove('quote-enter');
-                    reviewCommentText.classList.add('quote-exit');
-                    
-                    setTimeout(() => {
-                        reviewCommentText.innerHTML = `<b>${comment.name}</b>: ${shortMessage}`;
-                        reviewCommentText.classList.remove('quote-exit');
-                        reviewCommentText.classList.add('quote-enter');
-                    }, 1000); // Tunggu animasi fadeOut selesai
-
-                    currentReviewIndex = (currentReviewIndex + 1) % allComments.length;
-                }
-                
-                function startReviewCommentLoop() {
-                    if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    
-                    if (allComments.length > 0) {
-                        showNextReviewComment(); // Tampilkan komentar pertama segera
-                    } else {
-                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                    }
-                    
-                    commentLoopInterval = setInterval(() => {
-                        const coverElement = document.getElementById('cover');
-                        if (allComments.length > 0 && coverElement && window.getComputedStyle(coverElement).display !== 'none') {
-                            showNextReviewComment();
-                        } else {
-                            if (commentLoopInterval) {
-                                clearInterval(commentLoopInterval);
-                                commentLoopInterval = null;
-                            }
-                        }
-                    }, 5000); // Ganti komentar setiap 5 detik
-                }
-                
-                document.getElementById('open-invitation').addEventListener('click', () => {
-                    if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    commentLoopInterval = null;
-                });
-
-                const q = query(commentsCollection);
-                onSnapshot(q, (snapshot) => {
-                    commentsList.innerHTML = '';
-                    const comments = [];
-                    
-                    snapshot.forEach(doc => {
-                        comments.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    allComments = comments;
-
-                    if (!commentLoopInterval) {
-                        startReviewCommentLoop();
-                    }
-
-                    comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-
-                    const groupedComments = {};
-                    comments.forEach(comment => {
-                        if (!comment.timestamp || !comment.name) return;
-                        const date = new Date(comment.timestamp.seconds * 1000);
-                        const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-                        const key = `${comment.name}_${dateString}`;
-                        if (!groupedComments[key]) {
-                            groupedComments[key] = {
-                                name: comment.name,
-                                date: dateString,
-                                messages: [],
-                                latestTimestamp: comment.timestamp.seconds
-                            };
-                        }
-                        groupedComments[key].messages.unshift(escapeHTML(comment.message));
-                    });
-
-                    const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
-
-                    sortedGroups.forEach(group => {
-                        const groupElement = document.createElement('div');
-                        groupElement.className = 'bg-slate-100 p-4 rounded-lg';
-                        const messagesHTML = group.messages.map(message => 
-                            `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
-                        ).join('');
-
-                        groupElement.innerHTML = `
-                            <div class="flex justify-between items-center mb-2">
-                                <p class="font-bold text-slate-800">${escapeHTML(group.name)}</p>
-                                <p class="text-xs text-slate-500">${group.date}</p>
-                            </div>
-                            <div>${messagesHTML}</div>
-                        `;
-                        commentsList.appendChild(groupElement);
-                    });
-                }, (error) => {
-                    console.error("Snapshot listener error:", error);
-                });
-
-                commentForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('comment-name').value.trim();
-                    const messageInput = document.getElementById('comment-message');
-                    const message = messageInput.value.trim();
-
-                    if (name && message) {
-                        commentSubmitBtn.disabled = true;
-                        commentSubmitBtn.textContent = 'Mengirim...';
-                        try {
-                            await addDoc(commentsCollection, {
-                                name: name,
-                                message: message,
-                                timestamp: serverTimestamp()
-                            });
-                            messageInput.value = '';
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                        } finally {
-                            commentSubmitBtn.disabled = false;
-                            commentSubmitBtn.textContent = 'Kirim Ucapan';
-                        }
-                    }
-                });
-            }
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    setupGuestbook();
-                }
-            });
-            
-            (async () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const guestName = urlParams.get('to');
-                const adminButtons = document.getElementById('admin-buttons');
-                const guestInfo = document.getElementById('guest-info');
-                
-                if (guestName) {
-                    adminButtons.classList.add('hidden');
-                    guestInfo.classList.remove('hidden');
-                    guestNameEl.textContent = guestName.replace(/\+/g, ' ');
-                    if (commentNameInput) commentNameInput.value = guestName.replace(/\+/g, ' ');
-                } else {
-                    adminButtons.classList.remove('hidden');
-                    guestInfo.classList.add('hidden');
-                }
-
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            })().catch(error => {
-                console.error("Authentication failed:", error);
-            });
-
-        } catch (e) {
-            console.error("Error initializing Firebase:", e);
-        }
-        
-        function escapeHTML(str) {
-            return str.replace(/[&<>"']/g, function(match) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
-            });
-        }
-    </script>
-    <script>
-        // General UI Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ 
-                duration: 1000, 
-                once: true,
-                offset: 120 
-            });
-
-            const eventDate = "2025-08-23T08:00:00";
-            const cover = document.getElementById('cover');
-            const mainContent = document.getElementById('main-content');
-            const openInvitationButton = document.getElementById('open-invitation');
-            const fontToggleButton = document.getElementById('font-toggle-button');
-            const linkToggleButton = document.getElementById('link-toggle-button');
-            const songToggleButton = document.getElementById('song-toggle-button');
-            const effectToggleButton = document.getElementById('effect-toggle-button');
-            const coverFontPanel = document.getElementById('cover-font-panel');
-            const coverLinkPanel = document.getElementById('cover-link-panel');
-            const coverSongPanel = document.getElementById('cover-song-panel');
-            const coverEffectPanel = document.getElementById('cover-effect-panel');
-            const guestNameEl = document.getElementById('guest-name');
-            const audio = document.getElementById('bg-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIconPlay = document.getElementById('music-icon-play');
-            const musicIconPause = document.getElementById('music-icon-pause');
-            const commentNameInput = document.getElementById('comment-name');
-            const fullscreenToggle = document.getElementById('fullscreen-toggle');
-            const fullscreenIconEnter = document.getElementById('fullscreen-icon-enter');
-            const fullscreenIconExit = document.getElementById('fullscreen-icon-exit');
-            const guestInfoEl = document.getElementById('guest-info');
-            
-            const previewAudio = document.getElementById('preview-audio');
-
-            let selectedFontId = 'playfair';
-            let selectedColorId = 'white';
-            let selectedSongId = 'song3'; 
-            let selectedEffectId = 'none';
-            let effectInterval;
-            let currentPreviewId = null;
-
-            const fontMap = {
-                'playfair': "'Playfair Display', serif", 'merriweather': "'Merriweather', serif", 
-                'greatvibes': "'Great Vibes', cursive", 'sacramento': "'Sacramento', cursive", 
-                'dancingscript': "'Dancing Script', cursive", 'caveat': "'Caveat', cursive", 
-                'tangerine': "'Tangerine', cursive", 'cinzel': "'Cinzel Decorative', serif",
-                'alexbrush': "'Alex Brush', cursive", 'cormorant': "'Cormorant Garamond', serif"
-            };
-            const colorMap = {
-                'white': '#FFFFFF', 'gold': '#FBBF24', 'silver': '#D1D5DB',
-                'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC', 'lightpink': '#F9A8D4'
-            };
-            const songMap = {
-                'song1': 'https://files.catbox.moe/18l2h9.mp3',
-                'song2': 'https://files.catbox.moe/51rfqh.mp3',
-                'song3': 'https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3',
-                'song4': 'https://ia902806.us.archive.org/28/items/SABYAN-DEENASSALAM/SABYAN%20-%20DEEN%20ASSALAM.mp3'
-            };
-
-            const playlist = ['song3', 'song4'];
-            let currentSongIndex = 0;
-            let isSequencePlaying = false;
-
-            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
-
-            function applyFont(fontId) {
-                const fontFamily = fontMap[fontId];
-                if (fontFamily) {
-                    targetNamaElements.forEach(el => el.style.fontFamily = fontFamily);
-                    document.querySelectorAll('.font-button').forEach(btn => btn.classList.toggle('active', btn.dataset.fontId === fontId));
-                }
-            }
-
-            function applyColor(colorId) {
-                const color = colorMap[colorId];
-                if (color) {
-                    targetNamaElements.forEach(el => el.style.color = color);
-                    document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
-                }
-            }
-            
-            function playNextSongInSequence() {
-                currentSongIndex = (currentSongIndex + 1) % playlist.length;
-                const nextSongId = playlist[currentSongIndex];
-                audio.src = songMap[nextSongId];
-                audio.play().catch(e => console.error("Error playing next song:", e));
-                document.querySelectorAll('.song-button').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.songId === nextSongId);
-                });
-            }
-
-            function applyEffect(effectId) {
-                 document.querySelectorAll('.effect-button').forEach(btn => btn.classList.toggle('active', btn.dataset.effectId === effectId));
-            }
-
-            function runEffect(effectId) {
-                clearInterval(effectInterval);
-                if (effectId === 'none') return;
-
-                const myCanvas = document.getElementById('effect-canvas');
-                const myConfetti = confetti.create(myCanvas, {
-                    resize: true,
-                    useWorker: true
-                });
-
-                if (effectId === 'glitter') {
-                    effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 30,
-                            startVelocity: 20,
-                            spread: 360,
-                            origin: { x: Math.random(), y: Math.random() - 0.2 },
-                            colors: ['#FFC700', '#FFD700', '#FFFFFF', '#F0F0F0']
-                        });
-                    }, 800);
-                } else if (effectId === 'flowers') {
-                     effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 10,
-                            angle: 90,
-                            spread: 70,
-                            origin: { y: -0.1, x: Math.random() },
-                            shapes: ['emoji'],
-                            shapeOptions: {
-                                emoji: { value: ['🌸', '🌼', '🌷'] }
-                            },
-                            gravity: 0.3,
-                            drift: Math.random() * 0.4 - 0.2,
-                            scalar: 1.2
-                        });
-                    }, 1000);
-                } else if (effectId === 'leaves') {
-                     effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 10,
-                            angle: 90,
-                            spread: 120,
-                            origin: { y: -0.1, x: Math.random() },
-                            shapes: ['emoji'],
-                            shapeOptions: {
-                                emoji: { value: ['🍂', '🍁'] }
-                            },
-                            gravity: 0.2,
-                            drift: Math.random() * 0.6 - 0.3,
-                            scalar: 1.1
-                        });
-                    }, 1200);
-                }
-            }
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to');
-            const fontParam = urlParams.get('font');
-            const colorParam = urlParams.get('color');
-            const effectParam = urlParams.get('effect');
-            const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
-
-            // Menampilkan bagian nama tamu hanya jika parameter 'to' ada di URL
-            if (guestName) {
-                guestInfoEl.classList.remove('hidden');
-                guestNameEl.textContent = guestNameDecoded;
-            } else {
-                guestInfoEl.classList.add('hidden');
-            }
-
-            if (commentNameInput) {
-                commentNameInput.value = guestNameDecoded;
-            }
-
-            if (fontParam && fontMap[fontParam]) {
-                selectedFontId = fontParam;
-                applyFont(selectedFontId);
-            }
-             if (colorParam && colorMap[colorParam]) {
-                selectedColorId = colorParam;
-                applyColor(selectedColorId);
-            }
-            if (effectParam) {
-                selectedEffectId = effectParam;
-                applyEffect(selectedEffectId);
-            }
-
-            function showInvitation() {
-                previewAudio.pause(); 
-                cover.style.transition = 'opacity 1s, transform 1s';
-                cover.style.opacity = '0';
-                cover.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cover.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'auto';
-                    
-                    isSequencePlaying = true;
-                    audio.loop = false; 
-                    audio.addEventListener('ended', playNextSongInSequence);
-                    audio.play().catch(error => console.log("Autoplay was prevented.", error));
-
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                    runEffect(selectedEffectId);
-                    AOS.refresh();
-                }, 1000);
-            }
-
-            openInvitationButton.addEventListener('click', showInvitation);
-
-            const hideAllPanels = () => {
-                coverFontPanel.style.display = 'none';
-                coverLinkPanel.style.display = 'none';
-                coverSongPanel.style.display = 'none';
-                coverEffectPanel.style.display = 'none';
-            };
-
-            fontToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverFontPanel.style.display = 'block';
-            });
-            linkToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverLinkPanel.style.display = 'block';
-            });
-            songToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverSongPanel.style.display = 'block';
-            });
-            effectToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverEffectPanel.style.display = 'block';
-            });
-
-
-            musicToggle.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    musicIconPlay.classList.remove('hidden');
-                    musicIconPause.classList.add('hidden');
-                }
-            });
-
-            function toggleFullScreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                    });
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
-
-            fullscreenToggle.addEventListener('click', toggleFullScreen);
-
-            document.addEventListener('fullscreenchange', () => {
-                if (document.fullscreenElement) {
-                    fullscreenIconEnter.classList.add('hidden');
-                    fullscreenIconExit.classList.remove('hidden');
-                } else {
-                    fullscreenIconEnter.classList.remove('hidden');
-                    fullscreenIconExit.classList.add('hidden');
-                }
-            });
-
-            const countdown = () => {
-                const targetDate = new Date(eventDate).getTime();
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-                if (distance < 0) {
-                    document.getElementById('countdown').innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
-                    return;
-                }
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('days').innerText = String(days).padStart(2, '0');
-                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-            };
-            setInterval(countdown, 1000);
-            countdown();
-
-            const generateBtn = document.getElementById('generate-links-btn');
-            const guestListInput = document.getElementById('guest-list-input');
-            const linksOutput = document.getElementById('links-output');
-            generateBtn.addEventListener('click', () => {
-                const names = guestListInput.value.split('\n').filter(name => name.trim() !== '');
-                if (names.length === 0) {
-                    linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
-                    return;
-                }
-                const baseUrl = window.location.href.split('?')[0];
-                let htmlOutput = '';
-                names.forEach(name => {
-                    const trimmedName = name.trim();
-                    const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}&effect=${selectedEffectId}`;
-                    
-                    const invitationText = `*Bismillahirahmanirrahim*\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\n\n**Junior Habib R. Harun**\n\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\n\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\n\n🔗 ${fullUrl}\n\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
-
-                    htmlOutput += `
-                        <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
-                            <p class="font-semibold text-xs">${trimmedName}</p>
-                            <div class="flex items-center mt-1">
-                                <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
-                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
-                                <button onclick="copyToClipboard(\`${invitationText.replace(/`/g, '\\`')}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
-                            </div>
-                        </div>`;
-                });
-                linksOutput.innerHTML = htmlOutput;
-            });
-
-            document.querySelectorAll('.font-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedFontId = this.dataset.fontId;
-                    applyFont(selectedFontId);
-                });
-            });
-            document.querySelectorAll('.color-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedColorId = this.dataset.colorId;
-                    applyColor(selectedColorId);
-                });
-            });
-            document.querySelectorAll('.song-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    previewAudio.pause();
-                    isSequencePlaying = false;
-                    audio.removeEventListener('ended', playNextSongInSequence);
-                    audio.loop = true;
-
-                    selectedSongId = this.dataset.songId;
-                    applySong(selectedSongId);
-                });
-            });
-             document.querySelectorAll('.effect-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedEffectId = this.dataset.effectId;
-                    applyEffect(selectedEffectId);
-                });
-            });
-            
-            document.querySelectorAll('.preview-button').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const songId = this.dataset.songId;
-                    const songUrl = songMap[songId];
-                    
-                    if (currentPreviewId === songId && !previewAudio.paused) {
-                        previewAudio.pause();
-                    } else {
-                        currentPreviewId = songId;
-                        previewAudio.src = songUrl;
-                        previewAudio.play().catch(err => {
-                            if (err.name !== 'AbortError') {
-                                console.error("Preview play failed:", err);
-                            }
-                        });
-                    }
-                });
-            });
-
-            previewAudio.onplay = function() {
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    const playIcon = btn.querySelector('.preview-icon-play');
-                    const pauseIcon = btn.querySelector('.preview-icon-pause');
-                    if (btn.dataset.songId === currentPreviewId) {
-                        playIcon.classList.add('hidden');
-                        pauseIcon.classList.remove('hidden');
-                    } else {
-                        playIcon.classList.remove('hidden');
-                        pauseIcon.classList.add('hidden');
-                    }
-                });
-            };
-
-            previewAudio.onpause = function() {
-                currentPreviewId = null;
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    btn.querySelector('.preview-icon-play').classList.remove('hidden');
-                    btn.querySelector('.preview-icon-pause').classList.add('hidden');
-                });
-            };
-
-
-            document.querySelectorAll('.comment-template-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const messageInput = document.getElementById('comment-message');
-                    if(messageInput) {
-                        messageInput.value = this.textContent;
-                    }
-                });
-            });
-
-            // Letter animation logic
-            const animatedHeaders = document.querySelectorAll('.animate-letters');
-            animatedHeaders.forEach(header => {
-                header.innerHTML = header.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-            });
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        anime.timeline({
-                            targets: entry.target.querySelectorAll('.letter'),
-                            easing: 'easeOutExpo',
-                            duration: 1000,
-                            delay: anime.stagger(100)
-                        })
-                        .add({
-                            opacity: [0, 1],
-                            translateY: [20, 0]
-                        });
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            animatedHeaders.forEach(header => {
-                observer.observe(header);
-            });
-        });
-
-        function copyToClipboard(text, button) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                const originalText = button.textContent;
-                button.textContent = 'Disalin!';
-                button.classList.add('bg-green-600');
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('bg-green-600');
-                }, 1500);
-            } catch (err) {
-                console.error('Gagal menyalin:', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
-    <script type="module">
-        // Firebase SDK
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-        
-        const userFirebaseConfig = {
-          apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
-          authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
-          projectId: "undangan-digital-saya-b970e",
-          storageBucket: "undangan-digital-saya-b970e.appspot.com",
-          messagingSenderId: "776870269876",
-          appId: "1:776870269876:web:760c755c643ab95bbe58e1"
-        };
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
-
-        try {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-
-            let allComments = [];
-            let commentLoopInterval = null;
-            let currentReviewIndex = 0;
-
-            function setupGuestbook() {
-                const commentForm = document.getElementById('comment-form');
-                const commentSubmitBtn = document.getElementById('comment-submit-btn');
-                const commentsList = document.getElementById('comments-list');
-                const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
-                const reviewCommentContainer = document.getElementById('review-comment-container');
-                const reviewCommentText = document.getElementById('review-comment-text');
-
-                if(commentSubmitBtn) {
-                    commentSubmitBtn.disabled = false;
-                }
-
-                function showNextReviewComment() {
-                    if (allComments.length === 0) {
-                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                        return;
-                    }
-                    
-                    const comment = allComments[currentReviewIndex];
-                    const shortMessage = comment.message.length > 50 ? comment.message.substring(0, 50) + '...' : comment.message;
-                    
-                    // Keluar dari komentar saat ini dengan animasi
-                    reviewCommentText.classList.remove('quote-enter');
-                    reviewCommentText.classList.add('quote-exit');
-                    
-                    setTimeout(() => {
-                        reviewCommentText.innerHTML = `<b>${comment.name}</b>: ${shortMessage}`;
-                        reviewCommentText.classList.remove('quote-exit');
-                        reviewCommentText.classList.add('quote-enter');
-                    }, 1000); // Tunggu animasi fadeOut selesai
-
-                    currentReviewIndex = (currentReviewIndex + 1) % allComments.length;
-                }
-                
-                function startReviewCommentLoop() {
-                    if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    
-                    if (allComments.length > 0) {
-                        showNextReviewComment(); // Tampilkan komentar pertama segera
-                    } else {
-                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                    }
-                    
-                    commentLoopInterval = setInterval(() => {
-                        const coverElement = document.getElementById('cover');
-                        if (allComments.length > 0 && coverElement && window.getComputedStyle(coverElement).display !== 'none') {
-                            showNextReviewComment();
-                        } else {
-                            if (commentLoopInterval) {
-                                clearInterval(commentLoopInterval);
-                                commentLoopInterval = null;
-                            }
-                        }
-                    }, 5000); // Ganti komentar setiap 5 detik
-                }
-                
-                document.getElementById('open-invitation').addEventListener('click', () => {
-                    if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    commentLoopInterval = null;
-                });
-
-                const q = query(commentsCollection);
-                onSnapshot(q, (snapshot) => {
-                    commentsList.innerHTML = '';
-                    const comments = [];
-                    
-                    snapshot.forEach(doc => {
-                        comments.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    allComments = comments;
-
-                    if (!commentLoopInterval) {
-                        startReviewCommentLoop();
-                    }
-
-                    comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-
-                    const groupedComments = {};
-                    comments.forEach(comment => {
-                        if (!comment.timestamp || !comment.name) return;
-                        const date = new Date(comment.timestamp.seconds * 1000);
-                        const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-                        const key = `${comment.name}_${dateString}`;
-                        if (!groupedComments[key]) {
-                            groupedComments[key] = {
-                                name: comment.name,
-                                date: dateString,
-                                messages: [],
-                                latestTimestamp: comment.timestamp.seconds
-                            };
-                        }
-                        groupedComments[key].messages.unshift(escapeHTML(comment.message));
-                    });
-
-                    const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
-
-                    sortedGroups.forEach(group => {
-                        const groupElement = document.createElement('div');
-                        groupElement.className = 'bg-slate-100 p-4 rounded-lg';
-                        const messagesHTML = group.messages.map(message => 
-                            `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
-                        ).join('');
-
-                        groupElement.innerHTML = `
-                            <div class="flex justify-between items-center mb-2">
-                                <p class="font-bold text-slate-800">${escapeHTML(group.name)}</p>
-                                <p class="text-xs text-slate-500">${group.date}</p>
-                            </div>
-                            <div>${messagesHTML}</div>
-                        `;
-                        commentsList.appendChild(groupElement);
-                    });
-                }, (error) => {
-                    console.error("Snapshot listener error:", error);
-                });
-
-                commentForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('comment-name').value.trim();
-                    const messageInput = document.getElementById('comment-message');
-                    const message = messageInput.value.trim();
-
-                    if (name && message) {
-                        commentSubmitBtn.disabled = true;
-                        commentSubmitBtn.textContent = 'Mengirim...';
-                        try {
-                            await addDoc(commentsCollection, {
-                                name: name,
-                                message: message,
-                                timestamp: serverTimestamp()
-                            });
-                            messageInput.value = '';
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                        } finally {
-                            commentSubmitBtn.disabled = false;
-                            commentSubmitBtn.textContent = 'Kirim Ucapan';
-                        }
-                    }
-                });
-            }
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    setupGuestbook();
-                }
-            });
-            
-            (async () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const guestName = urlParams.get('to');
-                const adminButtons = document.getElementById('admin-buttons');
-                const guestInfo = document.getElementById('guest-info');
-                
-                if (guestName) {
-                    adminButtons.classList.add('hidden');
-                    guestInfo.classList.remove('hidden');
-                    guestNameEl.textContent = guestName.replace(/\+/g, ' ');
-                    if (commentNameInput) commentNameInput.value = guestName.replace(/\+/g, ' ');
-                } else {
-                    adminButtons.classList.remove('hidden');
-                    guestInfo.classList.add('hidden');
-                }
-
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            })().catch(error => {
-                console.error("Authentication failed:", error);
-            });
-
-        } catch (e) {
-            console.error("Error initializing Firebase:", e);
-        }
-        
-        function escapeHTML(str) {
-            return str.replace(/[&<>"']/g, function(match) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
-            });
-        }
-    </script>
-    <script>
-        // General UI Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ 
-                duration: 1000, 
-                once: true,
-                offset: 120 
-            });
-
-            const eventDate = "2025-08-23T08:00:00";
-            const cover = document.getElementById('cover');
-            const mainContent = document.getElementById('main-content');
-            const openInvitationButton = document.getElementById('open-invitation');
-            const fontToggleButton = document.getElementById('font-toggle-button');
-            const linkToggleButton = document.getElementById('link-toggle-button');
-            const songToggleButton = document.getElementById('song-toggle-button');
-            const effectToggleButton = document.getElementById('effect-toggle-button');
-            const coverFontPanel = document.getElementById('cover-font-panel');
-            const coverLinkPanel = document.getElementById('cover-link-panel');
-            const coverSongPanel = document.getElementById('cover-song-panel');
-            const coverEffectPanel = document.getElementById('cover-effect-panel');
-            const guestNameEl = document.getElementById('guest-name');
-            const audio = document.getElementById('bg-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIconPlay = document.getElementById('music-icon-play');
-            const musicIconPause = document.getElementById('music-icon-pause');
-            const commentNameInput = document.getElementById('comment-name');
-            const fullscreenToggle = document.getElementById('fullscreen-toggle');
-            const fullscreenIconEnter = document.getElementById('fullscreen-icon-enter');
-            const fullscreenIconExit = document.getElementById('fullscreen-icon-exit');
-            const guestInfoEl = document.getElementById('guest-info');
-            
-            const previewAudio = document.getElementById('preview-audio');
-
-            let selectedFontId = 'playfair';
-            let selectedColorId = 'white';
-            let selectedSongId = 'song3'; 
-            let selectedEffectId = 'none';
-            let effectInterval;
-            let currentPreviewId = null;
-
-            const fontMap = {
-                'playfair': "'Playfair Display', serif", 'merriweather': "'Merriweather', serif", 
-                'greatvibes': "'Great Vibes', cursive", 'sacramento': "'Sacramento', cursive", 
-                'dancingscript': "'Dancing Script', cursive", 'caveat': "'Caveat', cursive", 
-                'tangerine': "'Tangerine', cursive", 'cinzel': "'Cinzel Decorative', serif",
-                'alexbrush': "'Alex Brush', cursive", 'cormorant': "'Cormorant Garamond', serif"
-            };
-            const colorMap = {
-                'white': '#FFFFFF', 'gold': '#FBBF24', 'silver': '#D1D5DB',
-                'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC', 'lightpink': '#F9A8D4'
-            };
-            const songMap = {
-                'song1': 'https://files.catbox.moe/18l2h9.mp3',
-                'song2': 'https://files.catbox.moe/51rfqh.mp3',
-                'song3': 'https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3',
-                'song4': 'https://ia902806.us.archive.org/28/items/SABYAN-DEENASSALAM/SABYAN%20-%20DEEN%20ASSALAM.mp3'
-            };
-
-            const playlist = ['song3', 'song4'];
-            let currentSongIndex = 0;
-            let isSequencePlaying = false;
-
-            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
-
-            function applyFont(fontId) {
-                const fontFamily = fontMap[fontId];
-                if (fontFamily) {
-                    targetNamaElements.forEach(el => el.style.fontFamily = fontFamily);
-                    document.querySelectorAll('.font-button').forEach(btn => btn.classList.toggle('active', btn.dataset.fontId === fontId));
-                }
-            }
-
-            function applyColor(colorId) {
-                const color = colorMap[colorId];
-                if (color) {
-                    targetNamaElements.forEach(el => el.style.color = color);
-                    document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
-                }
-            }
-            
-            function playNextSongInSequence() {
-                currentSongIndex = (currentSongIndex + 1) % playlist.length;
-                const nextSongId = playlist[currentSongIndex];
-                audio.src = songMap[nextSongId];
-                audio.play().catch(e => console.error("Error playing next song:", e));
-                document.querySelectorAll('.song-button').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.songId === nextSongId);
-                });
-            }
-
-            function applyEffect(effectId) {
-                 document.querySelectorAll('.effect-button').forEach(btn => btn.classList.toggle('active', btn.dataset.effectId === effectId));
-            }
-
-            function runEffect(effectId) {
-                clearInterval(effectInterval);
-                if (effectId === 'none') return;
-
-                const myCanvas = document.getElementById('effect-canvas');
-                const myConfetti = confetti.create(myCanvas, {
-                    resize: true,
-                    useWorker: true
-                });
-
-                if (effectId === 'glitter') {
-                    effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 30,
-                            startVelocity: 20,
-                            spread: 360,
-                            origin: { x: Math.random(), y: Math.random() - 0.2 },
-                            colors: ['#FFC700', '#FFD700', '#FFFFFF', '#F0F0F0']
-                        });
-                    }, 800);
-                } else if (effectId === 'flowers') {
-                     effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 10,
-                            angle: 90,
-                            spread: 70,
-                            origin: { y: -0.1, x: Math.random() },
-                            shapes: ['emoji'],
-                            shapeOptions: {
-                                emoji: { value: ['🌸', '🌼', '🌷'] }
-                            },
-                            gravity: 0.3,
-                            drift: Math.random() * 0.4 - 0.2,
-                            scalar: 1.2
-                        });
-                    }, 1000);
-                } else if (effectId === 'leaves') {
-                     effectInterval = setInterval(() => {
-                        myConfetti({
-                            particleCount: 10,
-                            angle: 90,
-                            spread: 120,
-                            origin: { y: -0.1, x: Math.random() },
-                            shapes: ['emoji'],
-                            shapeOptions: {
-                                emoji: { value: ['🍂', '🍁'] }
-                            },
-                            gravity: 0.2,
-                            drift: Math.random() * 0.6 - 0.3,
-                            scalar: 1.1
-                        });
-                    }, 1200);
-                }
-            }
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to');
-            const fontParam = urlParams.get('font');
-            const colorParam = urlParams.get('color');
-            const effectParam = urlParams.get('effect');
-            const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
-
-            // Menampilkan bagian nama tamu hanya jika parameter 'to' ada di URL
-            if (guestName) {
-                guestInfoEl.classList.remove('hidden');
-                guestNameEl.textContent = guestNameDecoded;
-            } else {
-                guestInfoEl.classList.add('hidden');
-            }
-
-            if (commentNameInput) {
-                commentNameInput.value = guestNameDecoded;
-            }
-
-            if (fontParam && fontMap[fontParam]) {
-                selectedFontId = fontParam;
-                applyFont(selectedFontId);
-            }
-             if (colorParam && colorMap[colorParam]) {
-                selectedColorId = colorParam;
-                applyColor(selectedColorId);
-            }
-            if (effectParam) {
-                selectedEffectId = effectParam;
-                applyEffect(selectedEffectId);
-            }
-
-            function showInvitation() {
-                previewAudio.pause(); 
-                cover.style.transition = 'opacity 1s, transform 1s';
-                cover.style.opacity = '0';
-                cover.style.transform = 'scale(1.2)';
-                setTimeout(() => {
-                    cover.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'auto';
-                    
-                    isSequencePlaying = true;
-                    audio.loop = false; 
-                    audio.addEventListener('ended', playNextSongInSequence);
-                    audio.play().catch(error => console.log("Autoplay was prevented.", error));
-
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                    runEffect(selectedEffectId);
-                    AOS.refresh();
-                }, 1000);
-            }
-
-            openInvitationButton.addEventListener('click', showInvitation);
-
-            const hideAllPanels = () => {
-                coverFontPanel.style.display = 'none';
-                coverLinkPanel.style.display = 'none';
-                coverSongPanel.style.display = 'none';
-                coverEffectPanel.style.display = 'none';
-            };
-
-            fontToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverFontPanel.style.display = 'block';
-            });
-            linkToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverLinkPanel.style.display = 'block';
-            });
-            songToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverSongPanel.style.display = 'block';
-            });
-            effectToggleButton.addEventListener('click', () => {
-                hideAllPanels();
-                coverEffectPanel.style.display = 'block';
-            });
-
-
-            musicToggle.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    musicIconPlay.classList.remove('hidden');
-                    musicIconPause.classList.add('hidden');
-                }
-            });
-
-            function toggleFullScreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                    });
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
-
-            fullscreenToggle.addEventListener('click', toggleFullScreen);
-
-            document.addEventListener('fullscreenchange', () => {
-                if (document.fullscreenElement) {
-                    fullscreenIconEnter.classList.add('hidden');
-                    fullscreenIconExit.classList.remove('hidden');
-                } else {
-                    fullscreenIconEnter.classList.remove('hidden');
-                    fullscreenIconExit.classList.add('hidden');
-                }
-            });
-
-            const countdown = () => {
-                const targetDate = new Date(eventDate).getTime();
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-                if (distance < 0) {
-                    document.getElementById('countdown').innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
-                    return;
-                }
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById('days').innerText = String(days).padStart(2, '0');
-                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-            };
-            setInterval(countdown, 1000);
-            countdown();
-
-            const generateBtn = document.getElementById('generate-links-btn');
-            const guestListInput = document.getElementById('guest-list-input');
-            const linksOutput = document.getElementById('links-output');
-            generateBtn.addEventListener('click', () => {
-                const names = guestListInput.value.split('\n').filter(name => name.trim() !== '');
-                if (names.length === 0) {
-                    linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
-                    return;
-                }
-                const baseUrl = window.location.href.split('?')[0];
-                let htmlOutput = '';
-                names.forEach(name => {
-                    const trimmedName = name.trim();
-                    const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}&effect=${selectedEffectId}`;
-                    
-                    const invitationText = `*Bismillahirahmanirrahim*\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\n\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\n\n**Junior Habib R. Harun**\n\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\n\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\n\n🔗 ${fullUrl}\n\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\n\nHormat kami,\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
-
-                    htmlOutput += `
-                        <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
-                            <p class="font-semibold text-xs">${trimmedName}</p>
-                            <div class="flex items-center mt-1">
-                                <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
-                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
-                                <button onclick="copyToClipboard(\`${invitationText.replace(/`/g, '\\`')}\`, this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
-                            </div>
-                        </div>`;
-                });
-                linksOutput.innerHTML = htmlOutput;
-            });
-
-            document.querySelectorAll('.font-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedFontId = this.dataset.fontId;
-                    applyFont(selectedFontId);
-                });
-            });
-            document.querySelectorAll('.color-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedColorId = this.dataset.colorId;
-                    applyColor(selectedColorId);
-                });
-            });
-            document.querySelectorAll('.song-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    previewAudio.pause();
-                    isSequencePlaying = false;
-                    audio.removeEventListener('ended', playNextSongInSequence);
-                    audio.loop = true;
-
-                    selectedSongId = this.dataset.songId;
-                    applySong(selectedSongId);
-                });
-            });
-             document.querySelectorAll('.effect-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    selectedEffectId = this.dataset.effectId;
-                    applyEffect(selectedEffectId);
-                });
-            });
-            
-            document.querySelectorAll('.preview-button').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const songId = this.dataset.songId;
-                    const songUrl = songMap[songId];
-                    
-                    if (currentPreviewId === songId && !previewAudio.paused) {
-                        previewAudio.pause();
-                    } else {
-                        currentPreviewId = songId;
-                        previewAudio.src = songUrl;
-                        previewAudio.play().catch(err => {
-                            if (err.name !== 'AbortError') {
-                                console.error("Preview play failed:", err);
-                            }
-                        });
-                    }
-                });
-            });
-
-            previewAudio.onplay = function() {
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    const playIcon = btn.querySelector('.preview-icon-play');
-                    const pauseIcon = btn.querySelector('.preview-icon-pause');
-                    if (btn.dataset.songId === currentPreviewId) {
-                        playIcon.classList.add('hidden');
-                        pauseIcon.classList.remove('hidden');
-                    } else {
-                        playIcon.classList.remove('hidden');
-                        pauseIcon.classList.add('hidden');
-                    }
-                });
-            };
-
-            previewAudio.onpause = function() {
-                currentPreviewId = null;
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    btn.querySelector('.preview-icon-play').classList.remove('hidden');
-                    btn.querySelector('.preview-icon-pause').classList.add('hidden');
-                });
-            };
-
-
-            document.querySelectorAll('.comment-template-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const messageInput = document.getElementById('comment-message');
-                    if(messageInput) {
-                        messageInput.value = this.textContent;
-                    }
-                });
-            });
-
-            // Letter animation logic
-            const animatedHeaders = document.querySelectorAll('.animate-letters');
-            animatedHeaders.forEach(header => {
-                header.innerHTML = header.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-            });
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        anime.timeline({
-                            targets: entry.target.querySelectorAll('.letter'),
-                            easing: 'easeOutExpo',
-                            duration: 1000,
-                            delay: anime.stagger(100)
-                        })
-                        .add({
-                            opacity: [0, 1],
-                            translateY: [20, 0]
-                        });
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            animatedHeaders.forEach(header => {
-                observer.observe(header);
-            });
-        });
-
-        function copyToClipboard(text, button) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                const originalText = button.textContent;
-                button.textContent = 'Disalin!';
-                button.classList.add('bg-green-600');
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('bg-green-600');
-                }, 1500);
-            } catch (err) {
-                console.error('Gagal menyalin:', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
-
 </body>
 </html>
