@@ -126,11 +126,27 @@
             z-index: 10;
             pointer-events: none;
         }
-
+        
+        /* Gaya baru untuk review komentar */
+        .quote-enter {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        .quote-exit {
+            animation: fadeOut 1s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
     <canvas id="effect-canvas"></canvas>
+
     <!-- ====================================================== -->
     <!-- Cover Section (Halaman Depan) -->
     <!-- ====================================================== -->
@@ -148,12 +164,19 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                 Buka Undangan
             </button>
+            
+            <!-- Tambahan: Area untuk menampilkan komentar review -->
+            <div id="review-comment-container" class="mt-8 mx-auto w-full max-w-sm">
+                <div class="bg-white/30 text-white backdrop-blur-sm px-4 py-3 rounded-lg shadow-md min-h-[50px] flex items-center justify-center">
+                    <p id="review-comment-text" class="text-sm italic">Memuat komentar...</p>
+                </div>
+            </div>
         </div>
 
         <!-- Tombol Admin Terpisah -->
         <div class="absolute bottom-5 left-5 right-5 z-20 flex justify-between items-center max-w-xs mx-auto">
             <button id="font-toggle-button" title="Pilih Font & Warna" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.828 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
             </button>
              <button id="effect-toggle-button" title="Pilih Efek" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C9.2 6.3 9 6 9 5.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M19 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5c-.2-.2-.4-.5-.4-.8v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M5 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C2.2 15.3 2 15 2 14.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/></svg>
@@ -362,7 +385,7 @@
                         </div>
                     </div>
                     <textarea id="comment-message" rows="4" placeholder="Tulis ucapan Anda di sini..." class="w-full p-3 border border-slate-300 rounded-lg mb-3 focus:ring-2 focus:ring-teal-500" required></textarea>
-                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400" disabled>Kirim Ucapan</button>
+                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400">Kirim Ucapan</button>
                 </form>
             </div>
             <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
@@ -409,8 +432,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-        // GANTI object di bawah ini dengan konfigurasi dari Firebase Anda
+        
         const userFirebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
           authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
@@ -419,9 +441,6 @@
           messagingSenderId: "776870269876",
           appId: "1:776870269876:web:760c755c643ab95bbe58e1"
         };
-
-        // Logika ini akan menggunakan konfigurasi Canvas jika tersedia, 
-        // atau konfigurasi Anda jika dijalankan di luar Canvas (misalnya di GitHub)
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
         const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
 
@@ -430,36 +449,93 @@
             const auth = getAuth(app);
             const db = getFirestore(app);
 
+            let allComments = [];
+            let commentLoopInterval = null;
+            let currentReviewIndex = 0;
+
             function setupGuestbook() {
                 const commentForm = document.getElementById('comment-form');
                 const commentSubmitBtn = document.getElementById('comment-submit-btn');
                 const commentsList = document.getElementById('comments-list');
                 const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
+                const reviewCommentContainer = document.getElementById('review-comment-container');
+                const reviewCommentText = document.getElementById('review-comment-text');
 
                 if(commentSubmitBtn) {
                     commentSubmitBtn.disabled = false;
                 }
 
+                function showNextReviewComment() {
+                    if (allComments.length === 0) {
+                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
+                        return;
+                    }
+                    
+                    const comment = allComments[currentReviewIndex];
+                    const shortMessage = comment.message.length > 50 ? comment.message.substring(0, 50) + '...' : comment.message;
+                    
+                    // Keluar dari komentar saat ini dengan animasi
+                    reviewCommentText.classList.add('quote-exit');
+                    
+                    setTimeout(() => {
+                        reviewCommentText.innerHTML = `<b>${comment.name}</b>: ${shortMessage}`;
+                        reviewCommentText.classList.remove('quote-exit');
+                        reviewCommentText.classList.add('quote-enter');
+                    }, 1000); // Tunggu animasi fadeOut selesai
+
+                    currentReviewIndex = (currentReviewIndex + 1) % allComments.length;
+                }
+                
+                function startReviewCommentLoop() {
+                    if (commentLoopInterval) clearInterval(commentLoopInterval);
+                    
+                    if (allComments.length > 0) {
+                        showNextReviewComment(); // Tampilkan komentar pertama segera
+                    } else {
+                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
+                    }
+                    
+                    commentLoopInterval = setInterval(() => {
+                        const coverElement = document.getElementById('cover');
+                        if (allComments.length > 0 && coverElement && window.getComputedStyle(coverElement).display !== 'none') {
+                            showNextReviewComment();
+                        } else {
+                            if (commentLoopInterval) {
+                                clearInterval(commentLoopInterval);
+                                commentLoopInterval = null;
+                            }
+                        }
+                    }, 5000); // Ganti komentar setiap 5 detik
+                }
+                
+                document.getElementById('open-invitation').addEventListener('click', () => {
+                    if (commentLoopInterval) clearInterval(commentLoopInterval);
+                    commentLoopInterval = null;
+                });
+
                 const q = query(commentsCollection);
                 onSnapshot(q, (snapshot) => {
                     commentsList.innerHTML = '';
                     const comments = [];
-                    snapshot.forEach((doc) => {
+                    
+                    snapshot.forEach(doc => {
                         comments.push({ id: doc.id, ...doc.data() });
                     });
                     
-                    // Urutkan komentar berdasarkan waktu (terbaru dulu)
+                    allComments = comments;
+
+                    if (!commentLoopInterval) {
+                        startReviewCommentLoop();
+                    }
+
                     comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
-                    // Kelompokkan komentar berdasarkan nama tamu dan tanggal
                     const groupedComments = {};
                     comments.forEach(comment => {
-                        if (!comment.timestamp || !comment.name) return; // Lewati komentar yang tidak valid
-
+                        if (!comment.timestamp || !comment.name) return;
                         const date = new Date(comment.timestamp.seconds * 1000);
                         const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
                         const key = `${comment.name}_${dateString}`;
-
                         if (!groupedComments[key]) {
                             groupedComments[key] = {
                                 name: comment.name,
@@ -468,19 +544,14 @@
                                 latestTimestamp: comment.timestamp.seconds
                             };
                         }
-                        // Tambahkan pesan ke awal array agar urutannya kronologis (dari lama ke baru) saat ditampilkan
                         groupedComments[key].messages.unshift(escapeHTML(comment.message));
                     });
 
-                    // Ubah objek grup menjadi array dan urutkan grup berdasarkan komentar terbaru
                     const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
 
-                    // Tampilkan komentar yang sudah dikelompokkan
                     sortedGroups.forEach(group => {
                         const groupElement = document.createElement('div');
                         groupElement.className = 'bg-slate-100 p-4 rounded-lg';
-
-                        // Gabungkan semua pesan dalam satu grup
                         const messagesHTML = group.messages.map(message => 
                             `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
                         ).join('');
@@ -497,7 +568,6 @@
                 }, (error) => {
                     console.error("Snapshot listener error:", error);
                 });
-
 
                 commentForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
@@ -640,24 +710,6 @@
                 document.querySelectorAll('.song-button').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.songId === nextSongId);
                 });
-            }
-
-            function applySong(songId) {
-                const songUrl = songMap[songId];
-                if (songUrl) {
-                    const isPlaying = !audio.paused;
-                    audio.src = songUrl;
-                    if (isPlaying) {
-                        audio.play().catch(e => {
-                            if (e.name !== 'AbortError') {
-                                console.error("Error playing new song:", e);
-                            }
-                        });
-                    }
-                    document.querySelectorAll('.song-button').forEach(btn => {
-                        btn.classList.toggle('active', btn.dataset.songId === songId);
-                    });
-                }
             }
 
             function applyEffect(effectId) {
