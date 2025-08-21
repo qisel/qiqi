@@ -17,7 +17,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:wght@700&family=Merriweather:wght@700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Dancing+Script&family=Tangerine:wght@700&family=Alex+Brush&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:700&family=Merriweather:700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:700&family=Great+Vibes&family=Dancing+Script&family=Tangerine:700&family=Alex+Brush&family=Cormorant+Garamond:700&display=swap" rel="stylesheet">
     
     <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -167,6 +167,7 @@
             
             <!-- Tambahan: Area untuk menampilkan komentar review -->
             <div id="review-comment-container" class="mt-8 mx-auto w-full max-w-sm">
+                <p class="bg-black text-white text-xs font-semibold px-2 py-1 rounded-full mb-2 inline-block">Komentar Tamu</p>
                 <div class="bg-white/30 text-white backdrop-blur-sm px-4 py-3 rounded-lg shadow-md min-h-[50px] flex items-center justify-center">
                     <p id="review-comment-text" class="text-sm italic">Memuat komentar...</p>
                 </div>
@@ -474,7 +475,7 @@
                     const comment = allComments[currentReviewIndex];
                     const shortMessage = comment.message.length > 50 ? comment.message.substring(0, 50) + '...' : comment.message;
                     
-                    // Keluar dari komentar saat ini dengan animasi
+                    reviewCommentText.classList.remove('quote-enter');
                     reviewCommentText.classList.add('quote-exit');
                     
                     setTimeout(() => {
