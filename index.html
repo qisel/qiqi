@@ -286,7 +286,10 @@
         </section>
 
         <section id="family" class="p-8 md:p-12 text-center bg-slate-50">
-             <p class="text-lg mb-8" data-aos="fade-up">Dengan Penuh Kasih Sayang dari Keluarga Besar:</p>
+             <p class="text-lg mb-8" data-aos="fade-up">Sekilas Tentang Keluarga</p>
+             <p class="text-md italic text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="100">
+                Anak pertama kami dari dua bersaudara, Junior Habib R. Harun, kini menginjak usia 8 tahun. Dengan segala doa dan cinta, kami bersyukur atas kehadirannya yang melengkapi kebahagiaan kami.
+             </p>
              <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
                  <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
              </div>
@@ -381,7 +384,6 @@
                 <p class="font-semibold text-lg">Atau ke Nomor E-Wallet</p>
                 <p class="text-md mt-2">DANA / OVO / GoPay</p>
                 <p class="text-xl font-bold mt-1">0823-1194-5664</p>
-                <p class="text-md mt-1">a.n. Rizky R. Harun</p>
                 <button onclick="copyToClipboard('0823-1194-5664', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
                     Salin Nomor
                 </button>
@@ -898,13 +900,13 @@
 
             document.querySelectorAll('.font-button').forEach(button => {
                 button.addEventListener('click', function() {
-                    selectedFontId = this.dataset.fontId;
+                    selectedFontId = this.dataset.font-id;
                     applyFont(selectedFontId);
                 });
             });
             document.querySelectorAll('.color-button').forEach(button => {
                 button.addEventListener('click', function() {
-                    selectedColorId = this.dataset.colorId;
+                    selectedColorId = this.dataset.color-id;
                     applyColor(selectedColorId);
                 });
             });
@@ -915,13 +917,13 @@
                     audio.removeEventListener('ended', playNextSongInSequence);
                     audio.loop = true;
 
-                    selectedSongId = this.dataset.songId;
+                    selectedSongId = this.dataset.song-id;
                     applySong(selectedSongId);
                 });
             });
              document.querySelectorAll('.effect-button').forEach(button => {
                 button.addEventListener('click', function() {
-                    selectedEffectId = this.dataset.effectId;
+                    selectedEffectId = this.dataset.effect-id;
                     applyEffect(selectedEffectId);
                 });
             });
@@ -929,7 +931,7 @@
             document.querySelectorAll('.preview-button').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const songId = this.dataset.songId;
+                    const songId = this.dataset.song-id;
                     const songUrl = songMap[songId];
                     
                     if (currentPreviewId === songId && !previewAudio.paused) {
@@ -950,7 +952,7 @@
                 document.querySelectorAll('.preview-button').forEach(btn => {
                     const playIcon = btn.querySelector('.preview-icon-play');
                     const pauseIcon = btn.querySelector('.preview-icon-pause');
-                    if (btn.dataset.songId === currentPreviewId) {
+                    if (btn.dataset.song-id === currentPreviewId) {
                         playIcon.classList.add('hidden');
                         pauseIcon.classList.remove('hidden');
                     } else {
