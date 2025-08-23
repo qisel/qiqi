@@ -1,502 +1,327 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Ulang Tahun - Aulia Putri</title>
-
-    <!-- Meta Tags untuk WhatsApp & Social Media Preview -->
-    <meta property="og:title" content="Undangan Ulang Tahun - Aulia Putri">
-    <meta property="og:description" content="Dengan hormat, kami mengundang Anda untuk hadir dalam perayaan ulang tahun putri kami.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1519680383795-7a4e473b940e?q=80&w=1887&auto=format&fit=crop">
-    <meta property="og:type" content="website">
-    
-    <!-- Tailwind CSS for styling -->
+    <title>Proposal KUBE Harapan Sejahtera</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <!-- AOS (Animate On Scroll) for animations -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles and fonts */
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #030712; /* Rich Black */
-            overflow: hidden; /* Mencegah scroll vertikal di body */
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fbf8;
+            color: #333;
         }
-        .font-serif {
-            font-family: 'Playfair Display', serif;
+        .container {
+            max-width: 900px;
         }
-        #cover {
-            background-color: #030712;
+        .section-title {
+            color: #2c6f37;
+            font-weight: 700;
         }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .text-justify {
+            text-align: justify;
         }
-        .animate-pulse-slow {
-            animation: pulse 2s infinite;
-        }
-        .animate-letters .letter {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        #effect-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-            pointer-events: none;
-        }
-        .gold-text {
-            color: #D4AF37;
-        }
-        .gold-border {
-            border-color: #D4AF37;
-        }
-        .gold-bg {
-            background-color: #D4AF37;
-        }
-        .hover-gold-bg:hover {
-            background-color: #c09b2d;
-        }
-        /* Animasi untuk komentar baru */
-        .comment-enter-active {
-            animation: fadeIn 0.5s ease-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        /* Styling untuk Horizontal Scroll */
-        #main-content {
-            background-color: #111827; /* Dark Blue Gray */
-            background-image: 
-                linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%),
-                linear-gradient(-45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%),
-                linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%);
-            background-size: 20px 20px;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-        #scroll-container {
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
-        }
-        #scroll-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-        .slide {
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-        }
-        /* PERUBAHAN: Styling untuk Indikator Ikon */
-        .nav-dot {
-            transition: color 0.3s, transform 0.3s;
-            color: rgba(255, 255, 255, 0.3);
-        }
-        .nav-dot.active {
-            color: #D4AF37;
-            transform: scale(1.2);
+        .indent {
+            text-indent: 2rem;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-slate-800">
-    <canvas id="effect-canvas"></canvas>
+<body class="p-8">
 
-    <!-- Cover Section -->
-    <div id="cover" class="fixed top-0 left-0 w-full h-full z-50 flex flex-col items-center justify-center text-white text-center p-8">
-        <div class="relative z-10" data-aos="fade-up">
-            <p class="text-lg mb-2 text-gray-300">An Invitation to a Birthday Gala</p>
-            <h1 class="font-serif text-6xl md:text-8xl my-4 gold-text" style="text-shadow: 1px 1px 10px rgba(212, 175, 55, 0.5);">Aulia Putri</h1>
-            <div id="guest-info" class="border-t border-b border-amber-500/30 py-4 my-8 hidden">
-                <p class="text-md text-gray-300">Dengan Hormat, kami mengundang:</p>
-                <h2 id="guest-name" class="text-2xl font-bold mt-2 tracking-wider"></h2>
+    <!-- Cover Proposal -->
+    <div class="container mx-auto bg-white rounded-xl shadow-2xl p-8 md:p-16 lg:p-24 mb-16">
+        <div class="flex flex-col items-center justify-center text-center">
+            <div class="mb-8 w-full max-w-sm">
+                <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.1.jpg" alt="Ilustrasi Budidaya Sapi Potong" class="w-full h-auto rounded-lg shadow-md">
             </div>
-            <button id="open-invitation" class="border-2 border-amber-500 hover:bg-amber-500 text-amber-500 hover:text-black font-bold py-3 px-12 rounded-full shadow-lg transition-all duration-300 animate-pulse-slow mt-8">
-                Buka Undangan
-            </button>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-[#2c6f37] mb-2">PROPOSAL BANTUAN USAHA EKONOMI PRODUKTIF (UEP)</h1>
+            <h2 class="text-xl md:text-2xl font-semibold text-[#548b61] mb-4">KELOMPOK USAHA BERSAMA (KUBE) “HARAPAN SEJAHTERA”</h2>
+            <p class="text-lg md:text-xl font-medium text-[#7d9f82]">BUDIDAYA TERNAK SAPI POTONG</p>
+            <p class="mt-12 text-gray-600">Diajukan kepada:</p>
+            <p class="text-xl font-bold text-gray-800">Dinas Sosial Kabupaten Gorontalo</p>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main id="main-content" class="hidden max-w-full shadow-2xl relative z-20 text-gray-300">
-        <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
-            <button id="fullscreen-toggle" title="Layar Penuh" class="bg-slate-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
-            <button id="music-toggle" title="Musik" class="bg-slate-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
-        </div>
-        
-        <div id="scroll-container" class="flex w-full h-full overflow-x-auto scroll-smooth">
-            <!-- Slide 1: Header -->
-            <section class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
-                <div data-aos="fade-in">
-                    <p class="text-lg" data-aos="fade-down" data-aos-delay="200">Dengan penuh rasa syukur</p>
-                    <h1 class="font-serif text-5xl md:text-7xl mt-6 gold-text" data-aos="zoom-in" data-aos-delay="400">Aulia Putri</h1>
-                    <p class="mt-6 max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="600">
-                        Merayakan hari ulang tahunnya yang ke-17. Merupakan suatu kehormatan bagi kami apabila Anda berkenan hadir untuk memberikan doa dan merayakan momen spesial ini bersama kami.
+    <!-- Konten Proposal -->
+    <div class="container mx-auto bg-white rounded-xl shadow-lg p-8 md:p-12 lg:p-16">
+
+        <!-- BAB I: PENDAHULUAN -->
+        <section class="mb-12">
+            <h3 class="section-title text-2xl mb-6">BAB I: PENDAHULUAN</h3>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">1.1. Latar Belakang</h4>
+                    <p class="text-justify indent">
+                        Kemiskinan dan keterbatasan lapangan kerja masih menjadi masalah sosial yang dihadapi oleh masyarakat di Kabupaten Gorontalo, termasuk di Desa Barakati, Kecamatan Batudaa. Salah satu faktor utama yang menghambat peningkatan kesejahteraan masyarakat prasejahtera adalah keterbatasan akses modal usaha.
+                    </p>
+                    <p class="text-justify indent">
+                        Untuk mengatasi hal tersebut, kami, 10 orang warga Desa Barakati yang tergolong keluarga prasejahtera, membentuk Kelompok Usaha Bersama (KUBE) “Harapan Sejahtera” dengan tujuan mengembangkan usaha ekonomi produktif yang berkelanjutan.
+                    </p>
+                    <p class="text-justify indent mb-4">
+                        Kami memilih budidaya ternak sapi potong sebagai usaha bersama karena:
+                    </p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+                        <li>Desa Barakati memiliki potensi sumber daya alam berupa ketersediaan hijauan pakan.</li>
+                        <li>Budidaya sapi potong tidak hanya menghasilkan daging, tetapi juga anakan (pedet) yang bernilai ekonomis.</li>
+                        <li>Permintaan pasar terhadap daging sapi di Kabupaten Gorontalo cukup tinggi, terutama saat hari besar keagamaan.</li>
+                        <li>Limbah ternak (kotoran sapi) dapat dimanfaatkan sebagai pupuk organik untuk mendukung sektor pertanian.</li>
+                    </ul>
+                    <p class="text-justify indent mt-4">
+                        Dengan adanya usaha ini, kami berharap dapat menciptakan sumber pendapatan yang berkelanjutan, membuka lapangan kerja baru, serta mengurangi tingkat kemiskinan di desa kami.
                     </p>
                 </div>
-            </section>
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">1.2. Maksud dan Tujuan</h4>
+                    <p class="text-justify indent">
+                        Maksud dari proposal ini adalah untuk memperoleh bantuan modal usaha dari Dinas Sosial Kabupaten Gorontalo dalam rangka mengembangkan budidaya sapi potong.
+                    </p>
+                    <h5 class="font-semibold text-base mt-4 mb-2">Tujuan:</h5>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+                        <li>Meningkatkan taraf hidup anggota KUBE melalui usaha peternakan berkelanjutan.</li>
+                        <li>Menciptakan lapangan kerja baru bagi masyarakat desa.</li>
+                        <li>Mengembangkan potensi lokal melalui budidaya sapi potong.</li>
+                        <li>Menumbuhkan solidaritas, gotong royong, dan kemandirian ekonomi anggota.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-            <!-- Slide 2: Details -->
-            <section class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8">
-                <div class="max-w-md w-full bg-gray-900/50 p-8 rounded-lg shadow-lg border border-amber-500/20" data-aos="fade-up">
-                    <div class="text-center mb-8">
-                        <h2 class="font-serif text-4xl gold-text">Detail Acara</h2>
-                    </div>
-                    <div class="flex items-start mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400 mr-4 mt-1 flex-shrink-0"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                        <div>
-                            <p class="font-bold text-lg">Sabtu, 27 September 2025</p>
-                            <p class="text-gray-400">Pukul 19:00 WIB - Selesai</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400 mr-4 mt-1 flex-shrink-0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        <div>
-                            <p class="font-bold text-lg">The Grand Ballroom, Hotel Indonesia Kempinski</p>
-                            <p class="text-gray-400">Jakarta Pusat</p>
-                        </div>
+        <!-- BAB II: PROFIL KELOMPOK -->
+        <section class="mb-12">
+            <h3 class="section-title text-2xl mb-6">BAB II: PROFIL KELOMPOK</h3>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">2.1. Identitas Kelompok</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                        <p><strong>Nama Kelompok</strong> : KUBE “Harapan Sejahtera”</p>
+                        <p><strong>Alamat</strong> : Desa Barakati, Kecamatan Batudaa, Kabupaten Gorontalo</p>
+                        <p><strong>Jenis Usaha</strong> : Budidaya Sapi Potong</p>
+                        <p><strong>Tahun Berdiri</strong> : 2024</p>
+                        <p><strong>Jumlah Anggota</strong> : 10 orang</p>
                     </div>
                 </div>
-                 <div id="countdown" class="mt-12 flex justify-center space-x-2 md:space-x-4 text-center"></div>
-            </section>
-
-            <!-- Slide 3: Location -->
-            <section id="location" class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
-                <div class="w-full max-w-2xl">
-                    <h2 class="font-serif text-4xl mb-8 animate-letters gold-text">Lokasi Acara</h2>
-                    <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg border-2 border-amber-500/20" data-aos="fade-up">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.529019853634!2d106.8219833747843!3d-6.19367286068213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f42195555555%3A0x2472c9584155161!2sHotel%20Indonesia%20Kempinski%20Jakarta!5e0!3m2!1sid!2sid!4v1724399738743!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    <a href="https://maps.app.goo.gl/yQY1j9x7j8Z9aBc7A" target="_blank" class="mt-8 inline-block gold-bg hover-gold-bg text-black font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka Peta Navigasi</a>
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">2.2. Visi dan Misi</h4>
+                    <p class="font-semibold text-base">Visi:</p>
+                    <p class="text-justify mb-2">Terwujudnya kesejahteraan dan kemandirian ekonomi anggota melalui usaha budidaya sapi potong.</p>
+                    <p class="font-semibold text-base">Misi:</p>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700 ml-4">
+                        <li>Menjalankan usaha budidaya sapi potong secara kolektif dan berkelanjutan.</li>
+                        <li>Meningkatkan keterampilan anggota dalam bidang peternakan.</li>
+                        <li>Mengembangkan sistem reproduksi ternak untuk menghasilkan pedet berkualitas.</li>
+                        <li>Membangun kemitraan dengan pemerintah, swasta, dan masyarakat dalam pemasaran hasil ternak.</li>
+                    </ol>
                 </div>
-            </section>
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">2.3. Susunan Pengurus dan Anggota</h4>
+                    <p><strong>Pengurus:</strong></p>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-2">
+                        <li><strong>Ketua</strong> : Rum Yusran T. Luawo</li>
+                        <li><strong>Sekretaris</strong> : Usman Moonggalo</li>
+                    </ul>
+                    <p><strong>Anggota:</strong></p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                        <li>Aslan Tooli</li>
+                        <li>Yanto Tooli</li>
+                        <li>Abdulkarim Fikran Luawo</li>
+                        <li>Hendra Hasan</li>
+                        <li>Rey Makrun</li>
+                        <li>Patir Polapa</li>
+                        <li>Meykel Harun</li>
+                        <li>Jeklin Harun</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-            <!-- Slide 4: Guestbook -->
-            <section id="guestbook" class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
-                 <div class="w-full max-w-md">
-                    <h2 class="font-serif text-4xl mb-2 animate-letters gold-text">Buku Harapan</h2>
-                    <p class="text-gray-400 max-w-xl mx-auto mb-8" data-aos="fade-up">Tinggalkan doa dan harapan terbaik Anda untuk Aulia.</p>
-                    <div class="bg-gray-900/50 p-6 rounded-lg shadow-lg border border-amber-500/20" data-aos="fade-up">
-                        <form id="comment-form">
-                            <input type="text" id="comment-name" class="w-full p-3 border border-gray-700 rounded-lg mb-3 bg-gray-800 text-white font-medium" readonly required>
-                            <textarea id="comment-message" rows="4" placeholder="Tuliskan harapan Anda di sini..." class="w-full p-3 border border-gray-700 rounded-lg mb-3 bg-gray-800 text-white focus:ring-2 focus:ring-amber-500" required></textarea>
-                            <button type="submit" id="comment-submit-btn" class="w-full gold-bg hover-gold-bg text-black font-bold py-3 px-4 rounded-full transition-colors disabled:bg-slate-400">Kirim Harapan</button>
-                        </form>
-                    </div>
-                    <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4 h-64 overflow-y-auto"></div>
-                 </div>
-            </section>
-
-            <!-- Slide 5: Gift -->
-            <section id="gift" class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
-                <div class="w-full max-w-md">
-                    <h2 class="font-serif text-4xl mb-2 animate-letters gold-text">Tanda Kasih</h2>
-                    <p class="text-gray-400 max-w-xl mx-auto mb-8" data-aos="fade-up">Kehadiran Anda adalah hadiah terindah. Namun jika ingin memberikan tanda kasih, Anda dapat melakukannya secara cashless.</p>
-                    <div class="bg-gray-900/50 p-6 rounded-lg shadow-lg border border-amber-500/20" data-aos="zoom-in">
-                        <p class="font-semibold text-lg text-white">Scan QRIS</p>
-                        <p class="text-sm text-gray-400">Mendukung semua E-Wallet & M-Banking</p>
-                        <img src="https://placehold.co/300x300/111827/d4af37?text=Scan+QRIS" alt="QRIS Code" class="w-48 h-48 mx-auto my-4 rounded-lg">
-                        <div class="my-6 border-t border-gray-700"></div>
-                        <p class="font-semibold text-lg text-white">Atau ke Nomor E-Wallet</p>
-                        <p class="text-md mt-2 text-gray-300">DANA / OVO / GoPay</p>
-                        <p class="text-xl font-bold mt-1 gold-text">0812-3456-7890</p>
-                        <p class="text-md mt-1 text-gray-300">a.n. Aulia Putri</p>
-                        <button onclick="copyToClipboard('081234567890', this)" class="mt-4 gold-bg hover-gold-bg text-black text-sm font-bold py-2 px-4 rounded-full transition-colors">
-                            Salin Nomor
-                        </button>
+        <!-- BAB III: RENCANA USAHA -->
+        <section class="mb-12">
+            <h3 class="section-title text-2xl mb-6">BAB III: RENCANA USAHA</h3>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">3.1. Potensi Usaha</h4>
+                    <p class="text-justify indent">
+                        Budidaya sapi potong memiliki prospek jangka panjang. Selain menghasilkan daging, usaha ini juga menghasilkan pedet (anak sapi) yang dapat dijual kembali atau dibesarkan menjadi sapi potong. Dengan jumlah indukan yang cukup, populasi sapi dapat bertambah setiap tahun.
+                    </p>
+                    <p class="text-justify indent">
+                        Selain itu, kotoran sapi bisa diolah menjadi pupuk organik, sehingga menambah nilai ekonomi sekaligus mendukung pertanian lokal.
+                    </p>
+                    <div class="mt-6 text-center">
+                        <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.2.jpg" alt="Ilustrasi sapi di padang rumput" class="w-full md:w-3/4 mx-auto rounded-lg shadow-md">
                     </div>
                 </div>
-            </section>
-        </div>
+                <div>
+                    <h4 class="font-semibold text-lg mb-2">3.2. Rencana Kegiatan</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+                        <li><strong>Persiapan:</strong> Menyiapkan lahan dan kandang kolektif.</li>
+                        <li><strong>Pengadaan Bibit:</strong> Membeli 8 ekor sapi betina produktif dan 2 ekor pejantan unggul.</li>
+                        <li><strong>Pemeliharaan:</strong> Memberikan pakan hijauan dan tambahan konsentrat, menjaga kesehatan ternak dengan obat & vitamin.</li>
+                        <li><strong>Reproduksi:</strong> Mengatur perkawinan alami atau inseminasi buatan untuk menghasilkan pedet.</li>
+                        <li><strong>Pemasaran:</strong> Menjual pedet berumur 6–12 bulan serta sapi potong sesuai permintaan pasar.</li>
+                        <li><strong>Pengembangan Usaha:</strong> Sebagian keuntungan digunakan untuk membeli indukan tambahan agar populasi sapi terus bertambah.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        <!-- PERUBAHAN: Posisi Navigasi Horizontal Ditinggikan -->
-        <div id="horizontal-nav" class="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4">
-            <button id="prev-slide" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto"><path d="m15 18-6-6 6-6"/></svg>
-            </button>
-            <div id="nav-dots" class="flex gap-4"></div>
-            <button id="next-slide" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-        </div>
-    </main>
+        <!-- BAB IV: RENCANA ANGGARAN BIAYA (RAB) -->
+        <section class="mb-12">
+            <h3 class="section-title text-2xl mb-6">BAB IV: RENCANA ANGGARAN BIAYA (RAB)</h3>
+            <div class="bg-gray-50 rounded-lg p-6 mb-8 shadow-sm">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                            <tr>
+                                <th scope="col" class="py-3 px-6 rounded-tl-lg">No</th>
+                                <th scope="col" class="py-3 px-6">Uraian Kegiatan</th>
+                                <th scope="col" class="py-3 px-6">Volume</th>
+                                <th scope="col" class="py-3 px-6">Satuan</th>
+                                <th scope="col" class="py-3 px-6">Harga Satuan (Rp)</th>
+                                <th scope="col" class="py-3 px-6 rounded-tr-lg">Jumlah Biaya (Rp)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b">
+                                <td colspan="6" class="py-3 px-6 font-bold text-gray-900">A. MODAL KERJA</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="py-3 px-6">1</td>
+                                <td class="py-3 px-6">Pembelian Indukan Betina Sapi</td>
+                                <td class="py-3 px-6">2 ekor</td>
+                                <td class="py-3 px-6">ekor</td>
+                                <td class="py-3 px-6">12.000.000</td>
+                                <td class="py-3 px-6">24.000.000</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="py-3 px-6">2</td>
+                                <td class="py-3 px-6">Pembelian Pejantan Sapi</td>
+                                <td class="py-3 px-6">1 ekor</td>
+                                <td class="py-3 px-6">ekor</td>
+                                <td class="py-3 px-6">15.000.000</td>
+                                <td class="py-3 px-6">15.000.000</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="py-3 px-6">3</td>
+                                <td class="py-3 px-6">Pakan Alternatif (Ampas tahu, jerami, silase)</td>
+                                <td class="py-3 px-6">1 paket</td>
+                                <td class="py-3 px-6">paket</td>
+                                <td class="py-3 px-6">8.000.000</td>
+                                <td class="py-3 px-6">8.000.000</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="py-3 px-6">4</td>
+                                <td class="py-3 px-6">Obat-obatan & Vitamin</td>
+                                <td class="py-3 px-6">1 paket</td>
+                                <td class="py-3 px-6">paket</td>
+                                <td class="py-3 px-6">3.000.000</td>
+                                <td class="py-3 px-6">3.000.000</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td colspan="6" class="py-3 px-6 font-bold text-gray-900">B. MODAL INVESTASI</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="py-3 px-6">1</td>
+                                <td class="py-3 px-6">Peralatan Kandang (terpal, ember)</td>
+                                <td class="py-3 px-6">1 paket</td>
+                                <td class="py-3 px-6">paket</td>
+                                <td class="py-3 px-6">3.500.000</td>
+                                <td class="py-3 px-6">3.500.000</td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="py-3 px-6">2</td>
+                                <td class="py-3 px-6">Transportasi & Tak Terduga</td>
+                                <td class="py-3 px-6">1 paket</td>
+                                <td class="py-3 px-6">paket</td>
+                                <td class="py-3 px-6">3.000.000</td>
+                                <td class="py-3 px-6">3.000.000</td>
+                            </tr>
+                            <tr class="bg-gray-200">
+                                <td colspan="5" class="py-3 px-6 font-bold text-gray-900">TOTAL</td>
+                                <td class="py-3 px-6 font-bold text-gray-900 rounded-br-lg">50.000.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center font-semibold italic text-gray-600 mt-4">Terbilang: Lima Puluh Juta Rupiah</p>
+            </div>
 
-    <audio id="bg-music" src="https://ia800909.us.archive.org/24/items/NeverGonnaGiveYouUp/01%20-%20Never%20Gonna%20Give%20You%20Up.mp3"></audio>
-    
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+            <!-- Analisis Kelayakan & Proyeksi Keuangan -->
+            <div class="space-y-6">
+                <h4 class="font-semibold text-lg mb-2">Analisis Kelayakan & Proyeksi Keuangan</h4>
+                <p class="text-justify indent">
+                    Analisis ini menunjukkan bahwa dana sebesar Rp50.000.000 sudah sangat mencukupi untuk menjalankan proyek ini dari awal hingga menghasilkan anakan yang siap dijual, tanpa memerlukan dana tambahan.
+                </p>
+                <div>
+                    <h5 class="font-semibold text-base mb-2">1. Perkiraan Biaya Operasional Harian</h5>
+                    <p class="text-justify indent mb-2">
+                        Biaya operasional dihitung berdasarkan kebutuhan harian untuk 3 ekor sapi (2 indukan betina + 1 pejantan). Dengan memanfaatkan pakan alternatif yang umumnya tersedia di lingkungan peternak lokal, biaya dapat ditekan.
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                        <li><strong>Asumsi Biaya Pakan Harian:</strong> Kebutuhan pakan per ekor: sekitar Rp5.000/hari (termasuk pakan hijauan, ampas tahu, dan silase).</li>
+                        <li><strong>Jumlah sapi:</strong> 3 ekor</li>
+                        <li><strong>Total Biaya Harian:</strong> 3 ekor x Rp5.000 = Rp15.000</li>
+                        <li><strong>Total Biaya Bulanan:</strong> Rp15.000 x 30 hari = Rp450.000</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-base mb-2">2. Proyeksi Kecukupan Dana</h5>
+                    <p class="text-justify indent mb-2">
+                        Dengan anggaran pakan sebesar Rp8.000.000, dana ini akan cukup untuk membiayai pakan selama:
+                    </p>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                        <li><strong>Perhitungan:</strong> Rp8.000.000 / Rp450.000 = sekitar 17.7 bulan</li>
+                    </ul>
+                    <p class="text-justify indent mt-2">
+                        Waktu yang diperlukan sapi betina untuk melahirkan anakan (masa kebuntingan) adalah sekitar 9-10 bulan. Setelah anakan lahir, dibutuhkan waktu sekitar 6 bulan untuk mencapai bobot yang ideal untuk dijual.
+                    </p>
+                    <p class="text-justify indent mt-2">
+                        <strong>Kesimpulan:</strong> Dana pakan yang dianggarkan (Rp8.000.000) sudah lebih dari cukup untuk menutupi biaya pakan dari awal proyek hingga anakan sapi siap dijual. Ini menunjukkan bahwa proyek ini <strong>layak</strong> dan dapat mandiri secara finansial dalam jangka panjang.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-base mb-2">3. Anggaran untuk Kesehatan Sapi</h5>
+                    <p class="text-justify indent">
+                        Dana sebesar Rp3.000.000 untuk obat-obatan dan vitamin mencakup semua kebutuhan kesehatan dasar, seperti vitamin rutin, obat cacing, dan vaksinasi. Sebagian dana ini juga akan digunakan sebagai dana cadangan untuk pengobatan darurat jika diperlukan.
+                    </p>
+                </div>
+            </div>
+        </section>
         
-        const userFirebaseConfig = {
-          apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
-          authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
-          projectId: "undangan-digital-saya-b970e",
-          storageBucket: "undangan-digital-saya-b970e.appspot.com",
-          messagingSenderId: "776870269876",
-          appId: "1:776870269876:web:760c755c643ab95bbe58e1"
-        };
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'gala-birthday-' + firebaseConfig.projectId;
+        <!-- BAB V: PENUTUP -->
+        <section class="mb-12">
+            <h3 class="section-title text-2xl mb-6">BAB V: PENUTUP</h3>
+            <p class="text-justify indent mb-4">
+                Demikian proposal permohonan bantuan usaha budidaya sapi potong ini kami buat dengan sebenar-benarnya. Proposal ini disusun berdasarkan kondisi riil masyarakat dan potensi yang tersedia di Desa Barakati.
+            </p>
+            <p class="text-justify indent">
+                Kami berharap Bapak Kepala Dinas Sosial Kabupaten Gorontalo dapat mempertimbangkan dan menyetujui permohonan ini, demi peningkatan kesejahteraan masyarakat prasejahtera menuju kemandirian ekonomi.
+            </p>
+            <p class="text-justify indent mb-8">
+                Atas perhatian dan bantuan yang diberikan, kami ucapkan terima kasih.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start text-center sm:text-left">
+                <div>
+                    <p>Barakati, 10 Agustus 2024</p>
+                    <p class="font-bold">Kelompok Usaha Bersama “Harapan Sejahtera”</p>
+                </div>
+                <div class="mt-8 sm:mt-0 flex flex-col sm:flex-row space-y-8 sm:space-y-0 sm:space-x-12">
+                    <div class="flex flex-col items-center">
+                        <p class="font-bold">Ketua,</p>
+                        <p class="mt-12 mb-2 font-bold underline">Rum Yusran T. Luawo</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="font-bold">Sekretaris,</p>
+                        <p class="mt-12 mb-2 font-bold underline">Usman Moonggalo</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        try {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
+    </div>
 
-            function setupGuestbook() {
-                const commentForm = document.getElementById('comment-form');
-                const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
-                
-                onSnapshot(query(commentsCollection), (snapshot) => {
-                    const allComments = [];
-                    snapshot.forEach(doc => allComments.push({ id: doc.id, ...doc.data() }));
-                    allComments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                    
-                    const commentsList = document.getElementById('comments-list');
-                    if (commentsList) {
-                        commentsList.innerHTML = '';
-                        allComments.forEach(comment => {
-                             const commentElement = document.createElement('div');
-                            commentElement.className = 'bg-gray-800/50 p-4 rounded-lg border-l-4 border-amber-500/50 comment-enter-active';
-                            commentElement.innerHTML = `
-                                <p class="font-semibold text-white">${escapeHTML(comment.name)}</p>
-                                <p class="text-gray-300 mt-1">${escapeHTML(comment.message)}</p>
-                            `;
-                            commentsList.appendChild(commentElement);
-                        });
-                    }
-                });
-
-                commentForm?.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('comment-name').value.trim();
-                    const messageInput = document.getElementById('comment-message');
-                    const message = messageInput.value.trim();
-                    const submitBtn = document.getElementById('comment-submit-btn');
-                    if (name && message) {
-                        submitBtn.disabled = true;
-                        submitBtn.textContent = 'Mengirim...';
-                        try {
-                            await addDoc(commentsCollection, { name: name, message: message, timestamp: serverTimestamp() });
-                            messageInput.value = '';
-                            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#D4AF37', '#FFFFFF', '#FFD700'] });
-                        } catch (error) {
-                            console.error("Error adding document: ", error);
-                        } finally {
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = 'Kirim Harapan';
-                        }
-                    }
-                });
-            }
-            
-            async function initializeAppAndAuth() {
-                try {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                    setupGuestbook();
-                } catch (error) {
-                    console.error("Authentication failed:", error);
-                }
-            }
-
-            initializeAppAndAuth();
-
-        } catch (e) {
-            console.error("Error initializing Firebase:", e);
-        }
-        
-        function escapeHTML(str) {
-            if (!str) return "";
-            return str.replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match]));
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 1000, once: false, offset: 120 });
-
-            const cover = document.getElementById('cover');
-            const mainContent = document.getElementById('main-content');
-            const openInvitationButton = document.getElementById('open-invitation');
-            const audio = document.getElementById('bg-music');
-            
-            const myCanvas = document.getElementById('effect-canvas');
-            const myConfetti = confetti.create(myCanvas, {
-                resize: true,
-                useWorker: true
-            });
-            let effectInterval = setInterval(() => {
-                if(window.getComputedStyle(cover).display !== 'none') {
-                    myConfetti({
-                        particleCount: 2,
-                        startVelocity: 0,
-                        ticks: 200,
-                        origin: { x: Math.random(), y: Math.random() - 0.2 },
-                        colors: ['#D4AF37'],
-                        shapes: ['circle'],
-                        gravity: 0.2,
-                        scalar: Math.random() * 0.5 + 0.5,
-                        drift: Math.random() * 0.5 - 0.25
-                    });
-                }
-            }, 300);
-
-            function showInvitation() {
-                clearInterval(effectInterval);
-                cover.style.transition = 'opacity 1.5s ease-out';
-                cover.style.opacity = '0';
-                setTimeout(() => {
-                    cover.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden'; // Tetap hidden
-                    audio.play().catch(error => console.log("Autoplay was prevented.", error));
-                    AOS.refresh();
-                }, 1500);
-            }
-
-            if(openInvitationButton) {
-                openInvitationButton.addEventListener('click', showInvitation);
-            }
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to');
-            if (guestName) {
-                document.getElementById('guest-info').classList.remove('hidden');
-                document.getElementById('guest-name').textContent = guestName.replace(/\+/g, ' ');
-            }
-            document.getElementById('comment-name').value = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
-
-            const eventDate = "2025-09-27T19:00:00";
-            let countdownInterval = setInterval(() => {
-                const targetDate = new Date(eventDate).getTime();
-                const now = new Date().getTime();
-                const distanceToStart = targetDate - now;
-                const countdownEl = document.getElementById('countdown');
-                if (distanceToStart > 0) {
-                    countdownEl.innerHTML = `
-                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor(distanceToStart / 86400000)).padStart(2, '0')}</div><div class="text-xs">Hari</div></div>
-                        <div class="text-4xl font-serif gold-text">:</div>
-                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor((distanceToStart % 86400000) / 3600000)).padStart(2, '0')}</div><div class="text-xs">Jam</div></div>
-                        <div class="text-4xl font-serif gold-text">:</div>
-                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor((distanceToStart % 3600000) / 60000)).padStart(2, '0')}</div><div class="text-xs">Menit</div></div>
-                        <div class="text-4xl font-serif gold-text">:</div>
-                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor((distanceToStart % 60000) / 1000)).padStart(2, '0')}</div><div class="text-xs">Detik</div></div>
-                    `;
-                } else {
-                    countdownEl.innerHTML = '<div class="text-center w-full text-2xl font-serif gold-text">The Gala Has Begun</div>';
-                    clearInterval(countdownInterval); 
-                }
-            }, 1000);
-
-            // PERUBAHAN: Logika Navigasi Horizontal dengan Ikon
-            const scrollContainer = document.getElementById('scroll-container');
-            const slides = document.querySelectorAll('.slide');
-            const navDotsContainer = document.getElementById('nav-dots');
-            const prevBtn = document.getElementById('prev-slide');
-            const nextBtn = document.getElementById('next-slide');
-            let dots = [];
-            
-            const icons = [
-                // Bintang
-                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
-                // Jam
-                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
-                // Pin Lokasi
-                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
-                // Pena
-                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>',
-                // Kado
-                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><path d="M20 8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v4h16V8Z"/><path d="M12 22V8"/><path d="M12 8H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4Z"/></svg>'
-            ];
-
-            slides.forEach((slide, index) => {
-                const dot = document.createElement('button');
-                dot.className = 'nav-dot';
-                dot.innerHTML = icons[index] || ''; // Fallback jika ikon tidak ada
-                dot.addEventListener('click', () => {
-                    scrollContainer.scrollTo({
-                        left: index * window.innerWidth,
-                        behavior: 'smooth'
-                    });
-                });
-                navDotsContainer.appendChild(dot);
-                dots.push(dot);
-            });
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const index = Array.from(slides).indexOf(entry.target);
-                        dots.forEach((dot, i) => {
-                            dot.classList.toggle('active', i === index);
-                        });
-                        prevBtn.disabled = index === 0;
-                        nextBtn.disabled = index === slides.length - 1;
-                        const aosElements = entry.target.querySelectorAll('[data-aos]');
-                        aosElements.forEach(el => {
-                            el.classList.remove('aos-animate');
-                            setTimeout(() => el.classList.add('aos-animate'), 100);
-                        });
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            slides.forEach(slide => observer.observe(slide));
-            
-            prevBtn.addEventListener('click', () => {
-                scrollContainer.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
-            });
-            nextBtn.addEventListener('click', () => {
-                scrollContainer.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
-            });
-        });
-
-        function copyToClipboard(text, button) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text.replace(/\\n/g, '\n');
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                const originalText = button.textContent;
-                button.textContent = 'Disalin!';
-                button.classList.add('bg-green-600');
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.classList.remove('bg-green-600');
-                }, 1500);
-            } catch (err) {
-                console.error('Gagal menyalin:', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
 </body>
 </html>
