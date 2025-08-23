@@ -36,11 +36,67 @@
         .indent {
             text-indent: 2rem;
         }
+        /* Gaya untuk spanduk promosi yang turun */
+        .promo-banner {
+            position: fixed;
+            top: -200px; /* Mulai dari luar layar */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            padding: 1rem;
+            text-align: center;
+            transition: top 0.7s ease-in-out, opacity 0.7s ease-in-out;
+            opacity: 0;
+        }
+        .promo-banner.show {
+            top: 2rem; /* Posisi saat muncul */
+            opacity: 1;
+        }
+        .promo-banner .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            padding: 0.25rem;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        .promo-banner .close-btn:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .promo-banner .promo-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body class="p-8">
 
-    <!-- Cover Proposal -->
+    <!-- Spanduk Promosi yang Muncul dari Atas -->
+    <div id="promo-banner" class="promo-banner">
+        <button id="close-banner-btn" class="close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.2.jpg" alt="Sapi Unggulan" class="promo-image mx-auto">
+        <h2 class="text-xl font-bold text-[#2c6f37] mb-1">PROMO SPESIAL</h2>
+        <p class="text-gray-600 text-sm mb-3">Dapatkan Sapi Potong Berkualitas atau Mulai Investasi Menguntungkan!</p>
+        <a href="https://wa.me/6281234567890" class="inline-block bg-green-500 text-white font-bold py-2 px-6 rounded-full text-sm shadow-lg hover:bg-green-600 transition-colors duration-300">
+            Hubungi Kami Sekarang
+        </a>
+    </div>
+
+    <!-- Sampul Proposal -->
     <div class="container mx-auto bg-white rounded-xl shadow-2xl p-8 md:p-16 lg:p-24 mb-16">
         <div class="flex flex-col items-center justify-center text-center">
             <div class="mb-8 w-full max-w-sm">
@@ -322,7 +378,7 @@
                         <p class="mt-12 mb-2 font-bold underline">Rum Yusran T. Luawo</p>
                     </div>
                     <div class="flex flex-col items-center">
-                        <p class="font-bold">Sekretariss,</p>
+                        <p class="font-bold">Sekretaris,</p>
                         <p class="mt-12 mb-2 font-bold underline">Usman Moonggalo</p>
                     </div>
                 </div>
@@ -331,5 +387,41 @@
 
     </div>
 
+    <!-- Spanduk Promosi yang Muncul dari Atas -->
+    <div id="promo-banner" class="promo-banner">
+        <button id="close-banner-btn" class="close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.2.jpg" alt="Sapi Unggulan" class="promo-image mx-auto">
+        <h2 class="text-xl font-bold text-[#2c6f37] mb-1">PROMO SPESIAL</h2>
+        <p class="text-gray-600 text-sm mb-3">Dapatkan Sapi Potong Berkualitas atau Mulai Investasi Menguntungkan!</p>
+        <a href="https://wa.me/6281234567890" class="inline-block bg-green-500 text-white font-bold py-2 px-6 rounded-full text-sm shadow-lg hover:bg-green-600 transition-colors duration-300">
+            Hubungi Kami Sekarang
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const promoBanner = document.getElementById('promo-banner');
+            const closeBannerBtn = document.getElementById('close-banner-btn');
+            let hasScrolled = false;
+            
+            window.addEventListener('scroll', () => {
+                if (!hasScrolled) {
+                    hasScrolled = true;
+                    setTimeout(() => {
+                        promoBanner.classList.add('show');
+                    }, 10000); // Muncul 10 detik setelah scrolling pertama
+                }
+            });
+
+            // Menyembunyikan spanduk saat tombol tutup diklik
+            closeBannerBtn.addEventListener('click', () => {
+                promoBanner.classList.remove('show');
+            });
+        });
+    </script>
 </body>
 </html>
