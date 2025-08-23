@@ -36,15 +36,12 @@
             font-family: 'Playfair Display', serif;
         }
         #cover {
-            /* Gambar default untuk mobile (portrait) */
             background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f1.jpeg');
             background-size: cover;
             background-position: center;
         }
-        /* Media query untuk layar yang lebih lebar (komputer/landscape) */
         @media (min-width: 768px) {
             #cover {
-                /* Gambar untuk tampilan landscape */
                 background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f3.png');
             }
         }
@@ -63,36 +60,62 @@
         .color-button.active {
             ring-offset-2 ring-2 ring-teal-500;
         }
-        /* Penempatan panel di atas tombol admin */
         #cover-font-panel, #cover-link-panel, #cover-song-panel, #cover-effect-panel {
             display: none;
             z-index: 70;
         }
-        /* Penyesuaian z-index untuk tombol admin */
         #admin-buttons {
             z-index: 60; 
         }
-
-        /* Style for ornaments */
         .ornament {
-            width: 8rem; /* Adjusted size */
+            width: 8rem;
             height: 8rem;
             fill: currentColor;
         }
-        /* Letter Animation Styles */
         .animate-letters .letter {
             display: inline-block;
             opacity: 0;
             transform: translateY(20px);
         }
-        
         .parallax-bg {
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
         }
-
+        #effect-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .quote-enter { animation: fadeIn 1s ease-out forwards; }
+        .quote-exit { animation: fadeOut 1s ease-in forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+        .thumbnail-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .thumbnail-container::-webkit-scrollbar {
+            display: none;
+        }
+        .thumbnail-item {
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .thumbnail-item.active {
+            border-color: #0D9488;
+            transform: scale(1.05);
+        }
         .image-reveal-container {
             position: relative;
             overflow: hidden; 
@@ -123,40 +146,12 @@
         .image-reveal-container.aos-animate img {
             transform: scale(1);
         }
-
-        #effect-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            pointer-events: none;
-        }
-        
-        /* Gaya baru untuk review komentar */
-        .quote-enter {
-            animation: fadeIn 1s ease-out forwards;
-        }
-        .quote-exit {
-            animation: fadeOut 1s ease-in forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
-        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
     <canvas id="effect-canvas"></canvas>
 
-    <!-- ====================================================== -->
-    <!-- Cover Section (Halaman Depan) -->
-    <!-- ====================================================== -->
+    <!-- Cover Section -->
     <div id="cover" class="fixed top-0 left-0 w-full h-full z-50 flex flex-col items-center justify-center text-white text-center p-8 bg-slate-700">
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative z-10" data-aos="fade-up">
@@ -171,8 +166,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
                 Buka Undangan
             </button>
-            
-            <!-- Tambahan: Area untuk menampilkan komentar review -->
             <div id="review-comment-container" class="mt-8 mx-auto w-full max-w-sm">
                 <p class="bg-black text-white text-xs font-semibold px-2 py-1 rounded-full mb-2 inline-block">Komentar Tamu</p>
                 <div class="bg-white/30 text-white backdrop-blur-sm px-4 py-3 rounded-lg shadow-md min-h-[50px] flex items-center justify-center">
@@ -180,8 +173,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Tombol Admin Terpisah -->
         <div id="admin-buttons" class="absolute bottom-5 left-5 right-5 z-60 flex justify-between items-center max-w-xs mx-auto">
             <button id="font-toggle-button" title="Pilih Font & Warna" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.0 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
@@ -196,112 +187,19 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </button>
         </div>
-
-        <!-- Panel Font & Color Selector di Cover -->
-        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
-            <div class="text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Gaya Huruf</p>
-                <div class="grid grid-cols-2 gap-2" id="font-buttons">
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-font-id="playfair" style="font-family: 'Playfair Display', serif;">Klasik</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="cormorant" style="font-family: 'Cormorant Garamond', serif;">Garamond</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="merriweather" style="font-family: 'Merriweather', serif;">Elegan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="greatvibes" style="font-family: 'Great Vibes', cursive; font-size: 1.4rem;">Mewah</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="sacramento" style="font-family: 'Sacramento', cursive; font-size: 1.4rem;">Script</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="alexbrush" style="font-family: 'Alex Brush', cursive; font-size: 1.4rem;">Artistik</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="dancingscript" style="font-family: 'Dancing Script', cursive; font-size: 1.2rem;">Menari</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="caveat" style="font-family: 'Caveat', cursive; font-size: 1.4rem;">Tulisan</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="tangerine" style="font-family: 'Tangerine', cursive; font-size: 1.8rem;">Kaligrafi</button>
-                    <button class="font-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-font-id="cinzel" style="font-family: 'Cinzel Decorative', serif;">Hiasan</button>
-                </div>
-            </div>
-             <div class="text-left mt-4">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Warna Huruf</p>
-                <div class="flex space-x-3" id="color-buttons">
-                    <button class="color-button w-6 h-6 rounded-full bg-white active" data-color-id="white"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-amber-300" data-color-id="gold"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-slate-300" data-color-id="silver"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-sky-300" data-color-id="lightblue"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-emerald-300" data-color-id="lightgreen"></button>
-                    <button class="color-button w-6 h-6 rounded-full bg-pink-300" data-color-id="lightpink"></button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Panel Pilihan Efek -->
-        <div id="cover-effect-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
-            <div class="text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Efek Animasi</p>
-                <div class="flex flex-col gap-2" id="effect-buttons">
-                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 transition-colors duration-200 active" data-effect-id="none">Tidak Ada</button>
-                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="glitter">✨ Gemerlap</button>
-                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="flowers">🌸 Bunga Jatuh</button>
-                    <button class="effect-button text-sm px-3 py-1.5 rounded-md border-2 border-slate-400 text-slate-600" data-effect-id="leaves">🍂 Daun Berguguran</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Panel Pilihan Lagu -->
-        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72">
-            <div class="text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Pilih Lagu Latar</p>
-                <div class="flex flex-col gap-2" id="song-buttons">
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200 active" data-song-id="song3">Man Ana (Instrumental)</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song3">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song4">Deen Assalam</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song4">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song1">Lagu Juju 1</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song1">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                    <div class="flex items-center justify-between gap-2">
-                        <button class="song-button flex-grow text-sm text-slate-600 text-left px-3 py-1.5 rounded-md border-2 border-slate-400 transition-colors duration-200" data-song-id="song2">Lagu Juju 2</button>
-                        <button class="preview-button p-2 rounded-full hover:bg-slate-200" data-song-id="song2">
-                             <svg class="preview-icon-play w-4 h-4 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                             <svg class="preview-icon-pause w-4 h-4 text-slate-600 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Panel Link Generator di Cover -->
-        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto">
-            <p class="text-sm font-bold text-slate-700 mb-3 text-left">Buat Link Tamu</p>
-            <textarea id="guest-list-input" rows="4" class="w-full p-2 text-sm border border-slate-300 rounded-lg text-slate-800 focus:ring-2 focus:ring-teal-500" placeholder="Satu nama per baris..."></textarea>
-            <button id="generate-links-btn" class="mt-2 w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors duration-300">Buat Link</button>
-            <div id="links-output" class="mt-3 max-h-40 overflow-y-auto"></div>
-        </div>
+        <!-- Admin Panels -->
+        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-effect-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
+        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto"></div>
     </div>
 
-    <!-- ====================================================== -->
-    <!-- Main Content (Konten Utama Undangan) -->
-    <!-- ====================================================== -->
+    <!-- Main Content -->
     <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl relative z-20">
-        
         <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
-            <button id="fullscreen-toggle" title="Layar Penuh" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-                <svg id="fullscreen-icon-enter" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-                <svg id="fullscreen-icon-exit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
-            </button>
-            <button id="music-toggle" title="Musik" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg">
-                <svg id="music-icon-play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                <svg id="music-icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-            </button>
+            <button id="fullscreen-toggle" title="Layar Penuh" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
+            <button id="music-toggle" title="Musik" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
         </div>
-
         <header class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="text-lg" data-aos="fade-down">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
             <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
@@ -321,19 +219,16 @@
              <p class="text-md italic text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="100">
                 Anak pertama kami dari dua bersaudara, Junior Habib R. Harun, kini menginjak usia 8 tahun. Dengan segala doa dan cinta, kami bersyukur atas kehadirannya yang melengkapi kebahagiaan kami.
              </p>
-             <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
-                 <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
+             <!-- PERUBAHAN: Menggunakan flexbox untuk memastikan gambar berada di tengah -->
+             <div class="flex justify-center">
+                <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
+                    <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
+                </div>
              </div>
              <h3 class="font-serif text-2xl mt-4" data-aos="fade-up" data-aos-delay="200">Kel. Harun & Kel. Mopangga</h3>
         </section>
-
+        
         <section id="details" class="p-8 md:p-12 text-center relative overflow-hidden">
-             <div class="absolute top-0 left-0 text-teal-100 -translate-x-1/3 -translate-y-1/3 opacity-50">
-                 <svg class="ornament" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path></svg>
-             </div>
-             <div class="absolute bottom-0 right-0 text-teal-100 translate-x-1/3 translate-y-1/3 opacity-50 transform rotate-180">
-                 <svg class="ornament" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v5.414l3.293 3.293 1.414-1.414L13 11.586z"></path></svg>
-             </div>
             <h2 class="font-serif text-4xl mb-8 animate-letters">Detail Acara</h2>
             <div class="border-t-2 border-b-2 border-teal-500 py-8" data-aos="fade-up">
                 <p class="text-lg mb-4">Insya Allah akan diselenggarakan pada:</p>
@@ -352,22 +247,14 @@
                 </div>
             </div>
             
-            <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center">
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="100"><div id="days" class="text-3xl font-bold">00</div><div class="text-xs">Hari</div></div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="200"><div id="hours" class="text-3xl font-bold">00</div><div class="text-xs">Jam</div></div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="300"><div id="minutes" class="text-3xl font-bold">00</div><div class="text-xs">Menit</div></div>
-                <div class="bg-teal-600 text-white p-4 rounded-lg w-20" data-aos="fade-up" data-aos-delay="400"><div id="seconds" class="text-3xl font-bold">00</div><div class="text-xs">Detik</div></div>
-            </div>
-
+            <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center"></div>
             <div id="live-status" class="mt-10 hidden text-center">
                 <p class="text-2xl md:text-4xl font-bold text-teal-700 animate-pulse">Acara Sedang Berlangsung</p>
                 <a id="live-stream-button" href="#" target="_blank" class="mt-6 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2 -mt-1"><path d="M15.6 11.6L22 7v10l-6.4-4.6Z"/><path d="M2 7h11a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2 -mt-1"><path d="M15.6 11.6L22 7v10l-6.4-4.6Z"/><path d="M2 7h11a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/></svg>
                     Tonton Live Streaming
                 </a>
             </div>
-
-            <!-- PERUBAHAN: Panel Admin untuk Link Live Stream -->
             <div id="admin-livestream-panel" class="mt-6 max-w-md mx-auto bg-slate-200 p-4 rounded-lg shadow-inner hidden">
                 <p class="text-sm font-bold text-slate-700 mb-2 text-left">Panel Admin: Atur Link Live</p>
                 <div class="flex items-center gap-2">
@@ -376,7 +263,43 @@
                 </div>
             </div>
         </section>
-        
+
+        <section id="gallery" class="p-8 md:p-12 text-center bg-white">
+            <h2 class="font-serif text-4xl mb-2 animate-letters">Galeri Kenangan</h2>
+            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Bagikan dan lihat momen-momen kebahagiaan dari acara kami.</p>
+            <div class="max-w-xl mx-auto" data-aos="fade-up">
+                <div class="w-full aspect-video bg-slate-200 rounded-lg shadow-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <img id="main-photo" src="https://placehold.co/600x400/e2e8f0/94a3b8?text=Galeri+Foto" alt="Foto Utama Galeri" class="w-full h-full object-cover transition-opacity duration-500">
+                </div>
+                <div class="relative">
+                    <div id="thumbnail-container" class="flex items-center gap-3 overflow-x-auto pb-2 thumbnail-container">
+                        <div id="gallery-placeholder" class="text-center w-full py-4 text-slate-500">Belum ada foto di galeri.</div>
+                    </div>
+                </div>
+                <a id="submit-photo-btn" href="#" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2 -mt-1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    Kirim Foto Kenangan
+                </a>
+            </div>
+            <div id="admin-gallery-panel" class="mt-8 max-w-xl mx-auto bg-slate-200 p-4 rounded-lg shadow-inner hidden text-left">
+                <p class="text-sm font-bold text-slate-700 mb-3">Panel Admin: Atur Galeri</p>
+                <div>
+                    <label for="google-photos-link-input" class="block text-xs font-medium text-slate-600 mb-1">Link Album Google Photos (untuk tamu)</label>
+                    <div class="flex items-center gap-2">
+                        <input type="url" id="google-photos-link-input" class="w-full p-2 text-sm border border-slate-400 rounded-lg" placeholder="https://photos.app.goo.gl/...">
+                        <button id="save-google-photos-link-btn" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm whitespace-nowrap">Simpan</button>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="new-photo-url-input" class="block text-xs font-medium text-slate-600 mb-1">URL Foto Baru (untuk ditampilkan)</label>
+                    <div class="flex items-center gap-2">
+                        <input type="url" id="new-photo-url-input" class="w-full p-2 text-sm border border-slate-400 rounded-lg" placeholder="Klik kanan 'Salin alamat gambar'...">
+                        <button id="add-photo-btn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg text-sm whitespace-nowrap">Tambah</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <footer class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
             <p class="mb-4" data-aos="fade-down">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan do'a restu.</p>
             <p class="mb-8" data-aos="fade-up">Atas kehadiran dan do'a restunya, kami ucapkan terima kasih.</p>
@@ -413,9 +336,7 @@
                     <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400">Kirim Ucapan</button>
                 </form>
             </div>
-            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4">
-                <!-- Komentar akan muncul di sini -->
-            </div>
+            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4"></div>
         </section>
 
         <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
@@ -440,7 +361,6 @@
         </section>
     </main>
 
-    <!-- Digital Invitation by arkan.digital -->
     <footer class="text-center py-4 bg-slate-100">
         <p class="text-xs text-slate-500">
             Digital Invitation by 
@@ -452,15 +372,11 @@
     <audio id="bg-music" src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
     <audio id="preview-audio"></audio>
     
-    <!-- Scripts -->
     <script type="module">
-        // Firebase SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // PERUBAHAN: Import fungsi firestore yang dibutuhkan
         import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // Konfigurasi Firebase Anda
         const userFirebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
           authDomain: "undangan-digital-saya-b970e.firebaseapp.com",
@@ -477,15 +393,12 @@
             const auth = getAuth(app);
             const db = getFirestore(app);
 
-            // PERUBAHAN: Fungsi untuk Live Stream
+            // --- Live Stream Logic ---
             const liveStreamDocRef = doc(db, `artifacts/${appId}/public/data/livestreamConfig`, "liveUrl");
-
+            
             async function saveLiveStreamLink(url) {
                 const saveButton = document.getElementById('save-livestream-link-btn');
-                if (!url) {
-                    alert('Masukkan URL yang valid.');
-                    return;
-                }
+                if (!url) { alert('Masukkan URL yang valid.'); return; }
                 saveButton.disabled = true;
                 saveButton.textContent = 'Menyimpan...';
                 try {
@@ -508,13 +421,9 @@
                         const liveUrl = docSnap.data().url;
                         liveStreamButton.href = liveUrl;
                         liveStreamButton.classList.remove('hidden');
-                         // Untuk admin, tampilkan link yang tersimpan di input
                         const urlInput = document.getElementById('livestream-url-input');
-                        if (urlInput) {
-                            urlInput.value = liveUrl;
-                        }
+                        if (urlInput) urlInput.value = liveUrl;
                     } else {
-                        // Jika tidak ada link, sembunyikan tombol untuk tamu
                         liveStreamButton.classList.add('hidden');
                     }
                 } catch (error) {
@@ -522,67 +431,124 @@
                     liveStreamButton.classList.add('hidden');
                 }
             }
-            // Panggil fungsi untuk mengambil link saat halaman dimuat
             fetchAndApplyLiveStreamLink();
+            document.getElementById('save-livestream-link-btn')?.addEventListener('click', () => {
+                const urlInput = document.getElementById('livestream-url-input').value;
+                saveLiveStreamLink(urlInput);
+            });
 
-            // Tambahkan event listener untuk tombol simpan admin
-            const saveButton = document.getElementById('save-livestream-link-btn');
-            if (saveButton) {
-                saveButton.addEventListener('click', () => {
-                    const urlInput = document.getElementById('livestream-url-input').value;
-                    saveLiveStreamLink(urlInput);
-                });
+            // --- Gallery Logic ---
+            const galleryConfigDocRef = doc(db, `artifacts/${appId}/public/data/galleryConfig`, "googlePhotosLink");
+            const galleryPhotosCollectionRef = collection(db, `artifacts/${appId}/public/data/galleryPhotos`);
+
+            async function saveGooglePhotosLink(url) {
+                const saveButton = document.getElementById('save-google-photos-link-btn');
+                saveButton.disabled = true;
+                saveButton.textContent = '...';
+                try {
+                    await setDoc(galleryConfigDocRef, { url: url });
+                    saveButton.textContent = 'OK!';
+                    setTimeout(() => { saveButton.textContent = 'Simpan'; }, 2000);
+                } catch (error) {
+                    console.error("Error saving GPhotos link: ", error);
+                    saveButton.textContent = 'Gagal';
+                } finally {
+                    saveButton.disabled = false;
+                }
+            }
+
+            async function addPhotoToGallery(url) {
+                const addButton = document.getElementById('add-photo-btn');
+                if (!url || !url.startsWith('http')) { alert('Masukkan URL foto yang valid.'); return; }
+                addButton.disabled = true;
+                addButton.textContent = '...';
+                try {
+                    await addDoc(galleryPhotosCollectionRef, { url: url, timestamp: serverTimestamp() });
+                    document.getElementById('new-photo-url-input').value = '';
+                    addButton.textContent = 'OK!';
+                     setTimeout(() => { addButton.textContent = 'Tambah'; }, 2000);
+                } catch (error) {
+                    console.error("Error adding photo: ", error);
+                    addButton.textContent = 'Gagal';
+                } finally {
+                    addButton.disabled = false;
+                }
+            }
+
+            async function fetchAndApplyGooglePhotosLink() {
+                const submitBtn = document.getElementById('submit-photo-btn');
+                try {
+                    const docSnap = await getDoc(galleryConfigDocRef);
+                    if (docSnap.exists() && docSnap.data().url) {
+                        const albumUrl = docSnap.data().url;
+                        submitBtn.href = albumUrl;
+                        submitBtn.classList.remove('hidden');
+                        document.getElementById('google-photos-link-input').value = albumUrl;
+                    } else {
+                        submitBtn.classList.add('hidden');
+                    }
+                } catch (error) {
+                    console.error("Error fetching GPhotos link: ", error);
+                    submitBtn.classList.add('hidden');
+                }
+            }
+
+            async function initializeGalleryConfig() {
+                try {
+                    const docSnap = await getDoc(galleryConfigDocRef);
+                    if (!docSnap.exists()) {
+                        await setDoc(galleryConfigDocRef, { url: "https://photos.app.goo.gl/JQBLu9eAkAwCCiiz5" });
+                        console.log("Default Google Photos link has been set.");
+                        fetchAndApplyGooglePhotosLink();
+                    }
+                } catch (error) {
+                    console.error("Error initializing gallery config: ", error);
+                }
             }
 
 
-            let allComments = [];
-            let commentLoopInterval = null;
-            let currentReviewIndex = 0;
+            function listenForGalleryPhotos() {
+                const q = query(galleryPhotosCollectionRef);
+                onSnapshot(q, (snapshot) => {
+                    const photos = [];
+                    snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
+                    photos.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                    window.updateGalleryUI(photos);
+                });
+            }
 
+            document.getElementById('save-google-photos-link-btn')?.addEventListener('click', () => saveGooglePhotosLink(document.getElementById('google-photos-link-input').value));
+            document.getElementById('add-photo-btn')?.addEventListener('click', () => addPhotoToGallery(document.getElementById('new-photo-url-input').value));
+
+            // --- Guestbook Logic ---
             function setupGuestbook() {
                 const commentForm = document.getElementById('comment-form');
-                const commentSubmitBtn = document.getElementById('comment-submit-btn');
-                const commentsList = document.getElementById('comments-list');
                 const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
                 const reviewCommentText = document.getElementById('review-comment-text');
-
-                if(commentSubmitBtn) {
-                    commentSubmitBtn.disabled = false;
-                }
+                let allComments = [];
+                let commentLoopInterval = null;
+                let currentReviewIndex = 0;
 
                 function showNextReviewComment() {
-                    if (allComments.length === 0) {
-                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                        return;
-                    }
-                    
+                    if (allComments.length === 0) { reviewCommentText.textContent = 'Belum ada ucapan dan doa.'; return; }
                     const comment = allComments[currentReviewIndex];
                     const shortMessage = comment.message.length > 50 ? comment.message.substring(0, 50) + '...' : comment.message;
-                    
                     reviewCommentText.classList.remove('quote-enter');
                     reviewCommentText.classList.add('quote-exit');
-                    
                     setTimeout(() => {
                         reviewCommentText.innerHTML = `<b>${escapeHTML(comment.name)}</b>: ${escapeHTML(shortMessage)}`;
                         reviewCommentText.classList.remove('quote-exit');
                         reviewCommentText.classList.add('quote-enter');
                     }, 1000);
-
                     currentReviewIndex = (currentReviewIndex + 1) % allComments.length;
                 }
                 
                 function startReviewCommentLoop() {
                     if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    
-                    if (allComments.length > 0) {
-                        showNextReviewComment();
-                    } else {
-                        reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                    }
-                    
+                    if (allComments.length > 0) showNextReviewComment();
+                    else reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
                     commentLoopInterval = setInterval(() => {
-                        const coverElement = document.getElementById('cover');
-                        if (allComments.length > 0 && coverElement && window.getComputedStyle(coverElement).display !== 'none') {
+                        if (allComments.length > 0 && window.getComputedStyle(document.getElementById('cover')).display !== 'none') {
                             showNextReviewComment();
                         }
                     }, 5000);
@@ -592,91 +558,68 @@
                     if (commentLoopInterval) clearInterval(commentLoopInterval);
                 });
 
-                const q = query(commentsCollection);
-                onSnapshot(q, (snapshot) => {
-                    const comments = [];
-                    snapshot.forEach(doc => {
-                        comments.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    allComments = comments;
-                    if (document.getElementById('cover').style.display !== 'none') {
+                onSnapshot(query(commentsCollection), (snapshot) => {
+                    allComments = [];
+                    snapshot.forEach(doc => allComments.push({ id: doc.id, ...doc.data() }));
+                    if (window.getComputedStyle(document.getElementById('cover')).display !== 'none') {
                        startReviewCommentLoop();
                     }
-
-                    comments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                    allComments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                     
+                    const commentsList = document.getElementById('comments-list');
                     if (commentsList) {
                         commentsList.innerHTML = '';
                         const groupedComments = {};
-                        comments.forEach(comment => {
+                        allComments.forEach(comment => {
                             if (!comment.timestamp || !comment.name) return;
                             const date = new Date(comment.timestamp.seconds * 1000);
                             const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
                             const key = `${comment.name}_${dateString}`;
                             if (!groupedComments[key]) {
-                                groupedComments[key] = {
-                                    name: comment.name,
-                                    date: dateString,
-                                    messages: [],
-                                    latestTimestamp: comment.timestamp.seconds
-                                };
+                                groupedComments[key] = { name: comment.name, date: dateString, messages: [], latestTimestamp: comment.timestamp.seconds };
                             }
                             groupedComments[key].messages.unshift(escapeHTML(comment.message));
                         });
 
                         const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
-
                         sortedGroups.forEach(group => {
                             const groupElement = document.createElement('div');
                             groupElement.className = 'bg-slate-100 p-4 rounded-lg';
-                            const messagesHTML = group.messages.map(message => 
-                                `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`
-                            ).join('');
-
-                            groupElement.innerHTML = `
-                                <div class="flex justify-between items-center mb-2">
-                                    <p class="font-bold text-slate-800">${escapeHTML(group.name)}</p>
-                                    <p class="text-xs text-slate-500">${group.date}</p>
-                                </div>
-                                <div>${messagesHTML}</div>
-                            `;
+                            const messagesHTML = group.messages.map(message => `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`).join('');
+                            groupElement.innerHTML = `<div class="flex justify-between items-center mb-2"><p class="font-bold text-slate-800">${escapeHTML(group.name)}</p><p class="text-xs text-slate-500">${group.date}</p></div><div>${messagesHTML}</div>`;
                             commentsList.appendChild(groupElement);
                         });
                     }
                 });
 
-                if (commentForm) {
-                    commentForm.addEventListener('submit', async (e) => {
-                        e.preventDefault();
-                        const name = document.getElementById('comment-name').value.trim();
-                        const messageInput = document.getElementById('comment-message');
-                        const message = messageInput.value.trim();
-
-                        if (name && message) {
-                            commentSubmitBtn.disabled = true;
-                            commentSubmitBtn.textContent = 'Mengirim...';
-                            try {
-                                await addDoc(commentsCollection, {
-                                    name: name,
-                                    message: message,
-                                    timestamp: serverTimestamp()
-                                });
-                                messageInput.value = '';
-                            } catch (error) {
-                                console.error("Error adding document: ", error);
-                            } finally {
-                                commentSubmitBtn.disabled = false;
-                                commentSubmitBtn.textContent = 'Kirim Ucapan';
-                            }
+                commentForm?.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('comment-name').value.trim();
+                    const messageInput = document.getElementById('comment-message');
+                    const message = messageInput.value.trim();
+                    const submitBtn = document.getElementById('comment-submit-btn');
+                    if (name && message) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Mengirim...';
+                        try {
+                            await addDoc(commentsCollection, { name: name, message: message, timestamp: serverTimestamp() });
+                            messageInput.value = '';
+                        } catch (error) {
+                            console.error("Error adding document: ", error);
+                        } finally {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Kirim Ucapan';
                         }
-                    });
-                }
+                    }
+                });
             }
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     setupGuestbook();
+                    initializeGalleryConfig(); // Panggil inisialisasi
+                    fetchAndApplyGooglePhotosLink();
+                    listenForGalleryPhotos();
                 }
             });
             
@@ -686,9 +629,7 @@
                 } else {
                     await signInAnonymously(auth);
                 }
-            })().catch(error => {
-                console.error("Authentication failed:", error);
-            });
+            })().catch(error => console.error("Authentication failed:", error));
 
         } catch (e) {
             console.error("Error initializing Firebase:", e);
@@ -696,174 +637,22 @@
         
         function escapeHTML(str) {
             if (!str) return "";
-            return str.replace(/[&<>"']/g, function(match) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match];
-            });
+            return str.replace(/[&<>"']/g, match => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[match]));
         }
     </script>
     <script>
-        // General UI Logic
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ 
-                duration: 1000, 
-                once: true,
-                offset: 120 
-            });
+            AOS.init({ duration: 1000, once: true, offset: 120 });
 
-            // Variabel dan konstanta
-            const eventDate = "2025-08-23T08:00:00";
-            const eventEndDate = "2025-08-23T17:00:00"; // Acara selesai pukul 5 sore
-            const cover = document.getElementById('cover');
-            const mainContent = document.getElementById('main-content');
             const openInvitationButton = document.getElementById('open-invitation');
-            const fontToggleButton = document.getElementById('font-toggle-button');
-            const linkToggleButton = document.getElementById('link-toggle-button');
-            const songToggleButton = document.getElementById('song-toggle-button');
-            const effectToggleButton = document.getElementById('effect-toggle-button');
-            const coverFontPanel = document.getElementById('cover-font-panel');
-            const coverLinkPanel = document.getElementById('cover-link-panel');
-            const coverSongPanel = document.getElementById('cover-song-panel');
-            const coverEffectPanel = document.getElementById('cover-effect-panel');
-            const guestNameEl = document.getElementById('guest-name');
+            const mainContent = document.getElementById('main-content');
+            const cover = document.getElementById('cover');
             const audio = document.getElementById('bg-music');
-            const musicToggle = document.getElementById('music-toggle');
             const musicIconPlay = document.getElementById('music-icon-play');
             const musicIconPause = document.getElementById('music-icon-pause');
-            const commentNameInput = document.getElementById('comment-name');
-            const fullscreenToggle = document.getElementById('fullscreen-toggle');
-            const fullscreenIconEnter = document.getElementById('fullscreen-icon-enter');
-            const fullscreenIconExit = document.getElementById('fullscreen-icon-exit');
-            const guestInfoEl = document.getElementById('guest-info');
             const previewAudio = document.getElementById('preview-audio');
-            
-            let selectedFontId = 'playfair';
-            let selectedColorId = 'white';
-            let selectedSongId = 'song3'; 
-            let selectedEffectId = 'none';
-            let effectInterval;
-            let currentPreviewId = null;
-
-            const fontMap = {
-                'playfair': "'Playfair Display', serif", 'merriweather': "'Merriweather', serif", 
-                'greatvibes': "'Great Vibes', cursive", 'sacramento': "'Sacramento', cursive", 
-                'dancingscript': "'Dancing Script', cursive", 'caveat': "'Caveat', cursive", 
-                'tangerine': "'Tangerine', cursive", 'cinzel': "'Cinzel Decorative', serif",
-                'alexbrush': "'Alex Brush', cursive", 'cormorant': "'Cormorant Garamond', serif"
-            };
-            const colorMap = {
-                'white': '#FFFFFF', 'gold': '#FBBF24', 'silver': '#D1D5DB',
-                'lightblue': '#7DD3FC', 'lightgreen': '#86EFAC', 'lightpink': '#F9A8D4'
-            };
-            const songMap = {
-                'song1': 'https://files.catbox.moe/18l2h9.mp3',
-                'song2': 'https://files.catbox.moe/51rfqh.mp3',
-                'song3': 'https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3',
-                'song4': 'https://ia902806.us.archive.org/28/items/SABYAN-DEENASSALAM/SABYAN%20-%20DEEN%20ASSALAM.mp3'
-            };
-
-            const playlist = ['song3', 'song4'];
-            let currentSongIndex = 0;
             let isSequencePlaying = false;
-
-            const targetNamaElements = document.querySelectorAll('.target-nama-anak');
-
-            function applyFont(fontId) {
-                const fontFamily = fontMap[fontId];
-                if (fontFamily) {
-                    targetNamaElements.forEach(el => el.style.fontFamily = fontFamily);
-                    document.querySelectorAll('.font-button').forEach(btn => btn.classList.toggle('active', btn.dataset.fontId === fontId));
-                }
-            }
-
-            function applyColor(colorId) {
-                const color = colorMap[colorId];
-                if (color) {
-                    targetNamaElements.forEach(el => el.style.color = color);
-                    document.querySelectorAll('.color-button').forEach(btn => btn.classList.toggle('active', btn.dataset.colorId === colorId));
-                }
-            }
-            
-            function applySong(songId) {
-                const songUrl = songMap[songId];
-                if (songUrl) {
-                    audio.src = songUrl;
-                    document.querySelectorAll('.song-button').forEach(btn => {
-                        btn.classList.toggle('active', btn.dataset.songId === songId);
-                    });
-                }
-            }
-
-            function playNextSongInSequence() {
-                currentSongIndex = (currentSongIndex + 1) % playlist.length;
-                const nextSongId = playlist[currentSongIndex];
-                selectedSongId = nextSongId;
-                applySong(nextSongId);
-                audio.play().catch(e => console.error("Error playing next song:", e));
-            }
-
-            function applyEffect(effectId) {
-                 document.querySelectorAll('.effect-button').forEach(btn => btn.classList.toggle('active', btn.dataset.effectId === effectId));
-            }
-
-            function runEffect(effectId) {
-                clearInterval(effectInterval);
-                if (effectId === 'none') return;
-
-                const myCanvas = document.getElementById('effect-canvas');
-                const myConfetti = confetti.create(myCanvas, {
-                    resize: true,
-                    useWorker: true
-                });
-
-                if (effectId === 'glitter') {
-                    effectInterval = setInterval(() => {
-                        myConfetti({ particleCount: 30, startVelocity: 20, spread: 360, origin: { x: Math.random(), y: Math.random() - 0.2 }, colors: ['#FFC700', '#FFD700', '#FFFFFF', '#F0F0F0'] });
-                    }, 800);
-                } else if (effectId === 'flowers') {
-                     effectInterval = setInterval(() => {
-                        myConfetti({ particleCount: 10, angle: 90, spread: 70, origin: { y: -0.1, x: Math.random() }, shapes: ['emoji'], shapeOptions: { emoji: { value: ['🌸', '🌼', '🌷'] } }, gravity: 0.3, drift: Math.random() * 0.4 - 0.2, scalar: 1.2 });
-                    }, 1000);
-                } else if (effectId === 'leaves') {
-                     effectInterval = setInterval(() => {
-                        myConfetti({ particleCount: 10, angle: 90, spread: 120, origin: { y: -0.1, x: Math.random() }, shapes: ['emoji'], shapeOptions: { emoji: { value: ['🍂', '🍁'] } }, gravity: 0.2, drift: Math.random() * 0.6 - 0.3, scalar: 1.1 });
-                    }, 1200);
-                }
-            }
-
-            // Inisialisasi dari URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const guestName = urlParams.get('to');
-            const fontParam = urlParams.get('font');
-            const colorParam = urlParams.get('color');
-            const effectParam = urlParams.get('effect');
-            const songParam = urlParams.get('song');
-            const guestNameDecoded = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
-            const adminLivestreamPanel = document.getElementById('admin-livestream-panel');
-
-            if (guestName) {
-                guestInfoEl.classList.remove('hidden');
-                guestNameEl.textContent = guestNameDecoded;
-                document.getElementById('admin-buttons').classList.add('hidden');
-                if(adminLivestreamPanel) adminLivestreamPanel.classList.add('hidden');
-            } else {
-                guestInfoEl.classList.add('hidden');
-                document.getElementById('admin-buttons').classList.remove('hidden');
-                if(adminLivestreamPanel) adminLivestreamPanel.classList.remove('hidden');
-            }
-
-            if (commentNameInput) {
-                commentNameInput.value = guestNameDecoded;
-            }
-
-            if (fontParam && fontMap[fontParam]) selectedFontId = fontParam;
-            if (colorParam && colorMap[colorParam]) selectedColorId = colorParam;
-            if (effectParam) selectedEffectId = effectParam;
-            if (songParam && songMap[songParam]) selectedSongId = songParam;
-            
-            applyFont(selectedFontId);
-            applyColor(selectedColorId);
-            applyEffect(selectedEffectId);
-            applySong(selectedSongId);
+            let selectedEffectId = 'none'; // Default effect
 
             function showInvitation() {
                 previewAudio.pause(); 
@@ -874,201 +663,110 @@
                     cover.style.display = 'none';
                     mainContent.classList.remove('hidden');
                     document.body.style.overflow = 'auto';
-                    
                     isSequencePlaying = true;
                     audio.loop = false; 
-                    audio.removeEventListener('ended', playNextSongInSequence); // Hapus listener lama
-                    audio.addEventListener('ended', playNextSongInSequence);
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
-
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                    runEffect(selectedEffectId);
+                    // musicIconPlay?.classList.add('hidden');
+                    // musicIconPause?.classList.remove('hidden');
+                    // runEffect(selectedEffectId);
                     AOS.refresh();
                 }, 1000);
             }
 
-            openInvitationButton.addEventListener('click', showInvitation);
+            if(openInvitationButton) {
+                openInvitationButton.addEventListener('click', showInvitation);
+            }
+            
+            // --- Gallery UI Logic ---
+            const mainPhoto = document.getElementById('main-photo');
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            const galleryPlaceholder = document.getElementById('gallery-placeholder');
+            let currentPhotos = [];
 
-            const hideAllPanels = (exceptPanel = null) => {
-                const panels = [coverFontPanel, coverLinkPanel, coverSongPanel, coverEffectPanel];
-                panels.forEach(panel => {
-                    if (panel !== exceptPanel) {
-                        panel.style.display = 'none';
-                    }
+            function selectThumbnail(index) {
+                if (!currentPhotos[index]) return;
+                mainPhoto.style.opacity = 0;
+                setTimeout(() => {
+                    mainPhoto.src = currentPhotos[index].url;
+                    mainPhoto.style.opacity = 1;
+                }, 300);
+                const thumbnails = thumbnailContainer.querySelectorAll('.thumbnail-item');
+                thumbnails.forEach((thumb, i) => thumb.classList.toggle('active', i === index));
+                const activeThumb = thumbnails[index];
+                if (activeThumb) {
+                    const containerRect = thumbnailContainer.getBoundingClientRect();
+                    const thumbRect = activeThumb.getBoundingClientRect();
+                    const scrollLeft = thumbnailContainer.scrollLeft + thumbRect.left - containerRect.left - (containerRect.width / 2) + (thumbRect.width / 2);
+                    thumbnailContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                }
+            }
+
+            window.updateGalleryUI = (photos) => {
+                currentPhotos = photos;
+                if (photos.length === 0) {
+                    galleryPlaceholder.classList.remove('hidden');
+                    thumbnailContainer.innerHTML = '';
+                    mainPhoto.src = 'https://placehold.co/600x400/e2e8f0/94a3b8?text=Galeri+Foto';
+                    return;
+                }
+                galleryPlaceholder.classList.add('hidden');
+                thumbnailContainer.innerHTML = '';
+                photos.forEach((photo, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = photo.url;
+                    thumb.alt = `Galeri Foto ${index + 1}`;
+                    thumb.className = 'thumbnail-item w-20 h-20 md:w-24 md:h-24 object-cover rounded-md cursor-pointer border-4 border-transparent flex-shrink-0';
+                    thumb.addEventListener('click', () => selectThumbnail(index));
+                    thumbnailContainer.appendChild(thumb);
                 });
+                selectThumbnail(0);
             };
 
-            function togglePanel(panel) {
-                const isVisible = panel.style.display === 'block';
-                hideAllPanels(panel);
-                panel.style.display = isVisible ? 'none' : 'block';
+            // --- Admin & URL Logic ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestName = urlParams.get('to');
+            const adminLivestreamPanel = document.getElementById('admin-livestream-panel');
+            const adminGalleryPanel = document.getElementById('admin-gallery-panel');
+            if (guestName) {
+                document.getElementById('guest-info').classList.remove('hidden');
+                document.getElementById('guest-name').textContent = guestName.replace(/\+/g, ' ');
+                document.getElementById('admin-buttons').classList.add('hidden');
+                if(adminLivestreamPanel) adminLivestreamPanel.classList.add('hidden');
+                if(adminGalleryPanel) adminGalleryPanel.classList.add('hidden');
+            } else {
+                document.getElementById('admin-buttons').classList.remove('hidden');
+                if(adminLivestreamPanel) adminLivestreamPanel.classList.remove('hidden');
+                if(adminGalleryPanel) adminGalleryPanel.classList.remove('hidden');
             }
+            document.getElementById('comment-name').value = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
-            fontToggleButton.addEventListener('click', () => togglePanel(coverFontPanel));
-            linkToggleButton.addEventListener('click', () => togglePanel(coverLinkPanel));
-            songToggleButton.addEventListener('click', () => togglePanel(coverSongPanel));
-            effectToggleButton.addEventListener('click', () => togglePanel(coverEffectPanel));
-
-
-            musicToggle.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play();
-                    musicIconPlay.classList.add('hidden');
-                    musicIconPause.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    musicIconPlay.classList.remove('hidden');
-                    musicIconPause.add('hidden');
-                }
-            });
-
-            function toggleFullScreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => console.error(`Error: ${err.message}`));
-                } else if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-
-            fullscreenToggle.addEventListener('click', toggleFullScreen);
-            document.addEventListener('fullscreenchange', () => {
-                const isFullscreen = !!document.fullscreenElement;
-                fullscreenIconEnter.classList.toggle('hidden', isFullscreen);
-                fullscreenIconExit.classList.toggle('hidden', !isFullscreen);
-            });
-
-            let countdownInterval;
-            const countdown = () => {
+            // --- Countdown Logic ---
+            const eventDate = "2025-08-23T08:00:00";
+            const eventEndDate = "2025-08-23T17:00:00";
+            let countdownInterval = setInterval(() => {
                 const targetDate = new Date(eventDate).getTime();
                 const endDate = new Date(eventEndDate).getTime();
                 const now = new Date().getTime();
-
                 const distanceToStart = targetDate - now;
                 const distanceToEnd = endDate - now;
-
                 const countdownEl = document.getElementById('countdown');
                 const liveStatusEl = document.getElementById('live-status');
-
                 if (distanceToStart > 0) {
-                    // SEBELUM ACARA
-                    countdownEl.classList.remove('hidden');
-                    liveStatusEl.classList.add('hidden');
-                    document.getElementById('days').innerText = String(Math.floor(distanceToStart / 86400000)).padStart(2, '0');
-                    document.getElementById('hours').innerText = String(Math.floor((distanceToStart % 86400000) / 3600000)).padStart(2, '0');
-                    document.getElementById('minutes').innerText = String(Math.floor((distanceToStart % 3600000) / 60000)).padStart(2, '0');
-                    document.getElementById('seconds').innerText = String(Math.floor((distanceToStart % 60000) / 1000)).padStart(2, '0');
+                    countdownEl.innerHTML = `
+                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor(distanceToStart / 86400000)).padStart(2, '0')}</div><div class="text-xs">Hari</div></div>
+                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor((distanceToStart % 86400000) / 3600000)).padStart(2, '0')}</div><div class="text-xs">Jam</div></div>
+                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor((distanceToStart % 3600000) / 60000)).padStart(2, '0')}</div><div class="text-xs">Menit</div></div>
+                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor((distanceToStart % 60000) / 1000)).padStart(2, '0')}</div><div class="text-xs">Detik</div></div>
+                    `;
                 } else if (distanceToEnd > 0) {
-                    // SAAT ACARA
                     countdownEl.classList.add('hidden');
                     liveStatusEl.classList.remove('hidden');
                 } else {
-                    // SETELAH ACARA
-                    countdownEl.classList.remove('hidden');
-                    liveStatusEl.classList.add('hidden');
                     countdownEl.innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
-                    if (countdownInterval) clearInterval(countdownInterval); 
+                    liveStatusEl.classList.add('hidden');
+                    clearInterval(countdownInterval); 
                 }
-            };
-            countdownInterval = setInterval(countdown, 1000);
-            countdown();
-
-            document.getElementById('generate-links-btn').addEventListener('click', () => {
-                const names = document.getElementById('guest-list-input').value.split('\n').filter(name => name.trim() !== '');
-                const linksOutput = document.getElementById('links-output');
-                if (names.length === 0) {
-                    linksOutput.innerHTML = '<p class="text-red-500 text-center text-xs">Masukkan nama tamu.</p>';
-                    return;
-                }
-                const baseUrl = window.location.href.split('?')[0];
-                linksOutput.innerHTML = names.map(name => {
-                    const trimmedName = name.trim();
-                    const encodedName = encodeURIComponent(trimmedName);
-                    const fullUrl = `${baseUrl}?to=${encodedName}&font=${selectedFontId}&color=${selectedColorId}&effect=${selectedEffectId}&song=${selectedSongId}`;
-                    const invitationText = `*Bismillahirahmanirrahim*\\n*Assalamu'alaikum Warahmatullahi Wabarakatuh*\\n\\nTanpa mengurangi rasa hormat, kami memohon restu dan kehadiran Bapak/Ibu/Saudara/i *${trimmedName}* dalam acara Tasyakuran Walimatul Khitan putra kami tercinta:\\n\\n**Junior Habib R. Harun**\\n\\nMerupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.\\n\\nSeluruh detail acara, termasuk waktu, lokasi, dan informasi lainnya, telah kami rangkum secara lengkap dalam undangan digital di bawah ini. Silakan klik tautan berikut untuk membukanya:\\n\\n🔗 ${fullUrl}\\n\\nAtas perhatian dan doa restunya, kami ucapkan terima kasih.\\n*Wassalamu'alaikum Warahmatullahi Wabarakatuh*\\n\\nHormat kami,\\n**Kel. Rizky R. Harun & Kel. Inang Mopangga**`;
-                    return `
-                        <div class="mb-2 p-2 bg-slate-100 rounded-md text-slate-800">
-                            <p class="font-semibold text-xs">${trimmedName}</p>
-                            <div class="flex items-center mt-1">
-                                <input type="text" value="${fullUrl}" readonly class="w-full p-1 border border-slate-300 rounded-l-md bg-white text-xs">
-                                <button onclick="copyToClipboard('${fullUrl}', this)" class="bg-teal-600 text-white px-2 py-1 hover:bg-teal-700 text-xs whitespace-nowrap">Salin Link</button>
-                                <button onclick="copyToClipboard('${invitationText.replace(/'/g, "\\'")}', this)" class="bg-slate-600 text-white px-2 py-1 rounded-r-md hover:bg-slate-700 text-xs whitespace-nowrap">Salin Undangan</button>
-                            </div>
-                        </div>`;
-                }).join('');
-            });
-
-            document.querySelectorAll('.font-button').forEach(button => {
-                button.addEventListener('click', function() { selectedFontId = this.dataset.fontId; applyFont(selectedFontId); });
-            });
-            document.querySelectorAll('.color-button').forEach(button => {
-                button.addEventListener('click', function() { selectedColorId = this.dataset.colorId; applyColor(selectedColorId); });
-            });
-            document.querySelectorAll('.song-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    previewAudio.pause();
-                    isSequencePlaying = false;
-                    audio.removeEventListener('ended', playNextSongInSequence);
-                    audio.loop = true;
-                    selectedSongId = this.dataset.songId;
-                    applySong(selectedSongId);
-                });
-            });
-            document.querySelectorAll('.effect-button').forEach(button => {
-                button.addEventListener('click', function() { selectedEffectId = this.dataset.effectId; applyEffect(selectedEffectId); });
-            });
-            
-            document.querySelectorAll('.preview-button').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const songId = this.dataset.songId;
-                    if (currentPreviewId === songId && !previewAudio.paused) {
-                        previewAudio.pause();
-                    } else {
-                        currentPreviewId = songId;
-                        previewAudio.src = songMap[songId];
-                        previewAudio.play().catch(err => console.error("Preview play failed:", err));
-                    }
-                });
-            });
-
-            previewAudio.onplay = () => {
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    const isCurrent = btn.dataset.songId === currentPreviewId;
-                    btn.querySelector('.preview-icon-play').classList.toggle('hidden', isCurrent);
-                    btn.querySelector('.preview-icon-pause').classList.toggle('hidden', !isCurrent);
-                });
-            };
-            previewAudio.onpause = () => {
-                currentPreviewId = null;
-                document.querySelectorAll('.preview-button').forEach(btn => {
-                    btn.querySelector('.preview-icon-play').classList.remove('hidden');
-                    btn.querySelector('.preview-icon-pause').classList.add('hidden');
-                });
-            };
-
-            document.querySelectorAll('.comment-template-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    if(document.getElementById('comment-message')) {
-                        document.getElementById('comment-message').value = this.textContent;
-                    }
-                });
-            });
-
-            // Animasi huruf
-            document.querySelectorAll('.animate-letters').forEach(header => {
-                header.innerHTML = header.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            anime.timeline({ targets: entry.target.querySelectorAll('.letter'), easing: 'easeOutExpo', duration: 1000, delay: anime.stagger(100) })
-                            .add({ opacity: [0, 1], translateY: [20, 0] });
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.5 });
-                observer.observe(header);
-            });
+            }, 1000);
         });
 
         function copyToClipboard(text, button) {
