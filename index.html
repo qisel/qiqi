@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Walimatul Khitan - Junior Habib R. Harun</title>
+    <title>Undangan Ulang Tahun - Aulia Putri</title>
 
     <!-- Meta Tags untuk WhatsApp & Social Media Preview -->
-    <meta property="og:title" content="Undangan Walimatul Khitan - Junior Habib R. Harun">
-    <meta property="og:description" content="Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Anda untuk hadir dalam acara Tasyakuran Khitan & Ulang Tahun putra kami.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/qisel/qiqi/main/f3.png">
+    <meta property="og:title" content="Undangan Ulang Tahun - Aulia Putri">
+    <meta property="og:description" content="Dengan hormat, kami mengundang Anda untuk hadir dalam perayaan ulang tahun putri kami.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519680383795-7a4e473b940e?q=80&w=1887&auto=format&fit=crop">
     <meta property="og:type" content="website">
     
     <!-- Tailwind CSS for styling -->
@@ -17,7 +17,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&family=Lobster&family=Roboto:700&family=Merriweather:700&family=Sacramento&family=Caveat&family=Cinzel+Decorative:700&family=Great+Vibes&family=Dancing+Script&family=Tangerine:700&family=Alex+Brush&family=Cormorant+Garamond:700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
     <!-- AOS (Animate On Scroll) for animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -30,20 +30,14 @@
         /* Custom styles and fonts */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #F3F4F6;
+            background-color: #030712; /* Rich Black */
+            overflow: hidden; /* Mencegah scroll vertikal di body */
         }
         .font-serif {
             font-family: 'Playfair Display', serif;
         }
         #cover {
-            background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f1.jpeg');
-            background-size: cover;
-            background-position: center;
-        }
-        @media (min-width: 768px) {
-            #cover {
-                background-image: url('https://raw.githubusercontent.com/qisel/qiqi/main/f3.png');
-            }
+            background-color: #030712;
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
@@ -52,36 +46,10 @@
         .animate-pulse-slow {
             animation: pulse 2s infinite;
         }
-        .font-button.active, .song-button.active, .effect-button.active {
-            background-color: #0D9488;
-            color: white;
-            border-color: #0D9488;
-        }
-        .color-button.active {
-            ring-offset-2 ring-2 ring-teal-500;
-        }
-        #cover-font-panel, #cover-link-panel, #cover-song-panel, #cover-effect-panel {
-            display: none;
-            z-index: 70;
-        }
-        #admin-buttons {
-            z-index: 60; 
-        }
-        .ornament {
-            width: 8rem;
-            height: 8rem;
-            fill: currentColor;
-        }
         .animate-letters .letter {
             display: inline-block;
             opacity: 0;
             transform: translateY(20px);
-        }
-        .parallax-bg {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
         }
         #effect-canvas {
             position: fixed;
@@ -89,292 +57,199 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 10;
+            z-index: 5;
             pointer-events: none;
         }
-        .quote-enter { animation: fadeIn 1s ease-out forwards; }
-        .quote-exit { animation: fadeOut 1s ease-in forwards; }
+        .gold-text {
+            color: #D4AF37;
+        }
+        .gold-border {
+            border-color: #D4AF37;
+        }
+        .gold-bg {
+            background-color: #D4AF37;
+        }
+        .hover-gold-bg:hover {
+            background-color: #c09b2d;
+        }
+        /* Animasi untuk komentar baru */
+        .comment-enter-active {
+            animation: fadeIn 0.5s ease-out;
+        }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
+        /* Styling untuk Horizontal Scroll */
+        #main-content {
+            background-color: #111827; /* Dark Blue Gray */
+            background-image: 
+                linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%);
+            background-size: 20px 20px;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
         }
-        .thumbnail-container {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        #scroll-container {
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
         }
-        .thumbnail-container::-webkit-scrollbar {
-            display: none;
+        #scroll-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
-        .thumbnail-item {
-            transition: transform 0.3s ease, border-color 0.3s ease;
+        .slide {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
-        .thumbnail-item.active {
-            border-color: #0D9488;
-            transform: scale(1.05);
+        /* PERUBAHAN: Styling untuk Indikator Ikon */
+        .nav-dot {
+            transition: color 0.3s, transform 0.3s;
+            color: rgba(255, 255, 255, 0.3);
         }
-        .image-reveal-container {
-            position: relative;
-            overflow: hidden; 
-            display: inline-block; 
-        }
-
-        .image-reveal-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #d1fae5; 
-            transform: translateX(-101%); 
-            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .image-reveal-container.aos-animate::after {
-            transform: translateX(101%);
-        }
-
-        .image-reveal-container img {
-            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-            transform: scale(1.1); 
-        }
-        
-        .image-reveal-container.aos-animate img {
-            transform: scale(1);
+        .nav-dot.active {
+            color: #D4AF37;
+            transform: scale(1.2);
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body class="bg-gray-900 text-slate-800">
     <canvas id="effect-canvas"></canvas>
 
     <!-- Cover Section -->
-    <div id="cover" class="fixed top-0 left-0 w-full h-full z-50 flex flex-col items-center justify-center text-white text-center p-8 bg-slate-700">
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div id="cover" class="fixed top-0 left-0 w-full h-full z-50 flex flex-col items-center justify-center text-white text-center p-8">
         <div class="relative z-10" data-aos="fade-up">
-            <p class="text-lg mb-2">Syukuran Khitan & Ulang Tahun</p>
-            <h1 class="font-serif text-5xl md:text-6xl mb-4 target-nama-anak">Junior Habib R. Harun</h1>
-            <div id="guest-info" class="border-t border-b border-white py-4 my-8 hidden">
-                <p class="text-md">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                <h2 id="guest-name" class="text-2xl font-bold mt-2"></h2>
-                <p class="text-xs mt-2 text-white/80">Mohon maaf jika terdapat kesalahan dalam penulisan nama atau gelar.</p>
+            <p class="text-lg mb-2 text-gray-300">An Invitation to a Birthday Gala</p>
+            <h1 class="font-serif text-6xl md:text-8xl my-4 gold-text" style="text-shadow: 1px 1px 10px rgba(212, 175, 55, 0.5);">Aulia Putri</h1>
+            <div id="guest-info" class="border-t border-b border-amber-500/30 py-4 my-8 hidden">
+                <p class="text-md text-gray-300">Dengan Hormat, kami mengundang:</p>
+                <h2 id="guest-name" class="text-2xl font-bold mt-2 tracking-wider"></h2>
             </div>
-            <button id="open-invitation" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 animate-pulse-slow">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            <button id="open-invitation" class="border-2 border-amber-500 hover:bg-amber-500 text-amber-500 hover:text-black font-bold py-3 px-12 rounded-full shadow-lg transition-all duration-300 animate-pulse-slow mt-8">
                 Buka Undangan
             </button>
-            <div id="review-comment-container" class="mt-8 mx-auto w-full max-w-sm">
-                <p class="bg-black text-white text-xs font-semibold px-2 py-1 rounded-full mb-2 inline-block">Komentar Tamu</p>
-                <div class="bg-white/30 text-white backdrop-blur-sm px-4 py-3 rounded-lg shadow-md min-h-[50px] flex items-center justify-center">
-                    <p id="review-comment-text" class="text-sm italic">Memuat komentar...</p>
-                </div>
-            </div>
         </div>
-        <div id="admin-buttons" class="absolute bottom-5 left-5 right-5 z-60 flex justify-between items-center max-w-xs mx-auto">
-            <button id="font-toggle-button" title="Pilih Font & Warna" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.0 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
-            </button>
-             <button id="effect-toggle-button" title="Pilih Efek" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C9.2 6.3 9 6 9 5.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M19 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5c-.2-.2-.4-.5-.4-.8v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M5 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C2.2 15.3 2 15 2 14.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/></svg>
-            </button>
-            <button id="song-toggle-button" title="Pilih Lagu" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-            </button>
-            <button id="link-toggle-button" title="Buat Link Tamu" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </button>
-        </div>
-        <div id="cover-font-panel" class="absolute bottom-20 left-5 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
-        <div id="cover-effect-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
-        <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
-        <div id="cover-link-panel" class="absolute bottom-20 right-5 z-20 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72 max-h-[70vh] overflow-y-auto"></div>
     </div>
 
     <!-- Main Content -->
-    <main id="main-content" class="hidden max-w-3xl mx-auto bg-white shadow-xl relative z-20">
+    <main id="main-content" class="hidden max-w-full shadow-2xl relative z-20 text-gray-300">
         <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-3">
-            <button id="fullscreen-toggle" title="Layar Penuh" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
-            <button id="music-toggle" title="Musik" class="bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
+            <button id="fullscreen-toggle" title="Layar Penuh" class="bg-slate-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
+            <button id="music-toggle" title="Musik" class="bg-slate-800 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"></button>
         </div>
-        <header class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
-            <p class="text-lg" data-aos="fade-down">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
-            <p class="mt-4 max-w-xl mx-auto" data-aos="fade-up">
-                Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara Tasyakuran Khitan & Ulang Tahun putra kami:
-            </p>
-            <h1 class="font-serif text-5xl md:text-6xl mt-6 target-nama-anak" data-aos="zoom-in">Junior Habib R. Harun</h1>
-        </header>
-
-        <section id="doa-harapan" class="p-8 md:p-12 text-center bg-white">
-            <div class="max-w-2xl mx-auto border-y-2 border-teal-500 py-6" data-aos="fade-up">
-                <p class="text-slate-600 italic">"Ya Allah, di hari yang penuh berkah ini, jadikanlah ananda kami insan yang sholeh, berbakti, dan senantiasa berada dalam lindungan-Mu. Semoga dengan bertambahnya usia dan disempurnakannya fitrahnya, ia tumbuh menjadi pribadi yang sehat, cerdas, dan membawa manfaat bagi sesama. Aamiin Ya Rabbal Alamin."</p>
-            </div>
-        </section>
-
-        <section id="family" class="p-8 md:p-12 text-center bg-slate-50">
-             <p class="text-lg mb-8" data-aos="fade-up">Sekilas Tentang Keluarga</p>
-             <p class="text-md italic text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="100">
-                Anak pertama kami dari dua bersaudara, Junior Habib R. Harun, kini menginjak usia 8 tahun. Dengan segala doa dan cinta, kami bersyukur atas kehadirannya yang melengkapi kebahagiaan kami.
-             </p>
-             <div class="flex justify-center">
-                <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
-                    <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
-                </div>
-             </div>
-             <h3 class="font-serif text-2xl mt-4" data-aos="fade-up" data-aos-delay="200">Kel. Harun & Kel. Mopangga</h3>
-        </section>
         
-        <section id="details" class="p-8 md:p-12 text-center relative overflow-hidden">
-            <h2 class="font-serif text-4xl mb-8 animate-letters">Detail Acara</h2>
-            <div class="border-t-2 border-b-2 border-teal-500 py-8" data-aos="fade-up">
-                <p class="text-lg mb-4">Insya Allah akan diselenggarakan pada:</p>
-                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
-                    <div class="w-full md:w-1/2" data-aos="fade-right">
-                        <div class="bg-slate-100 p-6 rounded-lg shadow-md">
-                            <h3 class="font-serif text-2xl text-teal-700">Tasyakuran</h3>
-                            <p class="text-xl font-bold mt-2">Sabtu, 23 Agustus 2025</p>
-                            <p class="mt-1">Pukul 08:00 WITA - Selesai</p>
-                            <p class="mt-4 text-sm">
-                                Kediaman Bapak/Ibu Rizky R. Harun bersama istri <br>
-                                Kompleks RO. Taluhu Barakati Kecamatan Batudaa
-                            </p>
+        <div id="scroll-container" class="flex w-full h-full overflow-x-auto scroll-smooth">
+            <!-- Slide 1: Header -->
+            <section class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
+                <div data-aos="fade-in">
+                    <p class="text-lg" data-aos="fade-down" data-aos-delay="200">Dengan penuh rasa syukur</p>
+                    <h1 class="font-serif text-5xl md:text-7xl mt-6 gold-text" data-aos="zoom-in" data-aos-delay="400">Aulia Putri</h1>
+                    <p class="mt-6 max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="600">
+                        Merayakan hari ulang tahunnya yang ke-17. Merupakan suatu kehormatan bagi kami apabila Anda berkenan hadir untuk memberikan doa dan merayakan momen spesial ini bersama kami.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 2: Details -->
+            <section class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8">
+                <div class="max-w-md w-full bg-gray-900/50 p-8 rounded-lg shadow-lg border border-amber-500/20" data-aos="fade-up">
+                    <div class="text-center mb-8">
+                        <h2 class="font-serif text-4xl gold-text">Detail Acara</h2>
+                    </div>
+                    <div class="flex items-start mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400 mr-4 mt-1 flex-shrink-0"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        <div>
+                            <p class="font-bold text-lg">Sabtu, 27 September 2025</p>
+                            <p class="text-gray-400">Pukul 19:00 WIB - Selesai</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400 mr-4 mt-1 flex-shrink-0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <div>
+                            <p class="font-bold text-lg">The Grand Ballroom, Hotel Indonesia Kempinski</p>
+                            <p class="text-gray-400">Jakarta Pusat</p>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div id="countdown" class="mt-10 flex justify-center space-x-4 text-center"></div>
-            <div id="live-status" class="mt-10 hidden text-center">
-                <p class="text-2xl md:text-4xl font-bold text-teal-700 animate-pulse">Acara Sedang Berlangsung</p>
-                <a id="live-stream-button" href="#" target="_blank" class="mt-6 inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2 -mt-1"><path d="M15.6 11.6L22 7v10l-6.4-4.6Z"/><path d="M2 7h11a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/></svg>
-                    Tonton Live Streaming
-                </a>
-            </div>
-            <div id="admin-livestream-panel" class="mt-6 max-w-md mx-auto bg-slate-200 p-4 rounded-lg shadow-inner hidden">
-                <p class="text-sm font-bold text-slate-700 mb-2 text-left">Panel Admin: Atur Link Live</p>
-                <div class="flex items-center gap-2">
-                    <input type="url" id="livestream-url-input" class="w-full p-2 text-sm border border-slate-400 rounded-lg focus:ring-2 focus:ring-teal-500" placeholder="https://youtube.com/live/...">
-                    <button id="save-livestream-link-btn" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm whitespace-nowrap">Simpan Link</button>
-                </div>
-            </div>
-        </section>
+                 <div id="countdown" class="mt-12 flex justify-center space-x-2 md:space-x-4 text-center"></div>
+            </section>
 
-        <section id="gallery" class="p-8 md:p-12 text-center bg-white">
-            <h2 class="font-serif text-4xl mb-2 animate-letters">Galeri Kenangan</h2>
-            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Bagikan dan lihat momen-momen kebahagiaan dari acara kami.</p>
-            <div class="max-w-xl mx-auto" data-aos="fade-up">
-                <div class="w-full aspect-video bg-slate-200 rounded-lg shadow-lg mb-4 flex items-center justify-center overflow-hidden">
-                    <img id="main-photo" src="https://placehold.co/600x400/e2e8f0/94a3b8?text=Galeri+Foto" alt="Foto Utama Galeri" class="w-full h-full object-cover transition-opacity duration-500">
+            <!-- Slide 3: Location -->
+            <section id="location" class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
+                <div class="w-full max-w-2xl">
+                    <h2 class="font-serif text-4xl mb-8 animate-letters gold-text">Lokasi Acara</h2>
+                    <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg border-2 border-amber-500/20" data-aos="fade-up">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.529019853634!2d106.8219833747843!3d-6.19367286068213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f42195555555%3A0x2472c9584155161!2sHotel%20Indonesia%20Kempinski%20Jakarta!5e0!3m2!1sid!2sid!4v1724399738743!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/yQY1j9x7j8Z9aBc7A" target="_blank" class="mt-8 inline-block gold-bg hover-gold-bg text-black font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka Peta Navigasi</a>
                 </div>
-                <div class="relative">
-                    <div id="thumbnail-container" class="flex items-center gap-3 overflow-x-auto pb-2 thumbnail-container">
-                        <div id="gallery-placeholder" class="text-center w-full py-4 text-slate-500">Belum ada foto di galeri.</div>
+            </section>
+
+            <!-- Slide 4: Guestbook -->
+            <section id="guestbook" class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
+                 <div class="w-full max-w-md">
+                    <h2 class="font-serif text-4xl mb-2 animate-letters gold-text">Buku Harapan</h2>
+                    <p class="text-gray-400 max-w-xl mx-auto mb-8" data-aos="fade-up">Tinggalkan doa dan harapan terbaik Anda untuk Aulia.</p>
+                    <div class="bg-gray-900/50 p-6 rounded-lg shadow-lg border border-amber-500/20" data-aos="fade-up">
+                        <form id="comment-form">
+                            <input type="text" id="comment-name" class="w-full p-3 border border-gray-700 rounded-lg mb-3 bg-gray-800 text-white font-medium" readonly required>
+                            <textarea id="comment-message" rows="4" placeholder="Tuliskan harapan Anda di sini..." class="w-full p-3 border border-gray-700 rounded-lg mb-3 bg-gray-800 text-white focus:ring-2 focus:ring-amber-500" required></textarea>
+                            <button type="submit" id="comment-submit-btn" class="w-full gold-bg hover-gold-bg text-black font-bold py-3 px-4 rounded-full transition-colors disabled:bg-slate-400">Kirim Harapan</button>
+                        </form>
+                    </div>
+                    <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4 h-64 overflow-y-auto"></div>
+                 </div>
+            </section>
+
+            <!-- Slide 5: Gift -->
+            <section id="gift" class="slide w-full h-full flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
+                <div class="w-full max-w-md">
+                    <h2 class="font-serif text-4xl mb-2 animate-letters gold-text">Tanda Kasih</h2>
+                    <p class="text-gray-400 max-w-xl mx-auto mb-8" data-aos="fade-up">Kehadiran Anda adalah hadiah terindah. Namun jika ingin memberikan tanda kasih, Anda dapat melakukannya secara cashless.</p>
+                    <div class="bg-gray-900/50 p-6 rounded-lg shadow-lg border border-amber-500/20" data-aos="zoom-in">
+                        <p class="font-semibold text-lg text-white">Scan QRIS</p>
+                        <p class="text-sm text-gray-400">Mendukung semua E-Wallet & M-Banking</p>
+                        <img src="https://placehold.co/300x300/111827/d4af37?text=Scan+QRIS" alt="QRIS Code" class="w-48 h-48 mx-auto my-4 rounded-lg">
+                        <div class="my-6 border-t border-gray-700"></div>
+                        <p class="font-semibold text-lg text-white">Atau ke Nomor E-Wallet</p>
+                        <p class="text-md mt-2 text-gray-300">DANA / OVO / GoPay</p>
+                        <p class="text-xl font-bold mt-1 gold-text">0812-3456-7890</p>
+                        <p class="text-md mt-1 text-gray-300">a.n. Aulia Putri</p>
+                        <button onclick="copyToClipboard('081234567890', this)" class="mt-4 gold-bg hover-gold-bg text-black text-sm font-bold py-2 px-4 rounded-full transition-colors">
+                            Salin Nomor
+                        </button>
                     </div>
                 </div>
-                
-                <a id="submit-photo-btn" href="#" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2 -mt-1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    Kirim Foto Kenangan
-                </a>
-            </div>
-            
-            <div id="admin-gallery-panel" class="mt-8 max-w-xl mx-auto bg-slate-200 p-4 rounded-lg shadow-inner hidden text-left">
-                <p class="text-sm font-bold text-slate-700 mb-3">Panel Admin: Atur Galeri</p>
-                <div>
-                    <label for="google-photos-link-input" class="block text-xs font-medium text-slate-600 mb-1">Link Album Google Photos (untuk tamu)</label>
-                    <div class="flex items-center gap-2">
-                        <input type="url" id="google-photos-link-input" class="w-full p-2 text-sm border border-slate-400 rounded-lg" placeholder="https://photos.app.goo.gl/...">
-                        <button id="save-google-photos-link-btn" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-4 rounded-lg text-sm whitespace-nowrap">Simpan</button>
-                    </div>
-                </div>
-                <div class="mt-4">
-                    <label for="new-photo-url-input" class="block text-xs font-medium text-slate-600 mb-1">URL Foto Baru (untuk ditampilkan)</label>
-                    <div class="flex items-center gap-2">
-                        <input type="url" id="new-photo-url-input" class="w-full p-2 text-sm border border-slate-400 rounded-lg" placeholder="Klik kanan 'Salin alamat gambar'...">
-                        <button id="add-photo-btn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg text-sm whitespace-nowrap">Tambah</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <footer class="text-center p-12 bg-slate-800 text-white parallax-bg" style="background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/islamic-style.png');">
-            <p class="mb-4" data-aos="fade-down">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan do'a restu.</p>
-            <p class="mb-8" data-aos="fade-up">Atas kehadiran dan do'a restunya, kami ucapkan terima kasih.</p>
-            <p class="font-serif text-3xl" data-aos="zoom-in">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
-            <p class="mt-8 font-bold" data-aos="fade-up">Kami yang berbahagia,</p>
-            <p class="mt-2" data-aos="fade-up">Turut Mengundang: Kel. Harun & Kel. Mopangga</p>
-        </footer>
-
-        <section id="location" class="p-8 md:p-12 bg-white text-center">
-            <h2 class="font-serif text-4xl mb-8 animate-letters">Lokasi Acara</h2>
-            <div class="w-full h-80 rounded-lg overflow-hidden shadow-lg" data-aos="fade-up">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.655868478335!2d122.9918231747844!3d0.5489858635880668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32792b1959555555%3A0x8e9237ff2218c63!2sMasjid%20Jami%20Al-Ikhlas%20Batudaa!5e0!3m2!1sid!2sid!4v1724050215712!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <a href="https://maps.app.goo.gl/1224teB3kar7EA7Q6" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300" data-aos="fade-up">Buka di Google Maps</a>
-        </section>
-
-        <section id="guestbook" class="p-8 md:p-12 text-center bg-white">
-            <h2 class="font-serif text-4xl mb-2 animate-letters">Buku Tamu & Ucapan Doa</h2>
-            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Kirimkan ucapan dan doa terbaik Anda untuk putra kami.</p>
-            <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-lg" data-aos="fade-up">
-                <form id="comment-form">
-                    <input type="text" id="comment-name" class="w-full p-3 border border-slate-300 rounded-lg mb-3 bg-slate-200 text-slate-800 font-medium" readonly required>
-                    <div class="text-left mb-3">
-                        <p class="text-sm text-slate-600 mb-2">Pilih ucapan atau tulis sendiri:</p>
-                        <div class="flex flex-wrap gap-2">
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Insya Allah akan hadir.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Mohon maaf berhalangan hadir.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Selamat, semoga menjadi anak sholeh.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Barakallah, semoga sehat selalu.</button>
-                            <button type="button" class="comment-template-btn text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200">Selamat ulang tahun & khitanan!</button>
-                        </div>
-                    </div>
-                    <textarea id="comment-message" rows="4" placeholder="Tulis ucapan Anda di sini..." class="w-full p-3 border border-slate-300 rounded-lg mb-3 focus:ring-2 focus:ring-teal-500" required></textarea>
-                    <button type="submit" id="comment-submit-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition-colors disabled:bg-slate-400">Kirim Ucapan</button>
-                </form>
-            </div>
-            <div id="comments-list" class="max-w-md mx-auto mt-8 text-left space-y-4"></div>
-        </section>
-
-        <section id="gift" class="p-8 md:p-12 text-center bg-slate-50">
-            <h2 class="font-serif text-4xl mb-2 animate-letters">Kirim Hadiah</h2>
-            <p class="text-slate-600 max-w-xl mx-auto mb-8" data-aos="fade-up">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah ungkapan tanda kasih, Anda dapat memberi kado secara cashless.</p>
-            <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md" data-aos="zoom-in">
-                <p class="font-semibold text-lg">Scan QRIS</p>
-                <p class="text-sm text-slate-500">Mendukung semua E-Wallet & M-Banking</p>
-                <img src="https://placehold.co/300x300/ffffff/000000?text=Scan+QRIS+Anda+di+Sini" alt="QRIS Code" class="w-48 h-48 mx-auto my-4 rounded-lg">
-                <div class="flex justify-center items-center">
-                    <img src="https://1.bp.blogspot.com/-Vtb-RArDbaY/YIZA_Kry9qI/AAAAAAAACiw/z3xhKLb2IEccSpL1sTa68YFR8peqB3_dwCLcBGAsYHQ/s0/IMG_20210426_122311.jpg" alt="E-Wallet Logos" class="h-8">
-                </div>
-                <div class="my-6 border-t border-slate-200"></div>
-                <p class="font-semibold text-lg">Atau ke Nomor E-Wallet</p>
-                <p class="text-md mt-2">DANA / OVO / GoPay</p>
-                <p class="text-xl font-bold mt-1">0823-1194-5664</p>
-                <p class="text-md mt-1">a.n. Rizky R. Harun</p>
-                <button onclick="copyToClipboard('0823-1194-5664', this)" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold py-2 px-4 rounded-full transition-colors">
-                    Salin Nomor
-                </button>
-            </div>
-        </section>
+        <!-- PERUBAHAN: Posisi Navigasi Horizontal Ditinggikan -->
+        <div id="horizontal-nav" class="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4">
+            <button id="prev-slide" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div id="nav-dots" class="flex gap-4"></div>
+            <button id="next-slide" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors disabled:opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
     </main>
 
-    <footer class="text-center py-4 bg-slate-100">
-        <p class="text-xs text-slate-500">
-            Digital Invitation by 
-            <a href="https://wa.me/6285299069883" target="_blank" class="font-bold text-teal-600 hover:underline">arkan.digital</a>
-            - Desa Barakati
-        </p>
-    </footer>
-    <audio id="bg-music" src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
-    <audio id="preview-audio"></audio>
+    <audio id="bg-music" src="https://ia800909.us.archive.org/24/items/NeverGonnaGiveYouUp/01%20-%20Never%20Gonna%20Give%20You%20Up.mp3"></audio>
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         const userFirebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
@@ -385,185 +260,33 @@
           appId: "1:776870269876:web:760c755c643ab95bbe58e1"
         };
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'gala-birthday-' + firebaseConfig.projectId;
 
         try {
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
 
-            // --- Live Stream Logic ---
-            const liveStreamDocRef = doc(db, `artifacts/${appId}/public/data/livestreamConfig`, "liveUrl");
-            
-            async function saveLiveStreamLink(url) {
-                const saveButton = document.getElementById('save-livestream-link-btn');
-                if (!url) { alert('Masukkan URL yang valid.'); return; }
-                saveButton.disabled = true;
-                saveButton.textContent = 'Menyimpan...';
-                try {
-                    await setDoc(liveStreamDocRef, { url: url });
-                    saveButton.textContent = 'Tersimpan!';
-                    setTimeout(() => { saveButton.textContent = 'Simpan Link'; }, 2000);
-                } catch (error) {
-                    console.error("Error saving link: ", error);
-                    saveButton.textContent = 'Gagal';
-                } finally {
-                    saveButton.disabled = false;
-                }
-            }
-
-            async function fetchAndApplyLiveStreamLink() {
-                const liveStreamButton = document.getElementById('live-stream-button');
-                try {
-                    const docSnap = await getDoc(liveStreamDocRef);
-                    if (docSnap.exists() && docSnap.data().url) {
-                        const liveUrl = docSnap.data().url;
-                        liveStreamButton.href = liveUrl;
-                        liveStreamButton.classList.remove('hidden');
-                        const urlInput = document.getElementById('livestream-url-input');
-                        if (urlInput) urlInput.value = liveUrl;
-                    } else {
-                        liveStreamButton.classList.add('hidden');
-                    }
-                } catch (error) {
-                    console.error(`Error fetching document from ${liveStreamDocRef.path}:`, error);
-                    liveStreamButton.classList.add('hidden');
-                }
-            }
-            
-            // --- Gallery Logic (Google Photos Method) ---
-            const galleryConfigDocRef = doc(db, `artifacts/${appId}/public/data/galleryConfig`, "googlePhotosLink");
-            const galleryPhotosCollectionRef = collection(db, `artifacts/${appId}/public/data/galleryPhotos`);
-
-            async function saveGooglePhotosLink(url) {
-                const saveButton = document.getElementById('save-google-photos-link-btn');
-                saveButton.disabled = true;
-                saveButton.textContent = '...';
-                try {
-                    await setDoc(galleryConfigDocRef, { url: url });
-                    saveButton.textContent = 'OK!';
-                    setTimeout(() => { saveButton.textContent = 'Simpan'; }, 2000);
-                } catch (error) {
-                    console.error("Error saving GPhotos link: ", error);
-                    saveButton.textContent = 'Gagal';
-                } finally {
-                    saveButton.disabled = false;
-                }
-            }
-
-            async function addPhotoToGallery(url) {
-                const addButton = document.getElementById('add-photo-btn');
-                if (!url || !url.startsWith('http')) { alert('Masukkan URL foto yang valid.'); return; }
-                addButton.disabled = true;
-                addButton.textContent = '...';
-                try {
-                    await addDoc(galleryPhotosCollectionRef, { url: url, timestamp: serverTimestamp() });
-                    document.getElementById('new-photo-url-input').value = '';
-                    addButton.textContent = 'OK!';
-                     setTimeout(() => { addButton.textContent = 'Tambah'; }, 2000);
-                } catch (error) {
-                    console.error("Error adding photo: ", error);
-                    addButton.textContent = 'Gagal';
-                } finally {
-                    addButton.disabled = false;
-                }
-            }
-
-            async function fetchAndApplyGooglePhotosLink() {
-                const submitBtn = document.getElementById('submit-photo-btn');
-                try {
-                    const docSnap = await getDoc(galleryConfigDocRef);
-                    if (docSnap.exists() && docSnap.data().url) {
-                        const albumUrl = docSnap.data().url;
-                        submitBtn.href = albumUrl;
-                        submitBtn.classList.remove('hidden');
-                        document.getElementById('google-photos-link-input').value = albumUrl;
-                    } else {
-                        submitBtn.classList.add('hidden');
-                    }
-                } catch (error) {
-                    console.error(`Error fetching document from ${galleryConfigDocRef.path}:`, error);
-                    submitBtn.classList.add('hidden');
-                }
-            }
-
-            function listenForGalleryPhotos() {
-                onSnapshot(query(galleryPhotosCollectionRef), (snapshot) => {
-                    const photos = [];
-                    snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
-                    photos.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
-                    window.updateGalleryUI(photos);
-                });
-            }
-
-            // --- Guestbook Logic ---
             function setupGuestbook() {
                 const commentForm = document.getElementById('comment-form');
                 const commentsCollection = collection(db, `artifacts/${appId}/public/data/comments`);
-                const reviewCommentText = document.getElementById('review-comment-text');
-                let allComments = [];
-                let commentLoopInterval = null;
-                let currentReviewIndex = 0;
-
-                function showNextReviewComment() {
-                    if (allComments.length === 0) { reviewCommentText.textContent = 'Belum ada ucapan dan doa.'; return; }
-                    const comment = allComments[currentReviewIndex];
-                    const shortMessage = comment.message.length > 50 ? comment.message.substring(0, 50) + '...' : comment.message;
-                    reviewCommentText.classList.remove('quote-enter');
-                    reviewCommentText.classList.add('quote-exit');
-                    setTimeout(() => {
-                        reviewCommentText.innerHTML = `<b>${escapeHTML(comment.name)}</b>: ${escapeHTML(shortMessage)}`;
-                        reviewCommentText.classList.remove('quote-exit');
-                        reviewCommentText.classList.add('quote-enter');
-                    }, 1000);
-                    currentReviewIndex = (currentReviewIndex + 1) % allComments.length;
-                }
                 
-                function startReviewCommentLoop() {
-                    if (commentLoopInterval) clearInterval(commentLoopInterval);
-                    if (allComments.length > 0) showNextReviewComment();
-                    else reviewCommentText.textContent = 'Belum ada ucapan dan doa.';
-                    commentLoopInterval = setInterval(() => {
-                        if (allComments.length > 0 && window.getComputedStyle(document.getElementById('cover')).display !== 'none') {
-                            showNextReviewComment();
-                        }
-                    }, 5000);
-                }
-                
-                document.getElementById('open-invitation').addEventListener('click', () => {
-                    if (commentLoopInterval) clearInterval(commentLoopInterval);
-                });
-
                 onSnapshot(query(commentsCollection), (snapshot) => {
-                    allComments = [];
+                    const allComments = [];
                     snapshot.forEach(doc => allComments.push({ id: doc.id, ...doc.data() }));
-                    if (window.getComputedStyle(document.getElementById('cover')).display !== 'none') {
-                       startReviewCommentLoop();
-                    }
                     allComments.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
                     
                     const commentsList = document.getElementById('comments-list');
                     if (commentsList) {
                         commentsList.innerHTML = '';
-                        const groupedComments = {};
                         allComments.forEach(comment => {
-                            if (!comment.timestamp || !comment.name) return;
-                            const date = new Date(comment.timestamp.seconds * 1000);
-                            const dateString = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-                            const key = `${comment.name}_${dateString}`;
-                            if (!groupedComments[key]) {
-                                groupedComments[key] = { name: comment.name, date: dateString, messages: [], latestTimestamp: comment.timestamp.seconds };
-                            }
-                            groupedComments[key].messages.unshift(escapeHTML(comment.message));
-                        });
-
-                        const sortedGroups = Object.values(groupedComments).sort((a, b) => b.latestTimestamp - a.latestTimestamp);
-                        sortedGroups.forEach(group => {
-                            const groupElement = document.createElement('div');
-                            groupElement.className = 'bg-slate-100 p-4 rounded-lg';
-                            const messagesHTML = group.messages.map(message => `<p class="text-slate-600 border-t border-slate-200 pt-2 mt-2 first:mt-0 first:pt-0 first:border-0">${message}</p>`).join('');
-                            groupElement.innerHTML = `<div class="flex justify-between items-center mb-2"><p class="font-bold text-slate-800">${escapeHTML(group.name)}</p><p class="text-xs text-slate-500">${group.date}</p></div><div>${messagesHTML}</div>`;
-                            commentsList.appendChild(groupElement);
+                             const commentElement = document.createElement('div');
+                            commentElement.className = 'bg-gray-800/50 p-4 rounded-lg border-l-4 border-amber-500/50 comment-enter-active';
+                            commentElement.innerHTML = `
+                                <p class="font-semibold text-white">${escapeHTML(comment.name)}</p>
+                                <p class="text-gray-300 mt-1">${escapeHTML(comment.message)}</p>
+                            `;
+                            commentsList.appendChild(commentElement);
                         });
                     }
                 });
@@ -580,11 +303,12 @@
                         try {
                             await addDoc(commentsCollection, { name: name, message: message, timestamp: serverTimestamp() });
                             messageInput.value = '';
+                            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#D4AF37', '#FFFFFF', '#FFD700'] });
                         } catch (error) {
                             console.error("Error adding document: ", error);
                         } finally {
                             submitBtn.disabled = false;
-                            submitBtn.textContent = 'Kirim Ucapan';
+                            submitBtn.textContent = 'Kirim Harapan';
                         }
                     }
                 });
@@ -597,22 +321,7 @@
                     } else {
                         await signInAnonymously(auth);
                     }
-                    console.log("Firebase authenticated successfully with UID:", auth.currentUser?.uid);
-
                     setupGuestbook();
-                    fetchAndApplyLiveStreamLink();
-                    fetchAndApplyGooglePhotosLink();
-                    listenForGalleryPhotos();
-
-                    // PERBAIKAN: Pindahkan event listener ke sini
-                    document.getElementById('save-livestream-link-btn')?.addEventListener('click', () => {
-                        const urlInput = document.getElementById('livestream-url-input').value;
-                        saveLiveStreamLink(urlInput);
-                    });
-                    document.getElementById('save-google-photos-link-btn')?.addEventListener('click', () => saveGooglePhotosLink(document.getElementById('google-photos-link-input').value));
-                    document.getElementById('add-photo-btn')?.addEventListener('click', () => addPhotoToGallery(document.getElementById('new-photo-url-input').value));
-
-
                 } catch (error) {
                     console.error("Authentication failed:", error);
                 }
@@ -631,117 +340,142 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({ duration: 1000, once: true, offset: 120 });
+            AOS.init({ duration: 1000, once: false, offset: 120 });
 
-            const openInvitationButton = document.getElementById('open-invitation');
-            const mainContent = document.getElementById('main-content');
             const cover = document.getElementById('cover');
+            const mainContent = document.getElementById('main-content');
+            const openInvitationButton = document.getElementById('open-invitation');
             const audio = document.getElementById('bg-music');
             
+            const myCanvas = document.getElementById('effect-canvas');
+            const myConfetti = confetti.create(myCanvas, {
+                resize: true,
+                useWorker: true
+            });
+            let effectInterval = setInterval(() => {
+                if(window.getComputedStyle(cover).display !== 'none') {
+                    myConfetti({
+                        particleCount: 2,
+                        startVelocity: 0,
+                        ticks: 200,
+                        origin: { x: Math.random(), y: Math.random() - 0.2 },
+                        colors: ['#D4AF37'],
+                        shapes: ['circle'],
+                        gravity: 0.2,
+                        scalar: Math.random() * 0.5 + 0.5,
+                        drift: Math.random() * 0.5 - 0.25
+                    });
+                }
+            }, 300);
+
             function showInvitation() {
-                cover.style.transition = 'opacity 1s, transform 1s';
+                clearInterval(effectInterval);
+                cover.style.transition = 'opacity 1.5s ease-out';
                 cover.style.opacity = '0';
-                cover.style.transform = 'scale(1.2)';
                 setTimeout(() => {
                     cover.style.display = 'none';
                     mainContent.classList.remove('hidden');
-                    document.body.style.overflow = 'auto';
+                    document.body.style.overflow = 'hidden'; // Tetap hidden
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
                     AOS.refresh();
-                }, 1000);
+                }, 1500);
             }
 
             if(openInvitationButton) {
                 openInvitationButton.addEventListener('click', showInvitation);
             }
             
-            const mainPhoto = document.getElementById('main-photo');
-            const thumbnailContainer = document.getElementById('thumbnail-container');
-            const galleryPlaceholder = document.getElementById('gallery-placeholder');
-            let currentPhotos = [];
-
-            function selectThumbnail(index) {
-                if (!currentPhotos[index]) return;
-                mainPhoto.style.opacity = 0;
-                setTimeout(() => {
-                    mainPhoto.src = currentPhotos[index].url;
-                    mainPhoto.style.opacity = 1;
-                }, 300);
-                const thumbnails = thumbnailContainer.querySelectorAll('.thumbnail-item');
-                thumbnails.forEach((thumb, i) => thumb.classList.toggle('active', i === index));
-                const activeThumb = thumbnails[index];
-                if (activeThumb) {
-                    const containerRect = thumbnailContainer.getBoundingClientRect();
-                    const thumbRect = activeThumb.getBoundingClientRect();
-                    const scrollLeft = thumbnailContainer.scrollLeft + thumbRect.left - containerRect.left - (containerRect.width / 2) + (thumbRect.width / 2);
-                    thumbnailContainer.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-                }
-            }
-
-            window.updateGalleryUI = (photos) => {
-                currentPhotos = photos;
-                if (photos.length === 0) {
-                    galleryPlaceholder.classList.remove('hidden');
-                    thumbnailContainer.innerHTML = '';
-                    mainPhoto.src = 'https://placehold.co/600x400/e2e8f0/94a3b8?text=Galeri+Foto';
-                    return;
-                }
-                galleryPlaceholder.classList.add('hidden');
-                thumbnailContainer.innerHTML = '';
-                photos.forEach((photo, index) => {
-                    const thumb = document.createElement('img');
-                    thumb.src = photo.url;
-                    thumb.alt = `Galeri Foto ${index + 1}`;
-                    thumb.className = 'thumbnail-item w-20 h-20 md:w-24 md:h-24 object-cover rounded-md cursor-pointer border-4 border-transparent flex-shrink-0';
-                    thumb.addEventListener('click', () => selectThumbnail(index));
-                    thumbnailContainer.appendChild(thumb);
-                });
-                selectThumbnail(0);
-            };
-
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
-            const adminLivestreamPanel = document.getElementById('admin-livestream-panel');
-            const adminGalleryPanel = document.getElementById('admin-gallery-panel');
             if (guestName) {
                 document.getElementById('guest-info').classList.remove('hidden');
                 document.getElementById('guest-name').textContent = guestName.replace(/\+/g, ' ');
-                document.getElementById('admin-buttons').classList.add('hidden');
-                if(adminLivestreamPanel) adminLivestreamPanel.classList.add('hidden');
-                if(adminGalleryPanel) adminGalleryPanel.classList.add('hidden');
-            } else {
-                document.getElementById('admin-buttons').classList.remove('hidden');
-                if(adminLivestreamPanel) adminLivestreamPanel.classList.remove('hidden');
-                if(adminGalleryPanel) adminGalleryPanel.classList.remove('hidden');
             }
             document.getElementById('comment-name').value = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
-            const eventDate = "2025-08-23T08:00:00";
-            const eventEndDate = "2025-08-23T17:00:00";
+            const eventDate = "2025-09-27T19:00:00";
             let countdownInterval = setInterval(() => {
                 const targetDate = new Date(eventDate).getTime();
-                const endDate = new Date(eventEndDate).getTime();
                 const now = new Date().getTime();
                 const distanceToStart = targetDate - now;
-                const distanceToEnd = endDate - now;
                 const countdownEl = document.getElementById('countdown');
-                const liveStatusEl = document.getElementById('live-status');
                 if (distanceToStart > 0) {
                     countdownEl.innerHTML = `
-                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor(distanceToStart / 86400000)).padStart(2, '0')}</div><div class="text-xs">Hari</div></div>
-                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor((distanceToStart % 86400000) / 3600000)).padStart(2, '0')}</div><div class="text-xs">Jam</div></div>
-                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor((distanceToStart % 3600000) / 60000)).padStart(2, '0')}</div><div class="text-xs">Menit</div></div>
-                        <div class="bg-teal-600 text-white p-4 rounded-lg w-20"><div class="text-3xl font-bold">${String(Math.floor((distanceToStart % 60000) / 1000)).padStart(2, '0')}</div><div class="text-xs">Detik</div></div>
+                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor(distanceToStart / 86400000)).padStart(2, '0')}</div><div class="text-xs">Hari</div></div>
+                        <div class="text-4xl font-serif gold-text">:</div>
+                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor((distanceToStart % 86400000) / 3600000)).padStart(2, '0')}</div><div class="text-xs">Jam</div></div>
+                        <div class="text-4xl font-serif gold-text">:</div>
+                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor((distanceToStart % 3600000) / 60000)).padStart(2, '0')}</div><div class="text-xs">Menit</div></div>
+                        <div class="text-4xl font-serif gold-text">:</div>
+                        <div class="text-white"><div class="text-4xl font-serif gold-text">${String(Math.floor((distanceToStart % 60000) / 1000)).padStart(2, '0')}</div><div class="text-xs">Detik</div></div>
                     `;
-                } else if (distanceToEnd > 0) {
-                    countdownEl.classList.add('hidden');
-                    liveStatusEl.classList.remove('hidden');
                 } else {
-                    countdownEl.innerHTML = '<div class="text-center w-full text-xl font-bold">Acara Telah Selesai</div>';
-                    liveStatusEl.classList.add('hidden');
+                    countdownEl.innerHTML = '<div class="text-center w-full text-2xl font-serif gold-text">The Gala Has Begun</div>';
                     clearInterval(countdownInterval); 
                 }
             }, 1000);
+
+            // PERUBAHAN: Logika Navigasi Horizontal dengan Ikon
+            const scrollContainer = document.getElementById('scroll-container');
+            const slides = document.querySelectorAll('.slide');
+            const navDotsContainer = document.getElementById('nav-dots');
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            let dots = [];
+            
+            const icons = [
+                // Bintang
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+                // Jam
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+                // Pin Lokasi
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+                // Pena
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>',
+                // Kado
+                '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><path d="M20 8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v4h16V8Z"/><path d="M12 22V8"/><path d="M12 8H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-4Z"/></svg>'
+            ];
+
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('button');
+                dot.className = 'nav-dot';
+                dot.innerHTML = icons[index] || ''; // Fallback jika ikon tidak ada
+                dot.addEventListener('click', () => {
+                    scrollContainer.scrollTo({
+                        left: index * window.innerWidth,
+                        behavior: 'smooth'
+                    });
+                });
+                navDotsContainer.appendChild(dot);
+                dots.push(dot);
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const index = Array.from(slides).indexOf(entry.target);
+                        dots.forEach((dot, i) => {
+                            dot.classList.toggle('active', i === index);
+                        });
+                        prevBtn.disabled = index === 0;
+                        nextBtn.disabled = index === slides.length - 1;
+                        const aosElements = entry.target.querySelectorAll('[data-aos]');
+                        aosElements.forEach(el => {
+                            el.classList.remove('aos-animate');
+                            setTimeout(() => el.classList.add('aos-animate'), 100);
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            slides.forEach(slide => observer.observe(slide));
+            
+            prevBtn.addEventListener('click', () => {
+                scrollContainer.scrollBy({ left: -window.innerWidth, behavior: 'smooth' });
+            });
+            nextBtn.addEventListener('click', () => {
+                scrollContainer.scrollBy({ left: window.innerWidth, behavior: 'smooth' });
+            });
         });
 
         function copyToClipboard(text, button) {
