@@ -431,11 +431,6 @@
                 }
             }
             
-            document.getElementById('save-livestream-link-btn')?.addEventListener('click', () => {
-                const urlInput = document.getElementById('livestream-url-input').value;
-                saveLiveStreamLink(urlInput);
-            });
-
             // --- Gallery Logic (Google Photos Method) ---
             const galleryConfigDocRef = doc(db, `artifacts/${appId}/public/data/galleryConfig`, "googlePhotosLink");
             const galleryPhotosCollectionRef = collection(db, `artifacts/${appId}/public/data/galleryPhotos`);
@@ -500,9 +495,6 @@
                     window.updateGalleryUI(photos);
                 });
             }
-
-            document.getElementById('save-google-photos-link-btn')?.addEventListener('click', () => saveGooglePhotosLink(document.getElementById('google-photos-link-input').value));
-            document.getElementById('add-photo-btn')?.addEventListener('click', () => addPhotoToGallery(document.getElementById('new-photo-url-input').value));
 
             // --- Guestbook Logic ---
             function setupGuestbook() {
@@ -598,7 +590,6 @@
                 });
             }
             
-            // PERUBAHAN: Alur Autentikasi dan Inisialisasi
             async function initializeAppAndAuth() {
                 try {
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -608,11 +599,19 @@
                     }
                     console.log("Firebase authenticated successfully with UID:", auth.currentUser?.uid);
 
-                    // Setelah autentikasi berhasil, jalankan semua fungsi setup
                     setupGuestbook();
                     fetchAndApplyLiveStreamLink();
                     fetchAndApplyGooglePhotosLink();
                     listenForGalleryPhotos();
+
+                    // PERBAIKAN: Pindahkan event listener ke sini
+                    document.getElementById('save-livestream-link-btn')?.addEventListener('click', () => {
+                        const urlInput = document.getElementById('livestream-url-input').value;
+                        saveLiveStreamLink(urlInput);
+                    });
+                    document.getElementById('save-google-photos-link-btn')?.addEventListener('click', () => saveGooglePhotosLink(document.getElementById('google-photos-link-input').value));
+                    document.getElementById('add-photo-btn')?.addEventListener('click', () => addPhotoToGallery(document.getElementById('new-photo-url-input').value));
+
 
                 } catch (error) {
                     console.error("Authentication failed:", error);
