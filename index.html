@@ -30,7 +30,7 @@
         /* Custom styles and fonts */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #F3F4F6; /* Light gray background */
+            background-color: #F3F4F6;
         }
         .font-serif {
             font-family: 'Playfair Display', serif;
@@ -175,7 +175,7 @@
         </div>
         <div id="admin-buttons" class="absolute bottom-5 left-5 right-5 z-60 flex justify-between items-center max-w-xs mx-auto">
             <button id="font-toggle-button" title="Pilih Font & Warna" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.0 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
+                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8Z"/><path d="m18 13 1.5-1.5a2.828 2.0 0 0 0-4-4L14 9"/><path d="m18 13 4 4L12 21.5l-4-4 6-6Z"/></svg>
             </button>
              <button id="effect-toggle-button" title="Pilih Efek" class="bg-white/20 hover:bg-white/30 text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C9.2 6.3 9 6 9 5.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M19 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5c-.2-.2-.4-.5-.4-.8v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/><path d="M5 12c.3 0 .5.2.8.4l1.5 1.5c.2.2.4.5.4.8v0c0 .3-.2.5-.4.8l-1.5 1.5c-.2.2-.5.4-.8.4s-.5-.2-.8-.4l-1.5-1.5C2.2 15.3 2 15 2 14.7v0c0-.3.2-.5.4-.8l1.5-1.5c.3-.2.5-.4.8-.4z"/></svg>
@@ -187,7 +187,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </button>
         </div>
-        <!-- Admin Panels -->
         <div id="cover-font-panel" class="absolute bottom-20 left-5 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
         <div id="cover-effect-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
         <div id="cover-song-panel" class="absolute bottom-20 left-1/2 -translate-x-1/2 z-70 bg-white/95 backdrop-blur-md p-4 rounded-lg shadow-lg w-72"></div>
@@ -219,7 +218,6 @@
              <p class="text-md italic text-slate-600 mb-6" data-aos="fade-up" data-aos-delay="100">
                 Anak pertama kami dari dua bersaudara, Junior Habib R. Harun, kini menginjak usia 8 tahun. Dengan segala doa dan cinta, kami bersyukur atas kehadirannya yang melengkapi kebahagiaan kami.
              </p>
-             <!-- PERUBAHAN: Menggunakan flexbox untuk memastikan gambar berada di tengah -->
              <div class="flex justify-center">
                 <div class="image-reveal-container rounded-lg shadow-lg border-4 border-white" data-aos="image-reveal">
                     <img src="https://raw.githubusercontent.com/qisel/qiqi/main/file2.png" alt="Foto Keluarga Besar" class="max-w-sm w-full h-auto object-cover">
@@ -276,11 +274,13 @@
                         <div id="gallery-placeholder" class="text-center w-full py-4 text-slate-500">Belum ada foto di galeri.</div>
                     </div>
                 </div>
+                
                 <a id="submit-photo-btn" href="#" target="_blank" class="mt-6 inline-block bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform duration-300 transform hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2 -mt-1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                     Kirim Foto Kenangan
                 </a>
             </div>
+            
             <div id="admin-gallery-panel" class="mt-8 max-w-xl mx-auto bg-slate-200 p-4 rounded-lg shadow-inner hidden text-left">
                 <p class="text-sm font-bold text-slate-700 mb-3">Panel Admin: Atur Galeri</p>
                 <div>
@@ -368,14 +368,13 @@
             - Desa Barakati
         </p>
     </footer>
-
     <audio id="bg-music" src="https://dn721908.ca.archive.org/0/items/man-ana_202211/MAN%20ANA.mp3"></audio>
     <audio id="preview-audio"></audio>
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         const userFirebaseConfig = {
           apiKey: "AIzaSyBcHvkLmeQRx1b_z8YPxqXA4MwBCPFtZvE",
@@ -427,17 +426,17 @@
                         liveStreamButton.classList.add('hidden');
                     }
                 } catch (error) {
-                    console.error("Error fetching link: ", error);
+                    console.error(`Error fetching document from ${liveStreamDocRef.path}:`, error);
                     liveStreamButton.classList.add('hidden');
                 }
             }
-            fetchAndApplyLiveStreamLink();
+            
             document.getElementById('save-livestream-link-btn')?.addEventListener('click', () => {
                 const urlInput = document.getElementById('livestream-url-input').value;
                 saveLiveStreamLink(urlInput);
             });
 
-            // --- Gallery Logic ---
+            // --- Gallery Logic (Google Photos Method) ---
             const galleryConfigDocRef = doc(db, `artifacts/${appId}/public/data/galleryConfig`, "googlePhotosLink");
             const galleryPhotosCollectionRef = collection(db, `artifacts/${appId}/public/data/galleryPhotos`);
 
@@ -488,28 +487,13 @@
                         submitBtn.classList.add('hidden');
                     }
                 } catch (error) {
-                    console.error("Error fetching GPhotos link: ", error);
+                    console.error(`Error fetching document from ${galleryConfigDocRef.path}:`, error);
                     submitBtn.classList.add('hidden');
                 }
             }
 
-            async function initializeGalleryConfig() {
-                try {
-                    const docSnap = await getDoc(galleryConfigDocRef);
-                    if (!docSnap.exists()) {
-                        await setDoc(galleryConfigDocRef, { url: "https://photos.app.goo.gl/JQBLu9eAkAwCCiiz5" });
-                        console.log("Default Google Photos link has been set.");
-                        fetchAndApplyGooglePhotosLink();
-                    }
-                } catch (error) {
-                    console.error("Error initializing gallery config: ", error);
-                }
-            }
-
-
             function listenForGalleryPhotos() {
-                const q = query(galleryPhotosCollectionRef);
-                onSnapshot(q, (snapshot) => {
+                onSnapshot(query(galleryPhotosCollectionRef), (snapshot) => {
                     const photos = [];
                     snapshot.forEach(doc => photos.push({ id: doc.id, ...doc.data() }));
                     photos.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
@@ -613,23 +597,29 @@
                     }
                 });
             }
+            
+            // PERUBAHAN: Alur Autentikasi dan Inisialisasi
+            async function initializeAppAndAuth() {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    console.log("Firebase authenticated successfully with UID:", auth.currentUser?.uid);
 
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
+                    // Setelah autentikasi berhasil, jalankan semua fungsi setup
                     setupGuestbook();
-                    initializeGalleryConfig(); // Panggil inisialisasi
+                    fetchAndApplyLiveStreamLink();
                     fetchAndApplyGooglePhotosLink();
                     listenForGalleryPhotos();
+
+                } catch (error) {
+                    console.error("Authentication failed:", error);
                 }
-            });
-            
-            (async () => {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            })().catch(error => console.error("Authentication failed:", error));
+            }
+
+            initializeAppAndAuth();
 
         } catch (e) {
             console.error("Error initializing Firebase:", e);
@@ -648,14 +638,8 @@
             const mainContent = document.getElementById('main-content');
             const cover = document.getElementById('cover');
             const audio = document.getElementById('bg-music');
-            const musicIconPlay = document.getElementById('music-icon-play');
-            const musicIconPause = document.getElementById('music-icon-pause');
-            const previewAudio = document.getElementById('preview-audio');
-            let isSequencePlaying = false;
-            let selectedEffectId = 'none'; // Default effect
-
+            
             function showInvitation() {
-                previewAudio.pause(); 
                 cover.style.transition = 'opacity 1s, transform 1s';
                 cover.style.opacity = '0';
                 cover.style.transform = 'scale(1.2)';
@@ -663,12 +647,7 @@
                     cover.style.display = 'none';
                     mainContent.classList.remove('hidden');
                     document.body.style.overflow = 'auto';
-                    isSequencePlaying = true;
-                    audio.loop = false; 
                     audio.play().catch(error => console.log("Autoplay was prevented.", error));
-                    // musicIconPlay?.classList.add('hidden');
-                    // musicIconPause?.classList.remove('hidden');
-                    // runEffect(selectedEffectId);
                     AOS.refresh();
                 }, 1000);
             }
@@ -677,7 +656,6 @@
                 openInvitationButton.addEventListener('click', showInvitation);
             }
             
-            // --- Gallery UI Logic ---
             const mainPhoto = document.getElementById('main-photo');
             const thumbnailContainer = document.getElementById('thumbnail-container');
             const galleryPlaceholder = document.getElementById('gallery-placeholder');
@@ -722,7 +700,6 @@
                 selectThumbnail(0);
             };
 
-            // --- Admin & URL Logic ---
             const urlParams = new URLSearchParams(window.location.search);
             const guestName = urlParams.get('to');
             const adminLivestreamPanel = document.getElementById('admin-livestream-panel');
@@ -740,7 +717,6 @@
             }
             document.getElementById('comment-name').value = guestName ? guestName.replace(/\+/g, ' ') : "Tamu Undangan";
 
-            // --- Countdown Logic ---
             const eventDate = "2025-08-23T08:00:00";
             const eventEndDate = "2025-08-23T17:00:00";
             let countdownInterval = setInterval(() => {
