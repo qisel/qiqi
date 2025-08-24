@@ -61,6 +61,19 @@
             background-color: rgba(17, 24, 39, 0.8);
             backdrop-filter: blur(10px);
         }
+        /* Custom checkbox */
+        .custom-checkbox:checked {
+            background-color: #3B82F6;
+            border-color: #3B82F6;
+        }
+        .custom-checkbox:checked ~ .tick-path {
+            stroke-dashoffset: 0;
+        }
+        .tick-path {
+            stroke-dasharray: 24;
+            stroke-dashoffset: 24;
+            transition: stroke-dashoffset 0.2s ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
@@ -108,9 +121,9 @@
                     <span class="gradient-text">Momen Indah,</span><br>Abadi Selamanya.
                 </h1>
                 <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">Jasa Fotografi, Videografi & Undangan Digital Kreatif di Gorontalo.</p>
-                <a href="#kontak" class="bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition duration-300 transform hover:scale-105 btn-glow">
+                <button id="openBookingModal" class="bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition duration-300 transform hover:scale-105 btn-glow">
                     Amankan Tanggal Anda
-                </a>
+                </button>
             </div>
         </section>
 
@@ -318,6 +331,84 @@
         </div>
     </footer>
 
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-gray-800 rounded-3xl p-8 max-w-lg w-full card-border-glow relative" data-aos="zoom-in-up">
+            <button id="closeBookingModal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-7 h-7"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-center mb-6 gradient-text">Amankan Tanggal & Pilih Paket</h3>
+            
+            <!-- Date Picker -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label for="tanggal" class="block text-sm font-medium text-gray-300 mb-1">Tanggal</label>
+                    <select id="tanggal" class="w-full bg-gray-700 border-gray-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"></select>
+                </div>
+                <div>
+                    <label for="bulan" class="block text-sm font-medium text-gray-300 mb-1">Bulan</label>
+                    <select id="bulan" class="w-full bg-gray-700 border-gray-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"></select>
+                </div>
+                <div>
+                    <label for="tahun" class="block text-sm font-medium text-gray-300 mb-1">Tahun</label>
+                    <select id="tahun" class="w-full bg-gray-700 border-gray-600 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500"></select>
+                </div>
+            </div>
+
+            <!-- Package Checklist -->
+            <div class="space-y-3 mb-6">
+                <p class="font-semibold text-gray-300">Pilih paket yang diminati:</p>
+                <!-- Item Paket -->
+                <div class="flex justify-between items-center">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <div class="relative"><input type="checkbox" data-price="1500000" id="pkg-pesta" data-name="Paket Pesta & Acara" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                        <span>Paket Pesta & Acara</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                </div>
+                <div class="flex justify-between items-center">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <div class="relative"><input type="checkbox" data-price="500000" id="pkg-sinematik" data-name="Upgrade Video Sinematik" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                        <span>Upgrade Video Sinematik</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                </div>
+                <div class="flex justify-between items-center">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <div class="relative"><input type="checkbox" data-price="2000000" id="pkg-prewed-foto" data-name="Foto Prewedding" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                        <span>Foto Prewedding</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                </div>
+                <div class="flex justify-between items-center">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <div class="relative"><input type="checkbox" data-price="1000000" id="pkg-prewed-video" data-name="Video Prewedding" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                        <span>Video Prewedding</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                </div>
+                <div class="flex justify-between items-center">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <div class="relative"><input type="checkbox" data-price="100000" id="pkg-undangan" data-name="Undangan Digital" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                        <span>Undangan Digital</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer text-sm text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                </div>
+            </div>
+
+            <!-- Total Price -->
+            <div class="text-center mb-6 border-t border-b border-gray-700 py-4">
+                <span class="text-gray-400">Estimasi Total Harga:</span>
+                <p id="totalPrice" class="text-3xl font-bold text-white">Rp 0</p>
+            </div>
+
+            <button id="sendToWhatsapp" class="w-full bg-green-500 text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 flex items-center justify-center">
+                <i data-lucide="send" class="w-5 h-5 mr-2"></i>Kirim ke WhatsApp
+            </button>
+        </div>
+    </div>
+
+
     <!-- AOS (Animate On Scroll) Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -346,6 +437,100 @@
                 header.classList.remove('header-scrolled');
             }
         });
+
+        // Script untuk Booking Modal
+        const openModalBtn = document.getElementById('openBookingModal');
+        const closeModalBtn = document.getElementById('closeBookingModal');
+        const bookingModal = document.getElementById('bookingModal');
+        const sendToWhatsappBtn = document.getElementById('sendToWhatsapp');
+
+        const tanggalSelect = document.getElementById('tanggal');
+        const bulanSelect = document.getElementById('bulan');
+        const tahunSelect = document.getElementById('tahun');
+        const totalPriceEl = document.getElementById('totalPrice');
+        const packageCheckboxes = document.querySelectorAll('.package-checkbox');
+
+        // Populate Date Pickers
+        const bulanNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const currentYear = new Date().getFullYear();
+
+        for (let i = 1; i <= 31; i++) {
+            tanggalSelect.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        bulanNames.forEach((bulan, index) => {
+            bulanSelect.innerHTML += `<option value="${bulan}">${bulan}</option>`;
+        });
+        for (let i = 0; i < 5; i++) {
+            tahunSelect.innerHTML += `<option value="${currentYear + i}">${currentYear + i}</option>`;
+        }
+
+        // Calculate Total Price
+        const calculateTotal = () => {
+            let total = 0;
+            packageCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    total += parseInt(checkbox.dataset.price);
+                }
+            });
+            totalPriceEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        };
+
+        packageCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', calculateTotal);
+        });
+
+        // Modal Controls
+        openModalBtn.addEventListener('click', () => {
+            bookingModal.classList.remove('hidden');
+        });
+
+        const closeModal = () => {
+            bookingModal.classList.add('hidden');
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) {
+                closeModal();
+            }
+        });
+
+        // Send to WhatsApp
+        sendToWhatsappBtn.addEventListener('click', () => {
+            const tanggal = tanggalSelect.value;
+            const bulan = bulanSelect.value;
+            const tahun = tahunSelect.value;
+            const totalHarga = totalPriceEl.textContent;
+
+            let selectedPackages = [];
+            packageCheckboxes.forEach(checkbox => {
+                if(checkbox.checked) {
+                    const parentDiv = checkbox.closest('.flex.justify-between');
+                    const negoCheckbox = parentDiv.querySelector('.nego-checkbox');
+                    let packageString = `- ${checkbox.getAttribute('data-name')}`;
+                    if (negoCheckbox && negoCheckbox.checked) {
+                        packageString += " (Nego)";
+                    }
+                    selectedPackages.push(packageString);
+                }
+            });
+
+            let message = `Assalamualaikum, Halo Zakwan Studio.%0A%0ASaya sudah membaca dan memahami informasi di landing page.%0A%0ASaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.%0A%0APaket yang saya minati:%0A`;
+            
+            if (selectedPackages.length > 0) {
+                message += selectedPackages.join('%0A');
+            } else {
+                message += "(Belum ada paket yang dipilih)";
+            }
+
+            message += `%0A%0AEstimasi Total Harga: *${totalHarga}*`;
+
+            const waNumber = "6285240057704"; // Nomor Icuk sebagai default
+            const waURL = `https://wa.me/${waNumber}?text=${message}`;
+
+            window.open(waURL, '_blank');
+        });
+
     </script>
 
 </body>
