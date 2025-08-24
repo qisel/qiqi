@@ -83,6 +83,22 @@
         input[type=number] {
           -moz-appearance: textfield;
         }
+        
+        /* Print styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
@@ -332,6 +348,12 @@
                 </a>
             </div>
 
+            <div class="mt-8">
+                <button id="printButton" class="bg-gray-600 text-white px-6 py-2 rounded-full font-bold hover:bg-gray-700 transition duration-300">
+                    <i data-lucide="printer" class="inline-block w-4 h-4 mr-2"></i>Cetak Rincian Paket
+                </button>
+            </div>
+
             <div class="mt-16 border-t border-gray-700 pt-8">
                 <p class="font-black text-2xl gradient-text">ZAKWAN STUDIO</p>
                 <p class="text-gray-400 mt-2">Desa Payunga, Kecamatan Batudaa, Kabupaten Gorontalo</p>
@@ -453,9 +475,14 @@
                 <p id="totalNegoPrice" class="text-sm font-bold text-green-400 hidden">Jumlah Nego: Rp 0</p>
             </div>
 
-            <button id="sendToWhatsapp" class="w-full bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 flex items-center justify-center">
-                <i data-lucide="send" class="w-5 h-5 mr-2"></i>Kirim ke WhatsApp
-            </button>
+            <div class="flex space-x-2">
+                <button id="printModalButton" class="w-1/2 bg-gray-600 text-white px-4 py-3 rounded-full font-bold hover:bg-gray-700 transition duration-300 flex items-center justify-center text-sm">
+                    <i data-lucide="printer" class="w-4 h-4 mr-2"></i>Cetak
+                </button>
+                <button id="sendToWhatsapp" class="w-1/2 bg-green-500 text-white px-4 py-3 rounded-full font-bold hover:bg-green-600 transition duration-300 flex items-center justify-center text-sm">
+                    <i data-lucide="send" class="w-4 h-4 mr-2"></i>Kirim
+                </button>
+            </div>
         </div>
     </div>
 
@@ -494,6 +521,7 @@
         const closeModalBtn = document.getElementById('closeBookingModal');
         const bookingModal = document.getElementById('bookingModal');
         const sendToWhatsappBtn = document.getElementById('sendToWhatsapp');
+        const printModalButton = document.getElementById('printModalButton');
 
         const tanggalSelect = document.getElementById('tanggal');
         const bulanSelect = document.getElementById('bulan');
@@ -586,9 +614,8 @@
                 closeModal();
             }
         });
-
-        // Send to WhatsApp
-        sendToWhatsappBtn.addEventListener('click', () => {
+        
+        const generateMessage = () => {
             const namaPengirim = document.getElementById('namaPengirim').value;
             const alamatAcara = document.getElementById('alamatAcara').value;
             const tanggal = tanggalSelect.value;
@@ -618,26 +645,58 @@
                 }
             });
 
-            let message = `Assalamualaikum, Halo Zakwan Studio. Saya sudah membaca dan memahami informasi di landing page.%0A%0A*Nama:* ${namaPengirim || '(belum diisi)'}%0A*Lokasi Acara:* ${alamatAcara || '(belum diisi)'}%0A%0ASaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.%0A%0APaket yang saya minati:%0A`;
+            let message = `Assalamualaikum, Halo Zakwan Studio. Saya sudah membaca dan memahami informasi di landing page.\n\n*Nama:* ${namaPengirim || '(belum diisi)'}\n*Lokasi Acara:* ${alamatAcara || '(belum diisi)'}\n\nSaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.\n\nPaket yang saya minati:\n`;
             
             if (selectedPackages.length > 0) {
-                message += selectedPackages.join('%0A');
+                message += selectedPackages.join('\n');
             } else {
                 message += "(Belum ada paket yang dipilih)";
             }
 
-            message += `%0A%0A${totalHarga}`;
+            message += `\n\n${totalHarga}`;
             if (isAnyNegoActive) {
-                 message += `%0A*${totalNegoHarga}*`;
-                 message += `%0A%0A_Penting: Jika nego berhasil, sumber daya (jumlah tim/peralatan) akan disesuaikan dengan kesepakatan._`;
+                 message += `\n*${totalNegoHarga}*`;
+                 message += `\n\nPenting: Jika nego berhasil, sumber daya (jumlah tim/peralatan) akan disesuaikan dengan kesepakatan.`;
             }
 
-            message += `%0A%0AMohon konfirmasi ketersediaan jadwalnya. Terima kasih.`;
+            message += `\n\nMohon konfirmasi ketersediaan jadwalnya. Terima kasih.`;
+            
+            return message;
+        }
 
+        // Send to WhatsApp
+        sendToWhatsappBtn.addEventListener('click', () => {
+            const message = generateMessage();
             const waNumber = "6285240057704"; // Nomor Icuk sebagai default
-            const waURL = `https://wa.me/${waNumber}?text=${message}`;
-
+            const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
             window.open(waURL, '_blank');
+        });
+        
+        // Print Modal Content
+        printModalButton.addEventListener('click', () => {
+            const message = generateMessage();
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Bukti Kesepakatan Awal - Zakwan Studio</title>
+                        <style>
+                            body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
+                            h1 { font-size: 1.5em; border-bottom: 2px solid #000; padding-bottom: 10px; }
+                            p { white-space: pre-wrap; }
+                            strong { font-weight: bold; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Bukti Kesepakatan Awal - Zakwan Studio</h1>
+                        <p>${message.replace(/\n/g, '<br>')}</p>
+                        <hr>
+                        <p><strong>Kontak Kami:</strong><br>Icuk: 0852-4005-7704<br>Kapten: 0852-9906-9883</p>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
         });
 
     </script>
