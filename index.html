@@ -70,9 +70,10 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-3xl font-black gradient-text">ZAKWAN</a>
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="#paket" class="font-semibold hover:text-blue-400 transition duration-300">Paket</a>
+                <a href="#paket" class="font-semibold hover:text-blue-400 transition duration-300">Paket Foto</a>
                 <a href="#prewedding" class="font-semibold hover:text-purple-400 transition duration-300">Prewedding</a>
-                <a href="#portfolio" class="font-semibold hover:text-pink-400 transition duration-300">Portofolio</a>
+                <a href="#undangan-digital" class="font-semibold hover:text-pink-400 transition duration-300">Undangan Digital</a>
+                <a href="#portfolio" class="font-semibold hover:text-yellow-400 transition duration-300">Portofolio</a>
                 <a href="#kontak" class="bg-blue-600 text-white px-5 py-2 rounded-full font-bold hover:bg-blue-700 btn-glow">Hubungi Kami</a>
             </div>
             <div class="md:hidden">
@@ -83,9 +84,10 @@
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-gray-900">
-            <a href="#paket" class="block py-2 text-lg font-semibold hover:text-blue-400">Paket</a>
+            <a href="#paket" class="block py-2 text-lg font-semibold hover:text-blue-400">Paket Foto</a>
             <a href="#prewedding" class="block py-2 text-lg font-semibold hover:text-purple-400">Prewedding</a>
-            <a href="#portfolio" class="block py-2 text-lg font-semibold hover:text-pink-400">Portofolio</a>
+            <a href="#undangan-digital" class="block py-2 text-lg font-semibold hover:text-pink-400">Undangan Digital</a>
+            <a href="#portfolio" class="block py-2 text-lg font-semibold hover:text-yellow-400">Portofolio</a>
             <a href="#kontak" class="block mt-2 w-full text-center bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700">Hubungi Kami</a>
         </div>
     </header>
@@ -93,9 +95,9 @@
     <main>
         <!-- Hero Section -->
         <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
-            <!-- Background Video Placeholder -->
+            <!-- Background Image -->
             <div class="absolute inset-0 bg-black">
-                 <img src="https://placehold.co/1920x1080/111827/111827?text=." class="w-full h-full object-cover opacity-50" alt="background">
+                 <img src="https://raw.githubusercontent.com/qisel/qiqi/main/fotografer%201.jpg" class="w-full h-full object-cover opacity-50" alt="Zakwan Studio Fotografer">
             </div>
             <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900"></div>
             
@@ -103,7 +105,7 @@
                 <h1 class="text-5xl md:text-8xl font-black mb-4 leading-tight">
                     <span class="gradient-text">Momen Indah,</span><br>Abadi Selamanya.
                 </h1>
-                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">Jasa Fotografi & Videografi Kreatif di Gorontalo.</p>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">Jasa Fotografi, Videografi & Undangan Digital Kreatif di Gorontalo.</p>
                 <a href="#kontak" class="bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition duration-300 transform hover:scale-105 btn-glow">
                     Amankan Tanggal Anda
                 </a>
@@ -189,27 +191,62 @@
             </div>
         </section>
         
+        <!-- Undangan Digital Section -->
+        <section id="undangan-digital" class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">Paket Undangan Digital</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-yellow-500 mx-auto mb-12" data-aos="fade-up" data-aos-delay="100"></div>
+                <p class="text-gray-300 max-w-2xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="200">Lengkapi hari spesial Anda dengan undangan digital modern yang praktis dan elegan.</p>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <!-- Paket Personal -->
+                    <div class="bg-gray-800 rounded-3xl p-8 card-border-glow flex flex-col" data-aos="fade-right">
+                        <h3 class="text-2xl font-bold mb-2">Paket Personal</h3>
+                        <p class="text-4xl font-black gradient-text mb-6">Rp 100.000</p>
+                        <ul class="text-left space-y-3 mb-6 flex-grow text-gray-300">
+                            <li class="flex items-start"><i data-lucide="user" class="w-5 h-5 text-pink-400 mr-3 mt-1 shrink-0"></i><span>Sempurna untuk <strong class="font-semibold">satu acara spesial</strong> Anda.</span></li>
+                            <li class="flex items-start"><i data-lucide="layout-template" class="w-5 h-5 text-pink-400 mr-3 mt-1 shrink-0"></i><span>Pilih dari berbagai desain template premium.</span></li>
+                            <li class="flex items-start"><i data-lucide="edit" class="w-5 h-5 text-pink-400 mr-3 mt-1 shrink-0"></i><span>Fitur lengkap: nama tamu, galeri, RSVP, dll.</span></li>
+                        </ul>
+                        <a href="#kontak" class="w-full mt-4 bg-pink-600 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-700 transition duration-300">Pesan Sekarang</a>
+                    </div>
+
+                    <!-- Paket Reseller -->
+                    <div class="bg-gray-800 rounded-3xl p-8 card-border-glow flex flex-col" data-aos="fade-left">
+                        <h3 class="text-2xl font-bold mb-2">Paket Reseller</h3>
+                        <p class="text-4xl font-black gradient-text mb-6">Rp 250.000<span class="text-xl font-medium">/template</span></p>
+                        <ul class="text-left space-y-3 mb-6 flex-grow text-gray-300">
+                            <li class="flex items-start"><i data-lucide="briefcase" class="w-5 h-5 text-yellow-400 mr-3 mt-1 shrink-0"></i><span>Buka usaha undangan digital Anda sendiri.</span></li>
+                            <li class="flex items-start"><i data-lucide="settings-2" class="w-5 h-5 text-yellow-400 mr-3 mt-1 shrink-0"></i><span><strong class="font-semibold">Fitur Setting Admin</strong> untuk mengelola klien.</span></li>
+                            <li class="flex items-start"><i data-lucide="repeat" class="w-5 h-5 text-yellow-400 mr-3 mt-1 shrink-0"></i><span>Gunakan template berulang kali untuk klien berbeda.</span></li>
+                        </ul>
+                        <a href="#kontak" class="w-full mt-4 bg-yellow-500 text-gray-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-600 transition duration-300">Jadi Reseller</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Service Area -->
-        <section class="py-24">
+        <section class="py-24 bg-gray-900">
             <div class="container mx-auto px-6 text-center">
                  <div class="max-w-3xl mx-auto bg-gradient-to-br from-blue-900 to-purple-900 text-white p-8 md:p-12 rounded-3xl shadow-2xl" data-aos="flip-up">
                     <i data-lucide="map" class="w-16 h-16 mx-auto mb-4 text-white"></i>
                     <h2 class="text-3xl font-bold mb-4">Area Layanan Kami</h2>
                     <p class="text-lg mb-4 text-gray-300">Kami melayani seluruh area di <strong class="font-semibold text-white">Kabupaten Gorontalo</strong>.</p>
                     <div class="bg-red-500/20 text-red-300 p-3 rounded-lg mt-6">
-                        <p><strong class="font-semibold">PENTING:</strong> Tidak termasuk wilayah Batudaa Pantai, Biluhu, dan sekitarnya.</p>
+                        <p><strong class="font-semibold">PENTING:</strong> Tidak termasuk wilayah Batudaa Pantai, Biluhu, atau di luar Kabupaten Gorontalo harga bisa menyesuaikan jarak.</p>
                     </div>
                  </div>
             </div>
         </section>
 
         <!-- Portfolio Section -->
-        <section id="portfolio" class="py-24 bg-gray-900">
+        <section id="portfolio" class="py-24">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">Portofolio Kami</h2>
-                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-yellow-500 mx-auto mb-12" data-aos="fade-up" data-aos-delay="100"></div>
+                <div class="w-24 h-1 bg-gradient-to-r from-yellow-500 to-blue-500 mx-auto mb-12" data-aos="fade-up" data-aos-delay="100"></div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div data-aos="zoom-in-up"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Momen+Akad" alt="Foto Pernikahan 1" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                    <div data-aos="zoom-in-up"><img src="https://raw.githubusercontent.com/qisel/qiqi/main/videografer%201.jpg" alt="Tim Zakwan Studio" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
                     <div data-aos="zoom-in-up" data-aos-delay="100"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Prewedding+Pantai" alt="Foto Pernikahan 2" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
                     <div data-aos="zoom-in-up" data-aos-delay="200"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Resepsi+Meriah" alt="Foto Pernikahan 3" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
                     <div data-aos="zoom-in-up"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Detail+Cincin" alt="Foto Pernikahan 4" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
