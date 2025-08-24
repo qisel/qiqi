@@ -83,22 +83,6 @@
         input[type=number] {
           -moz-appearance: textfield;
         }
-        
-        /* Print styles */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #print-area, #print-area * {
-                visibility: visible;
-            }
-            #print-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
@@ -615,7 +599,7 @@
             }
         });
         
-        const generateMessage = () => {
+        const generateMessage = (forPrint = false) => {
             const namaPengirim = document.getElementById('namaPengirim').value;
             const alamatAcara = document.getElementById('alamatAcara').value;
             const tanggal = tanggalSelect.value;
@@ -644,22 +628,24 @@
                     selectedPackages.push(packageString);
                 }
             });
+            
+            const lineBreak = forPrint ? '<br>' : '%0A';
 
-            let message = `Assalamualaikum, Halo Zakwan Studio. Saya sudah membaca dan memahami informasi di landing page.\n\n*Nama:* ${namaPengirim || '(belum diisi)'}\n*Lokasi Acara:* ${alamatAcara || '(belum diisi)'}\n\nSaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.\n\nPaket yang saya minati:\n`;
+            let message = `Assalamualaikum, Halo Zakwan Studio. Saya sudah membaca dan memahami informasi di landing page.${lineBreak}${lineBreak}*Nama:* ${namaPengirim || '(belum diisi)'}${lineBreak}*Lokasi Acara:* ${alamatAcara || '(belum diisi)'}${lineBreak}${lineBreak}Saya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.${lineBreak}${lineBreak}Paket yang saya minati:${lineBreak}`;
             
             if (selectedPackages.length > 0) {
-                message += selectedPackages.join('\n');
+                message += selectedPackages.join(lineBreak);
             } else {
                 message += "(Belum ada paket yang dipilih)";
             }
 
-            message += `\n\n${totalHarga}`;
+            message += `${lineBreak}${lineBreak}${totalHarga}`;
             if (isAnyNegoActive) {
-                 message += `\n*${totalNegoHarga}*`;
-                 message += `\n\nPenting: Jika nego berhasil, sumber daya (jumlah tim/peralatan) akan disesuaikan dengan kesepakatan.`;
+                 message += `${lineBreak}*${totalNegoHarga}*`;
+                 message += `${lineBreak}${lineBreak}_Penting: Jika nego berhasil, sumber daya (jumlah tim/peralatan) akan disesuaikan dengan kesepakatan._`;
             }
 
-            message += `\n\nMohon konfirmasi ketersediaan jadwalnya. Terima kasih.`;
+            message += `${lineBreak}${lineBreak}Mohon konfirmasi ketersediaan jadwalnya. Terima kasih.`;
             
             return message;
         }
@@ -668,30 +654,36 @@
         sendToWhatsappBtn.addEventListener('click', () => {
             const message = generateMessage();
             const waNumber = "6285240057704"; // Nomor Icuk sebagai default
-            const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+            const waURL = `https://wa.me/${waNumber}?text=${encodeURIComponent(message.replace(/<br>/g, '\n'))}`;
             window.open(waURL, '_blank');
         });
         
         // Print Modal Content
         printModalButton.addEventListener('click', () => {
-            const message = generateMessage();
+            const messageForPrint = generateMessage(true);
             const printWindow = window.open('', '_blank');
             printWindow.document.write(`
                 <html>
                     <head>
-                        <title>Bukti Kesepakatan Awal - Zakwan Studio</title>
+                        <title>Bukti Pemesanan Awal - Zakwan Studio</title>
                         <style>
-                            body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
-                            h1 { font-size: 1.5em; border-bottom: 2px solid #000; padding-bottom: 10px; }
-                            p { white-space: pre-wrap; }
-                            strong { font-weight: bold; }
+                            body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; color: #333; }
+                            .container { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 10px;}
+                            h1 { font-size: 1.8em; text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+                            p { white-space: pre-wrap; margin: 0 0 1em 0;}
+                            strong, b { font-weight: bold; }
+                            em, i { font-style: italic; }
+                            .footer { text-align: center; margin-top: 30px; font-size: 0.9em; color: #555; border-top: 1px solid #ccc; padding-top: 15px;}
                         </style>
                     </head>
                     <body>
-                        <h1>Bukti Kesepakatan Awal - Zakwan Studio</h1>
-                        <p>${message.replace(/\n/g, '<br>')}</p>
-                        <hr>
-                        <p><strong>Kontak Kami:</strong><br>Icuk: 0852-4005-7704<br>Kapten: 0852-9906-9883</p>
+                        <div class="container">
+                            <h1>Bukti Pemesanan Awal<br><span style="font-size: 0.8em; font-weight: normal;">Zakwan Studio</span></h1>
+                            <p>${messageForPrint.replace(/\*(.*?)\*/g, '<strong>$1</strong>').replace(/_(.*?)_/g, '<em>$1</em>')}</p>
+                            <div class="footer">
+                                <p><strong>Kontak Kami:</strong><br>Icuk: 0852-4005-7704 | Kapten: 0852-9906-9883</p>
+                            </div>
+                        </div>
                     </body>
                 </html>
             `);
