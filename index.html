@@ -74,6 +74,15 @@
             stroke-dashoffset: 24;
             transition: stroke-dashoffset 0.2s ease-in-out;
         }
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+          -webkit-appearance: none; 
+          margin: 0; 
+        }
+        input[type=number] {
+          -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
@@ -359,47 +368,62 @@
             <div id="packageList" class="space-y-2 mb-4">
                 <p class="font-semibold text-gray-300 text-sm">Pilih paket yang diminati:</p>
                 <!-- Item Paket -->
-                <div class="package-item flex justify-between items-center">
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                        <div class="relative"><input type="checkbox" data-price="1500000" data-name="Paket Pesta & Acara" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
-                        <span class="text-sm">Paket Pesta & Acara</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                <div class="package-item">
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <div class="relative"><input type="checkbox" data-price="1500000" data-name="Paket Pesta dan Acara" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                            <span class="text-sm">Paket Pesta & Acara <span class="text-xs text-gray-500">(Rp 1.500.000)</span></span>
+                        </label>
+                        <label class="flex items-center space-x-1 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                    </div>
+                    <input type="number" placeholder="Harga Nego" class="nego-input hidden w-full mt-1 bg-gray-900 border-gray-600 rounded-md p-1 text-xs">
                 </div>
-                <div class="package-item flex justify-between items-center">
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                        <div class="relative"><input type="checkbox" data-price="500000" data-name="Upgrade Video Sinematik" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
-                        <span class="text-sm">Upgrade Video Sinematik</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                 <div class="package-item">
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <div class="relative"><input type="checkbox" data-price="500000" data-name="Upgrade Video Sinematik" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                            <span class="text-sm">Upgrade Sinematik <span class="text-xs text-gray-500">(Rp 500.000)</span></span>
+                        </label>
+                         <label class="flex items-center space-x-1 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                    </div>
+                    <input type="number" placeholder="Harga Nego" class="nego-input hidden w-full mt-1 bg-gray-900 border-gray-600 rounded-md p-1 text-xs">
                 </div>
-                <div class="package-item flex justify-between items-center">
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                        <div class="relative"><input type="checkbox" data-price="2000000" data-name="Foto Prewedding" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
-                        <span class="text-sm">Foto Prewedding</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                <div class="package-item">
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <div class="relative"><input type="checkbox" data-price="2000000" data-name="Foto Prewedding" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                            <span class="text-sm">Foto Prewedding <span class="text-xs text-gray-500">(Rp 2.000.000)</span></span>
+                        </label>
+                         <label class="flex items-center space-x-1 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                    </div>
+                    <input type="number" placeholder="Harga Nego" class="nego-input hidden w-full mt-1 bg-gray-900 border-gray-600 rounded-md p-1 text-xs">
                 </div>
-                <div class="package-item flex justify-between items-center">
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                        <div class="relative"><input type="checkbox" data-price="1000000" data-name="Video Prewedding" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
-                        <span class="text-sm">Video Prewedding</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                <div class="package-item">
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <div class="relative"><input type="checkbox" data-price="1000000" data-name="Video Prewedding" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                            <span class="text-sm">Video Prewedding <span class="text-xs text-gray-500">(Rp 1.000.000)</span></span>
+                        </label>
+                         <label class="flex items-center space-x-1 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                    </div>
+                    <input type="number" placeholder="Harga Nego" class="nego-input hidden w-full mt-1 bg-gray-900 border-gray-600 rounded-md p-1 text-xs">
                 </div>
-                <div class="package-item flex justify-between items-center">
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                        <div class="relative"><input type="checkbox" data-price="100000" data-name="Undangan Digital" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
-                        <span class="text-sm">Undangan Digital</span>
-                    </label>
-                    <label class="flex items-center space-x-2 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                <div class="package-item">
+                    <div class="flex justify-between items-center">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <div class="relative"><input type="checkbox" data-price="100000" data-name="Undangan Digital" class="package-checkbox custom-checkbox appearance-none w-5 h-5 bg-gray-700 rounded-md border border-gray-600"><svg class="absolute top-0.5 left-0.5 w-4 h-4 text-white pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" class="tick-path"></polyline></svg></div>
+                            <span class="text-sm">Undangan Digital <span class="text-xs text-gray-500">(Rp 100.000)</span></span>
+                        </label>
+                         <label class="flex items-center space-x-1 cursor-pointer text-xs text-gray-400"><input type="checkbox" class="nego-checkbox bg-gray-700 rounded-sm border-gray-600"><span>Nego</span></label>
+                    </div>
+                    <input type="number" placeholder="Harga Nego" class="nego-input hidden w-full mt-1 bg-gray-900 border-gray-600 rounded-md p-1 text-xs">
                 </div>
             </div>
 
             <!-- Total Price -->
             <div class="text-center mb-4 border-t border-b border-gray-700 py-3">
-                <span class="text-gray-400 text-sm">Estimasi Total Harga:</span>
-                <p id="totalPrice" class="text-2xl font-bold text-white">Rp 0</p>
+                <p id="totalPrice" class="text-lg font-bold text-white">Estimasi Total: Rp 0</p>
+                <p id="totalNegoPrice" class="text-sm font-bold text-green-400 hidden">Jumlah Nego: Rp 0</p>
             </div>
 
             <button id="sendToWhatsapp" class="w-full bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 flex items-center justify-center">
@@ -448,6 +472,7 @@
         const bulanSelect = document.getElementById('bulan');
         const tahunSelect = document.getElementById('tahun');
         const totalPriceEl = document.getElementById('totalPrice');
+        const totalNegoPriceEl = document.getElementById('totalNegoPrice');
         const packageList = document.getElementById('packageList');
 
         // Populate Date Pickers
@@ -464,23 +489,55 @@
             tahunSelect.innerHTML += `<option value="${currentYear + i}">${currentYear + i}</option>`;
         }
 
-        // Calculate Total Price
-        const calculateTotal = () => {
+        // Calculate Total Price & Handle Nego Input
+        const updateState = () => {
             let total = 0;
-            const packageCheckboxes = packageList.querySelectorAll('.package-checkbox');
-            packageCheckboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    total += parseInt(checkbox.dataset.price);
+            let totalNego = 0;
+            let isAnyNegoActive = false;
+            const packageItems = packageList.querySelectorAll('.package-item');
+
+            packageItems.forEach(item => {
+                const packageCheckbox = item.querySelector('.package-checkbox');
+                const negoCheckbox = item.querySelector('.nego-checkbox');
+                const negoInput = item.querySelector('.nego-input');
+
+                if (packageCheckbox.checked) {
+                    const price = parseInt(packageCheckbox.dataset.price);
+                    total += price;
+
+                    if (negoCheckbox.checked) {
+                        isAnyNegoActive = true;
+                        const negoValue = parseInt(negoInput.value);
+                        if (!isNaN(negoValue) && negoInput.value.trim() !== '') {
+                            totalNego += negoValue;
+                        }
+                    }
+                }
+                
+                if (negoCheckbox.checked) {
+                    negoInput.classList.remove('hidden');
+                } else {
+                    negoInput.classList.add('hidden');
+                    negoInput.value = '';
                 }
             });
-            totalPriceEl.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+
+            totalPriceEl.textContent = `Estimasi Total: Rp ${total.toLocaleString('id-ID')}`;
+            
+            if (isAnyNegoActive && total > 0) {
+                totalNegoPriceEl.textContent = `Jumlah Nego: Rp ${totalNego.toLocaleString('id-ID')}`;
+                totalNegoPriceEl.classList.remove('hidden');
+            } else {
+                totalNegoPriceEl.classList.add('hidden');
+            }
+            
+            if (total === 0) {
+                 totalNegoPriceEl.classList.add('hidden');
+            }
         };
 
-        packageList.addEventListener('change', (e) => {
-            if (e.target.classList.contains('package-checkbox')) {
-                calculateTotal();
-            }
-        });
+        packageList.addEventListener('change', updateState);
+        packageList.addEventListener('input', updateState);
 
 
         // Modal Controls
@@ -505,27 +562,29 @@
             const bulan = bulanSelect.value;
             const tahun = tahunSelect.value;
             const totalHarga = totalPriceEl.textContent;
+            const totalNegoHarga = totalNegoPriceEl.textContent;
 
             let selectedPackages = [];
             const packageItems = packageList.querySelectorAll('.package-item');
             
-            // ** PERBAIKAN BUG ADA DI SINI **
-            // Menggunakan for loop standar untuk kompatibilitas maksimum
-            for (let i = 0; i < packageItems.length; i++) {
-                const item = packageItems[i];
+            packageItems.forEach(item => {
                 const packageCheckbox = item.querySelector('.package-checkbox');
-                
-                if (packageCheckbox && packageCheckbox.checked) {
+                if (packageCheckbox.checked) {
                     const negoCheckbox = item.querySelector('.nego-checkbox');
-                    let packageString = `- ${packageCheckbox.getAttribute('data-name')}`;
-                    if (negoCheckbox && negoCheckbox.checked) {
-                        packageString += " (Nego)";
+                    const negoInput = item.querySelector('.nego-input');
+                    let packageName = packageCheckbox.getAttribute('data-name');
+                    let originalPrice = parseInt(packageCheckbox.dataset.price).toLocaleString('id-ID');
+                    let packageString = `- ${packageName}`;
+                    
+                    if (negoCheckbox.checked && negoInput.value) {
+                        const negoPrice = parseInt(negoInput.value).toLocaleString('id-ID');
+                        packageString += ` (Harga Asli: Rp ${originalPrice}, Nego: Rp ${negoPrice})`;
                     }
                     selectedPackages.push(packageString);
                 }
-            }
+            });
 
-            let message = `Assalamualaikum, Halo Zakwan Studio.%0A%0ASaya sudah membaca dan memahami informasi di landing page.%0A%0ASaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.%0A%0APaket yang saya minati:%0A`;
+            let message = `Assalamualaikum, Halo Zakwan Studio. Saya sudah membaca dan memahami informasi di landing page.%0A%0ASaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.%0A%0APaket yang saya minati:%0A`;
             
             if (selectedPackages.length > 0) {
                 message += selectedPackages.join('%0A');
@@ -533,7 +592,12 @@
                 message += "(Belum ada paket yang dipilih)";
             }
 
-            message += `%0A%0AEstimasi Total Harga: *${totalHarga}*`;
+            message += `%0A%0A${totalHarga}`;
+            if (totalNegoPriceEl.classList.contains('hidden') === false) {
+                 message += `%0A*${totalNegoHarga}*`;
+            }
+
+            message += `%0A%0AMohon konfirmasi ketersediaan jadwalnya. Terima kasih.`;
 
             const waNumber = "6285240057704"; // Nomor Icuk sebagai default
             const waURL = `https://wa.me/${waNumber}?text=${message}`;
