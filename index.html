@@ -503,16 +503,16 @@
             const totalHarga = totalPriceEl.textContent;
 
             let selectedPackages = [];
-            packageCheckboxes.forEach(checkbox => {
-                if(checkbox.checked) {
-                    const parentDiv = checkbox.closest('.flex.justify-between');
-                    const negoCheckbox = parentDiv.querySelector('.nego-checkbox');
-                    let packageString = `- ${checkbox.getAttribute('data-name')}`;
-                    if (negoCheckbox && negoCheckbox.checked) {
-                        packageString += " (Nego)";
-                    }
-                    selectedPackages.push(packageString);
+            const checkedPackageCheckboxes = document.querySelectorAll('.package-checkbox:checked');
+            
+            checkedPackageCheckboxes.forEach(checkbox => {
+                const parentDiv = checkbox.closest('.flex.justify-between');
+                const negoCheckbox = parentDiv.querySelector('.nego-checkbox');
+                let packageString = `- ${checkbox.getAttribute('data-name')}`;
+                if (negoCheckbox && negoCheckbox.checked) {
+                    packageString += " (Nego)";
                 }
+                selectedPackages.push(packageString);
             });
 
             let message = `Assalamualaikum, Halo Zakwan Studio.%0A%0ASaya sudah membaca dan memahami informasi di landing page.%0A%0ASaya ingin booking untuk tanggal *${tanggal} ${bulan} ${tahun}*.%0A%0APaket yang saya minati:%0A`;
