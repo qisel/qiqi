@@ -3,425 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal KUBE Harapan Sejahtera</title>
-    <!-- Social Media Meta Tags -->
-    <meta property="og:title" content="Proposal Bantuan Usaha KUBE Harapan Sejahtera">
-    <meta property="og:description" content="Proposal permohonan bantuan dana untuk budidaya ternak sapi potong oleh KUBE Harapan Sejahtera di Kabupaten Gorontalo.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/cover.png">
-    <meta property="og:url" content="https://github.com/qisel/Harapan-Sejahtra/blob/main/proposal.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/cover.png">
-
-    <!-- Tailwind CSS CDN -->
+    <title>Zakwan Studio - Fotografi & Videografi Gorontalo</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
+        /* Menggunakan font Poppins yang lebih modern */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7fbf8;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #111827; /* Dark background */
+            color: #F3F4F6; /* Light text */
         }
-        .container {
-            max-width: 900px;
+        
+        /* Custom gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, #3B82F6, #A855F7, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .section-title {
-            color: #2c6f37;
-            font-weight: 700;
+
+        /* Custom button hover effect */
+        .btn-glow {
+            box-shadow: 0 0 5px #3B82F6, 0 0 10px #3B82F6;
+            transition: all 0.3s ease-in-out;
         }
-        .text-justify {
-            text-align: justify;
+        .btn-glow:hover {
+            box-shadow: 0 0 15px #3B82F6, 0 0 30px #3B82F6;
         }
-        .indent {
-            text-indent: 2rem;
+
+        /* Custom card style */
+        .card-border-glow {
+            border: 1px solid transparent;
+            background: linear-gradient(#1F2937, #1F2937) padding-box,
+                        linear-gradient(120deg, #3B82F6, #A855F7) border-box;
+            transition: all 0.3s ease-in-out;
         }
-        /* Gaya untuk spanduk promosi yang turun */
-        .promo-banner {
-            position: fixed;
-            top: -200px; /* Mulai dari luar layar */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 600px;
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            padding: 1rem;
-            text-align: center;
-            transition: top 0.7s ease-in-out, opacity 0.7s ease-in-out;
-            opacity: 0;
+        .card-border-glow:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
-        .promo-banner.show {
-            top: 2rem; /* Posisi saat muncul */
-            opacity: 1;
-        }
-        .promo-banner .close-btn {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            padding: 0.25rem;
-            color: #333;
-            transition: background-color 0.3s ease;
-        }
-        .promo-banner .close-btn:hover {
-            background-color: rgba(255, 255, 255, 1);
-        }
-        .promo-banner .promo-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-bottom: 0.5rem;
+
+        /* Header scroll effect */
+        .header-scrolled {
+            background-color: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
-<body class="p-8">
+<body class="bg-gray-900 text-gray-100">
 
-    <!-- Spanduk Promosi yang Muncul dari Atas -->
-    <div id="promo-banner" class="promo-banner">
-        <button id="close-banner-btn" class="close-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-        <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.2.jpg" alt="Sapi Unggulan" class="promo-image mx-auto">
-        <h2 class="text-xl font-bold text-[#2c6f37] mb-1">PROMO SPESIAL</h2>
-        <p class="text-gray-600 text-sm mb-3">Dapatkan Sapi Potong Berkualitas atau Mulai Investasi Menguntungkan!</p>
-        <a href="https://wa.me/6281234567890" class="inline-block bg-green-500 text-white font-bold py-2 px-6 rounded-full text-sm shadow-lg hover:bg-green-600 transition-colors duration-300">
-            Hubungi Kami Sekarang
-        </a>
-    </div>
-
-    <!-- Sampul Proposal -->
-    <div class="container mx-auto bg-white rounded-xl shadow-2xl p-8 md:p-16 lg:p-24 mb-16">
-        <div class="flex flex-col items-center justify-center text-center">
-            <div class="mb-8 w-full max-w-sm">
-                <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.1.jpg" alt="Ilustrasi Budidaya Sapi Potong" class="w-full h-auto rounded-lg shadow-md">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-black gradient-text">ZAKWAN</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#paket" class="font-semibold hover:text-blue-400 transition duration-300">Paket</a>
+                <a href="#prewedding" class="font-semibold hover:text-purple-400 transition duration-300">Prewedding</a>
+                <a href="#portfolio" class="font-semibold hover:text-pink-400 transition duration-300">Portofolio</a>
+                <a href="#kontak" class="bg-blue-600 text-white px-5 py-2 rounded-full font-bold hover:bg-blue-700 btn-glow">Hubungi Kami</a>
             </div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-[#2c6f37] mb-2">PROPOSAL BANTUAN USAHA EKONOMI PRODUKTIF (UEP)</h1>
-            <h2 class="text-xl md:text-2xl font-semibold text-[#548b61] mb-4">KELOMPOK USAHA BERSAMA (KUBE) “HARAPAN SEJAHTERA”</h2>
-            <p class="text-lg md:text-xl font-medium text-[#7d9f82]">BUDIDAYA TERNAK SAPI POTONG</p>
-            <p class="mt-12 text-gray-600">Diajukan kepada:</p>
-            <p class="text-xl font-bold text-gray-800">Dinas Sosial Kabupaten Gorontalo</p>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-white">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-gray-900">
+            <a href="#paket" class="block py-2 text-lg font-semibold hover:text-blue-400">Paket</a>
+            <a href="#prewedding" class="block py-2 text-lg font-semibold hover:text-purple-400">Prewedding</a>
+            <a href="#portfolio" class="block py-2 text-lg font-semibold hover:text-pink-400">Portofolio</a>
+            <a href="#kontak" class="block mt-2 w-full text-center bg-blue-600 text-white px-4 py-2 rounded-full font-bold hover:bg-blue-700">Hubungi Kami</a>
         </div>
-    </div>
+    </header>
 
-    <!-- Konten Proposal -->
-    <div class="container mx-auto bg-white rounded-xl shadow-lg p-8 md:p-12 lg:p-16">
-
-        <!-- BAB I: PENDAHULUAN -->
-        <section class="mb-12">
-            <h3 class="section-title text-2xl mb-6">BAB I: PENDAHULUAN</h3>
-            <div class="space-y-6">
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">1.1. Latar Belakang</h4>
-                    <p class="text-justify indent">
-                        Kemiskinan dan keterbatasan lapangan kerja masih menjadi masalah sosial yang dihadapi oleh masyarakat di Kabupaten Gorontalo, termasuk di Desa Barakati, Kecamatan Batudaa. Salah satu faktor utama yang menghambat peningkatan kesejahteraan masyarakat prasejahtera adalah keterbatasan akses modal usaha.
-                    </p>
-                    <p class="text-justify indent">
-                        Untuk mengatasi hal tersebut, kami, 10 orang warga Desa Barakati yang tergolong keluarga prasejahtera, membentuk Kelompok Usaha Bersama (KUBE) “Harapan Sejahtera” dengan tujuan mengembangkan usaha ekonomi produktif yang berkelanjutan.
-                    </p>
-                    <p class="text-justify indent mb-4">
-                        Kami memilih budidaya ternak sapi potong sebagai usaha bersama karena:
-                    </p>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
-                        <li>Desa Barakati memiliki potensi sumber daya alam berupa ketersediaan hijauan pakan.</li>
-                        <li>Budidaya sapi potong tidak hanya menghasilkan daging, tetapi juga anakan (pedet) yang bernilai ekonomis.</li>
-                        <li>Permintaan pasar terhadap daging sapi di Kabupaten Gorontalo cukup tinggi, terutama saat hari besar keagamaan.</li>
-                        <li>Limbah ternak (kotoran sapi) dapat dimanfaatkan sebagai pupuk organik untuk mendukung sektor pertanian.</li>
-                    </ul>
-                    <p class="text-justify indent mt-4">
-                        Dengan adanya usaha ini, kami berharap dapat menciptakan sumber pendapatan yang berkelanjutan, membuka lapangan kerja baru, serta mengurangi tingkat kemiskinan di desa kami.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">1.2. Maksud dan Tujuan</h4>
-                    <p class="text-justify indent">
-                        Maksud dari proposal ini adalah untuk memperoleh bantuan modal usaha dari Dinas Sosial Kabupaten Gorontalo dalam rangka mengembangkan budidaya sapi potong.
-                    </p>
-                    <h5 class="font-semibold text-base mt-4 mb-2">Tujuan:</h5>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
-                        <li>Meningkatkan taraf hidup anggota KUBE melalui usaha peternakan berkelanjutan.</li>
-                        <li>Menciptakan lapangan kerja baru bagi masyarakat desa.</li>
-                        <li>Mengembangkan potensi lokal melalui budidaya sapi potong.</li>
-                        <li>Menumbuhkan solidaritas, gotong royong, dan kemandirian ekonomi anggota.</li>
-                    </ul>
-                </div>
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <!-- Background Video Placeholder -->
+            <div class="absolute inset-0 bg-black">
+                 <img src="https://placehold.co/1920x1080/111827/111827?text=." class="w-full h-full object-cover opacity-50" alt="background">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900"></div>
+            
+            <div class="relative z-10 p-6" data-aos="fade-up">
+                <h1 class="text-5xl md:text-8xl font-black mb-4 leading-tight">
+                    <span class="gradient-text">Momen Indah,</span><br>Abadi Selamanya.
+                </h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-300">Jasa Fotografi & Videografi Kreatif di Gorontalo.</p>
+                <a href="#kontak" class="bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition duration-300 transform hover:scale-105 btn-glow">
+                    Amankan Tanggal Anda
+                </a>
             </div>
         </section>
 
-        <!-- BAB II: PROFIL KELOMPOK -->
-        <section class="mb-12">
-            <h3 class="section-title text-2xl mb-6">BAB II: PROFIL KELOMPOK</h3>
-            <div class="space-y-6">
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">2.1. Identitas Kelompok</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
-                        <p><strong>Nama Kelompok</strong> : KUBE “Harapan Sejahtera”</p>
-                        <p><strong>Alamat</strong> : Desa Barakati, Kecamatan Batudaa, Kabupaten Gorontalo</p>
-                        <p><strong>Jenis Usaha</strong> : Budidaya Sapi Potong</p>
-                        <p><strong>Tahun Berdiri</strong> : 2024</p>
-                        <p><strong>Jumlah Anggota</strong> : 10 orang</p>
+        <!-- Paket Pesta Section -->
+        <section id="paket" class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">Paket Pesta & Acara</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-12" data-aos="fade-up" data-aos-delay="100"></div>
+                
+                <div class="bg-gray-800 rounded-3xl p-8 md:p-12 max-w-3xl mx-auto card-border-glow" data-aos="zoom-in">
+                    <h3 class="text-3xl font-bold text-white mb-2">Paket Lengkap</h3>
+                    <p class="text-5xl font-black gradient-text mb-8">Rp 1.500.000</p>
+                    
+                    <ul class="text-left space-y-4 mb-8 text-lg">
+                        <li class="flex items-center"><i data-lucide="check" class="w-6 h-6 bg-green-500 text-white rounded-full p-1 mr-3"></i><span><strong class="font-semibold">Album Foto Eksklusif</strong> (Full Moment)</span></li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-6 h-6 bg-green-500 text-white rounded-full p-1 mr-3"></i><span><strong class="font-semibold">Video Dokumentasi</strong> (Full Moment)</span></li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-6 h-6 bg-green-500 text-white rounded-full p-1 mr-3"></i><span>Cakupan hingga <strong class="font-semibold">3 Sesi Acara</strong></span></li>
+                        <!-- Penjelasan Sesi Acara -->
+                        <div class="ml-9 p-3 bg-gray-700 rounded-lg text-sm text-gray-300">
+                           <strong class="font-semibold text-white">Apa itu Sesi Acara?</strong> Sesi adalah satu rangkaian acara dalam satu waktu dan lokasi. Contoh untuk pernikahan: Sesi 1 (Acara Adat/Hantaran), Sesi 2 (Akad Nikah), dan Sesi 3 (Resepsi).
+                        </div>
+                         <li class="flex items-center"><i data-lucide="check" class="w-6 h-6 bg-green-500 text-white rounded-full p-1 mr-3"></i><span>Maksimal <strong class="font-semibold">2x Perjalanan</strong> ke lokasi</span></li>
+                        <li class="flex items-center"><i data-lucide="camera" class="w-6 h-6 text-blue-400 mr-3"></i><span>Video direkam dengan <strong class="font-semibold">Kamera HDR Panasonic MDH1</strong></span></li>
+                    </ul>
+
+                    <!-- Add-on Sinematik -->
+                    <div class="bg-gray-900 border-2 border-purple-500 p-6 rounded-2xl text-left mt-8" data-aos="fade-left">
+                        <h4 class="font-bold text-xl flex items-center"><i data-lucide="film" class="w-6 h-6 mr-3 text-purple-400"></i>Upgrade Video Sinematik</h4>
+                        <p class="text-gray-300 mt-2">Sentuhan filmis yang dramatis dengan kamera <strong class="font-semibold">DSLR Canon</strong>.</p>
+                        <p class="text-2xl font-bold text-purple-400 mt-2">+ Rp 500.000<span class="text-base font-medium">/sesi</span></p>
                     </div>
                 </div>
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">2.2. Visi dan Misi</h4>
-                    <p class="font-semibold text-base">Visi:</p>
-                    <p class="text-justify mb-2">Terwujudnya kesejahteraan dan kemandirian ekonomi anggota melalui usaha budidaya sapi potong.</p>
-                    <p class="font-semibold text-base">Misi:</p>
-                    <ol class="list-decimal list-inside space-y-2 text-gray-700 ml-4">
-                        <li>Menjalankan usaha budidaya sapi potong secara kolektif dan berkelanjutan.</li>
-                        <li>Meningkatkan keterampilan anggota dalam bidang peternakan.</li>
-                        <li>Mengembangkan sistem reproduksi ternak untuk menghasilkan pedet berkualitas.</li>
-                        <li>Membangun kemitraan dengan pemerintah, swasta, dan masyarakat dalam pemasaran hasil ternak.</li>
-                    </ol>
-                </div>
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">2.3. Susunan Pengurus dan Anggota</h4>
-                    <p><strong>Pengurus:</strong></p>
-                    <ul class="list-disc list-inside text-gray-700 ml-4 mb-2">
-                        <li><strong>Ketua</strong> : Rum Yusran T. Luawo</li>
-                        <li><strong>Sekretaris</strong> : Usman Moonggalo</li>
-                    </ul>
-                    <p><strong>Anggota:</strong></p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
-                        <li>Aslan Tooli</li>
-                        <li>Yanto Tooli</li>
-                        <li>Abdulkarim Fikran Luawo</li>
-                        <li>Hendra Hasan</li>
-                        <li>Rey Makrun</li>
-                        <li>Patir Polapa</li>
-                        <li>Meykel Harun</li>
-                        <li>Jeklin Harun</li>
-                    </ul>
-                </div>
             </div>
         </section>
 
-        <!-- BAB III: RENCANA USAHA -->
-        <section class="mb-12">
-            <h3 class="section-title text-2xl mb-6">BAB III: RENCANA USAHA</h3>
-            <div class="space-y-6">
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">3.1. Potensi Usaha</h4>
-                    <p class="text-justify indent">
-                        Budidaya sapi potong memiliki prospek jangka panjang. Selain menghasilkan daging, usaha ini juga menghasilkan pedet (anak sapi) yang dapat dijual kembali atau dibesarkan menjadi sapi potong. Dengan jumlah indukan yang cukup, populasi sapi dapat bertambah setiap tahun.
-                    </p>
-                    <p class="text-justify indent">
-                        Selain itu, kotoran sapi bisa diolah menjadi pupuk organik, sehingga menambah nilai ekonomi sekaligus mendukung pertanian lokal.
-                    </p>
-                    <div class="mt-6 text-center">
-                        <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.2.jpg" alt="Ilustrasi sapi di padang rumput" class="w-full md:w-3/4 mx-auto rounded-lg shadow-md">
+        <!-- Paket Prewedding Section -->
+        <section id="prewedding" class="py-24 bg-gray-900">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">Paket Prewedding</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-12" data-aos="fade-up" data-aos-delay="100"></div>
+                
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <!-- Foto Prewedding Card -->
+                    <div class="bg-gray-800 rounded-3xl p-8 card-border-glow flex flex-col" data-aos="fade-right">
+                        <h3 class="text-2xl font-bold mb-2">Foto Prewedding</h3>
+                        <p class="text-4xl font-black gradient-text mb-6">Rp 2.000.000</p>
+                        <ul class="text-left space-y-3 mb-6 flex-grow text-gray-300">
+                            <li class="flex items-start"><i data-lucide="camera" class="w-5 h-5 text-blue-400 mr-3 mt-1 shrink-0"></i><span>Sesi foto profesional khusus pasangan.</span></li>
+                            <li class="flex items-start"><i data-lucide="map-pin" class="w-5 h-5 text-blue-400 mr-3 mt-1 shrink-0"></i><span>Bebas pilih spot di mana saja.</span></li>
+                            <li class="flex items-start"><i data-lucide="calendar-days" class="w-5 h-5 text-blue-400 mr-3 mt-1 shrink-0"></i><span>Maksimal 2x perjalanan/sesi.</span></li>
+                        </ul>
+                        <div class="bg-green-900 border-2 border-green-500 p-4 rounded-xl text-left mt-4">
+                            <h4 class="font-bold flex items-center text-green-300"><i data-lucide="sparkles" class="w-5 h-5 mr-2"></i>Penawaran Spesial!</h4>
+                            <p class="text-sm text-green-200 mt-1">Tambah <strong class="font-semibold">Foto Hari H</strong> hanya <strong class="font-semibold">Rp 750.000</strong>.</p>
+                        </div>
+                    </div>
+
+                    <!-- Video Prewedding Card -->
+                    <div class="bg-gray-800 rounded-3xl p-8 card-border-glow flex flex-col" data-aos="fade-left">
+                        <h3 class="text-2xl font-bold mb-2">Video Prewedding</h3>
+                        <p class="text-4xl font-black gradient-text mb-6">Rp 1.000.000</p>
+                        <ul class="text-left space-y-3 mb-6 flex-grow text-gray-300">
+                            <li class="flex items-start"><i data-lucide="video" class="w-5 h-5 text-purple-400 mr-3 mt-1 shrink-0"></i><span>Video kasual di balik layar sesi foto.</span></li>
+                            <li class="flex items-start"><i data-lucide="map-pin" class="w-5 h-5 text-purple-400 mr-3 mt-1 shrink-0"></i><span>Bebas pilih spot mengikuti sesi foto.</span></li>
+                            <li class="flex items-start"><i data-lucide="calendar-days" class="w-5 h-5 text-purple-400 mr-3 mt-1 shrink-0"></i><span>Maksimal 2x perjalanan/sesi.</span></li>
+                        </ul>
+                        <div class="bg-gray-700 p-4 rounded-xl text-left mt-4">
+                            <p class="text-sm text-gray-300"><strong class="font-semibold">Gaya Video:</strong> Dokumentasi momen bergerak (bukan film pendek).</p>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h4 class="font-semibold text-lg mb-2">3.2. Rencana Kegiatan</h4>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
-                        <li><strong>Persiapan:</strong> Menyiapkan lahan dan kandang kolektif.</li>
-                        <li><strong>Pengadaan Bibit:</strong> Membeli 8 ekor sapi betina produktif dan 2 ekor pejantan unggul.</li>
-                        <li><strong>Pemeliharaan:</strong> Memberikan pakan hijauan dan tambahan konsentrat, menjaga kesehatan ternak dengan obat & vitamin.</li>
-                        <li><strong>Reproduksi:</strong> Mengatur perkawinan alami atau inseminasi buatan untuk menghasilkan pedet.</li>
-                        <li><strong>Pemasaran:</strong> Menjual pedet berumur 6–12 bulan serta sapi potong sesuai permintaan pasar.</li>
-                        <li><strong>Pengembangan Usaha:</strong> Sebagian keuntungan digunakan untuk membeli indukan tambahan agar populasi sapi terus bertambah.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- BAB IV: RENCANA ANGGARAN BIAYA (RAB) -->
-        <section class="mb-12">
-            <h3 class="section-title text-2xl mb-6">BAB IV: RENCANA ANGGARAN BIAYA (RAB)</h3>
-            <div class="bg-gray-50 rounded-lg p-6 mb-8 shadow-sm">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
-                            <tr>
-                                <th scope="col" class="py-3 px-6 rounded-tl-lg">No</th>
-                                <th scope="col" class="py-3 px-6">Uraian Kegiatan</th>
-                                <th scope="col" class="py-3 px-6">Volume</th>
-                                <th scope="col" class="py-3 px-6">Satuan</th>
-                                <th scope="col" class="py-3 px-6">Harga Satuan (Rp)</th>
-                                <th scope="col" class="py-3 px-6 rounded-tr-lg">Jumlah Biaya (Rp)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="bg-white border-b">
-                                <td colspan="6" class="py-3 px-6 font-bold text-gray-900">A. MODAL KERJA</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td class="py-3 px-6">1</td>
-                                <td class="py-3 px-6">Pembelian Indukan Betina Sapi</td>
-                                <td class="py-3 px-6">2 ekor</td>
-                                <td class="py-3 px-6">ekor</td>
-                                <td class="py-3 px-6">12.000.000</td>
-                                <td class="py-3 px-6">24.000.000</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td class="py-3 px-6">2</td>
-                                <td class="py-3 px-6">Pembelian Pejantan Sapi</td>
-                                <td class="py-3 px-6">1 ekor</td>
-                                <td class="py-3 px-6">ekor</td>
-                                <td class="py-3 px-6">15.000.000</td>
-                                <td class="py-3 px-6">15.000.000</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td class="py-3 px-6">3</td>
-                                <td class="py-3 px-6">Pakan Alternatif (Ampas tahu, jerami, silase)</td>
-                                <td class="py-3 px-6">1 paket</td>
-                                <td class="py-3 px-6">paket</td>
-                                <td class="py-3 px-6">8.000.000</td>
-                                <td class="py-3 px-6">8.000.000</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td class="py-3 px-6">4</td>
-                                <td class="py-3 px-6">Obat-obatan & Vitamin</td>
-                                <td class="py-3 px-6">1 paket</td>
-                                <td class="py-3 px-6">paket</td>
-                                <td class="py-3 px-6">3.000.000</td>
-                                <td class="py-3 px-6">3.000.000</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td colspan="6" class="py-3 px-6 font-bold text-gray-900">B. MODAL INVESTASI</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td class="py-3 px-6">1</td>
-                                <td class="py-3 px-6">Peralatan Kandang (terpal, ember)</td>
-                                <td class="py-3 px-6">1 paket</td>
-                                <td class="py-3 px-6">paket</td>
-                                <td class="py-3 px-6">3.500.000</td>
-                                <td class="py-3 px-6">3.500.000</td>
-                            </tr>
-                            <tr class="bg-white border-b">
-                                <td class="py-3 px-6">2</td>
-                                <td class="py-3 px-6">Transportasi & Tak Terduga</td>
-                                <td class="py-3 px-6">1 paket</td>
-                                <td class="py-3 px-6">paket</td>
-                                <td class="py-3 px-6">3.000.000</td>
-                                <td class="py-3 px-6">3.000.000</td>
-                            </tr>
-                            <tr class="bg-gray-200">
-                                <td colspan="5" class="py-3 px-6 font-bold text-gray-900">TOTAL</td>
-                                <td class="py-3 px-6 font-bold text-gray-900 rounded-br-lg">50.000.000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-center font-semibold italic text-gray-600 mt-4">Terbilang: Lima Puluh Juta Rupiah</p>
-            </div>
-
-            <!-- Analisis Kelayakan & Proyeksi Keuangan -->
-            <div class="space-y-6">
-                <h4 class="font-semibold text-lg mb-2">Analisis Kelayakan & Proyeksi Keuangan</h4>
-                <p class="text-justify indent">
-                    Analisis ini menunjukkan bahwa dana sebesar Rp50.000.000 sudah sangat mencukupi untuk menjalankan proyek ini dari awal hingga menghasilkan anakan yang siap dijual, tanpa memerlukan dana tambahan.
-                </p>
-                <div>
-                    <h5 class="font-semibold text-base mb-2">1. Perkiraan Biaya Operasional Harian</h5>
-                    <p class="text-justify indent mb-2">
-                        Biaya operasional dihitung berdasarkan kebutuhan harian untuk 3 ekor sapi (2 indukan betina + 1 pejantan). Dengan memanfaatkan pakan alternatif yang umumnya tersedia di lingkungan peternak lokal, biaya dapat ditekan.
-                    </p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
-                        <li><strong>Asumsi Biaya Pakan Harian:</strong> Kebutuhan pakan per ekor: sekitar Rp5.000/hari (termasuk pakan hijauan, ampas tahu, dan silase).</li>
-                        <li><strong>Jumlah sapi:</strong> 3 ekor</li>
-                        <li><strong>Total Biaya Harian:</strong> 3 ekor x Rp5.000 = Rp15.000</li>
-                        <li><strong>Total Biaya Bulanan:</strong> Rp15.000 x 30 hari = Rp450.000</li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="font-semibold text-base mb-2">2. Proyeksi Kecukupan Dana</h5>
-                    <p class="text-justify indent mb-2">
-                        Dengan anggaran pakan sebesar Rp8.000.000, dana ini akan cukup untuk membiayai pakan selama:
-                    </p>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
-                        <li><strong>Perhitungan:</strong> Rp8.000.000 / Rp450.000 = sekitar 17.7 bulan</li>
-                    </ul>
-                    <p class="text-justify indent mt-2">
-                        Waktu yang diperlukan sapi betina untuk melahirkan anakan (masa kebuntingan) adalah sekitar 9-10 bulan. Setelah anakan lahir, dibutuhkan waktu sekitar 6 bulan untuk mencapai bobot yang ideal untuk dijual.
-                    </p>
-                    <p class="text-justify indent mt-2">
-                        <strong>Kesimpulan:</strong> Dana pakan yang dianggarkan (Rp8.000.000) sudah lebih dari cukup untuk menutupi biaya pakan dari awal proyek hingga anakan sapi siap dijual. Ini menunjukkan bahwa proyek ini <strong>layak</strong> dan dapat mandiri secara finansial dalam jangka panjang.
-                    </p>
-                </div>
-                <div>
-                    <h5 class="font-semibold text-base mb-2">3. Anggaran untuk Kesehatan Sapi</h5>
-                    <p class="text-justify indent">
-                        Dana sebesar Rp3.000.000 untuk obat-obatan dan vitamin mencakup semua kebutuhan kesehatan dasar, seperti vitamin rutin, obat cacing, dan vaksinasi. Sebagian dana ini juga akan digunakan sebagai dana cadangan untuk pengobatan darurat jika diperlukan.
-                    </p>
+                <div class="mt-12 bg-yellow-900 border-2 border-yellow-500 text-yellow-200 p-4 rounded-xl max-w-5xl mx-auto text-left" data-aos="fade-up">
+                    <p><strong class="font-semibold">Catatan Penting:</strong> Untuk paket prewedding, biaya transportasi dan konsumsi tim ditanggung oleh klien.</p>
                 </div>
             </div>
         </section>
         
-        <!-- BAB V: PENUTUP -->
-        <section class="mb-12">
-            <h3 class="section-title text-2xl mb-6">BAB V: PENUTUP</h3>
-            <p class="text-justify indent mb-4">
-                Demikian proposal permohonan bantuan usaha budidaya sapi potong ini kami buat dengan sebenar-benarnya. Proposal ini disusun berdasarkan kondisi riil masyarakat dan potensi yang tersedia di Desa Barakati.
-            </p>
-            <p class="text-justify indent">
-                Kami berharap Bapak Kepala Dinas Sosial Kabupaten Gorontalo dapat mempertimbangkan dan menyetujui permohonan ini, demi peningkatan kesejahteraan masyarakat prasejahtera menuju kemandirian ekonomi.
-            </p>
-            <p class="text-justify indent mb-8">
-                Atas perhatian dan bantuan yang diberikan, kami ucapkan terima kasih.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start text-center sm:text-left">
-                <div>
-                    <p>Barakati, 10 Agustus 2024</p>
-                    <p class="font-bold">Kelompok Usaha Bersama “Harapan Sejahtera”</p>
-                </div>
-                <div class="mt-8 sm:mt-0 flex flex-col sm:flex-row space-y-8 sm:space-y-0 sm:space-x-12">
-                    <div class="flex flex-col items-center">
-                        <p class="font-bold">Ketua,</p>
-                        <p class="mt-12 mb-2 font-bold underline">Rum Yusran T. Luawo</p>
+        <!-- Service Area -->
+        <section class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                 <div class="max-w-3xl mx-auto bg-gradient-to-br from-blue-900 to-purple-900 text-white p-8 md:p-12 rounded-3xl shadow-2xl" data-aos="flip-up">
+                    <i data-lucide="map" class="w-16 h-16 mx-auto mb-4 text-white"></i>
+                    <h2 class="text-3xl font-bold mb-4">Area Layanan Kami</h2>
+                    <p class="text-lg mb-4 text-gray-300">Kami melayani seluruh area di <strong class="font-semibold text-white">Kabupaten Gorontalo</strong>.</p>
+                    <div class="bg-red-500/20 text-red-300 p-3 rounded-lg mt-6">
+                        <p><strong class="font-semibold">PENTING:</strong> Tidak termasuk wilayah Batudaa Pantai, Biluhu, dan sekitarnya.</p>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <p class="font-bold">Sekretaris,</p>
-                        <p class="mt-12 mb-2 font-bold underline">Usman Moonggalo</p>
-                    </div>
-                </div>
+                 </div>
             </div>
         </section>
 
-    </div>
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-24 bg-gray-900">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4" data-aos="fade-up">Portofolio Kami</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-pink-500 to-yellow-500 mx-auto mb-12" data-aos="fade-up" data-aos-delay="100"></div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div data-aos="zoom-in-up"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Momen+Akad" alt="Foto Pernikahan 1" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                    <div data-aos="zoom-in-up" data-aos-delay="100"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Prewedding+Pantai" alt="Foto Pernikahan 2" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                    <div data-aos="zoom-in-up" data-aos-delay="200"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Resepsi+Meriah" alt="Foto Pernikahan 3" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                    <div data-aos="zoom-in-up"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Detail+Cincin" alt="Foto Pernikahan 4" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                    <div data-aos="zoom-in-up" data-aos-delay="100"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Senyum+Bahagia" alt="Foto Pernikahan 5" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                    <div data-aos="zoom-in-up" data-aos-delay="200"><img src="https://placehold.co/600x400/1F2937/FFFFFF?text=Suasana+Outdoor" alt="Foto Pernikahan 6" class="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"></div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <!-- Spanduk Promosi yang Muncul dari Atas -->
-    <div id="promo-banner" class="promo-banner">
-        <button id="close-banner-btn" class="close-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-        <img src="https://raw.githubusercontent.com/qisel/Harapan-Sejahtra/main/sapi.2.jpg" alt="Sapi Unggulan" class="promo-image mx-auto">
-        <h2 class="text-xl font-bold text-[#2c6f37] mb-1">PROMO SPESIAL</h2>
-        <p class="text-gray-600 text-sm mb-3">Dapatkan Sapi Potong Berkualitas atau Mulai Investasi Menguntungkan!</p>
-        <a href="https://wa.me/6281234567890" class="inline-block bg-green-500 text-white font-bold py-2 px-6 rounded-full text-sm shadow-lg hover:bg-green-600 transition-colors duration-300">
-            Hubungi Kami Sekarang
-        </a>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const promoBanner = document.getElementById('promo-banner');
-            const closeBannerBtn = document.getElementById('close-banner-btn');
-            let hasScrolled = false;
+    <!-- Footer -->
+    <footer id="kontak" class="bg-gray-900 border-t-2 border-gray-800">
+        <div class="container mx-auto px-6 py-16 text-center">
+            <h2 class="text-4xl font-bold mb-4" data-aos="fade-up">Siap Mengabadikan Cerita Anda?</h2>
+            <p class="max-w-2xl mx-auto mb-8 text-gray-400" data-aos="fade-up" data-aos-delay="100">Jadwal terbatas! Hubungi kami sekarang untuk konsultasi gratis dan amankan tanggal spesial Anda.</p>
             
-            window.addEventListener('scroll', () => {
-                if (!hasScrolled) {
-                    hasScrolled = true;
-                    setTimeout(() => {
-                        promoBanner.classList.add('show');
-                    }, 10000); // Muncul 10 detik setelah scrolling pertama
-                }
-            });
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4" data-aos="zoom-in">
+                <a href="https://wa.me/6285240057704?text=Halo%20Zakwan%20Studio,%20saya%20tertarik%20dengan%20jasa%20foto%20dan%20video." target="_blank" class="w-full md:w-auto inline-block bg-green-500 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105">
+                    <i data-lucide="message-circle" class="inline-block mr-2"></i> Hubungi Icuk
+                </a>
+                <a href="https://wa.me/6285299069883?text=Halo%20Zakwan%20Studio,%20saya%20tertarik%20dengan%20jasa%20foto%20dan%20video." target="_blank" class="w-full md:w-auto inline-block bg-gray-700 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-600 transition duration-300 transform hover:scale-105">
+                    <i data-lucide="message-circle" class="inline-block mr-2"></i> Hubungi Kapten
+                </a>
+            </div>
 
-            // Menyembunyikan spanduk saat tombol tutup diklik
-            closeBannerBtn.addEventListener('click', () => {
-                promoBanner.classList.remove('show');
-            });
+            <div class="mt-16 border-t border-gray-700 pt-8">
+                <p class="font-black text-2xl gradient-text">ZAKWAN STUDIO</p>
+                <p class="text-gray-400 mt-2">Desa Payunga, Kecamatan Batudaa, Kabupaten Gorontalo</p>
+                <p class="text-sm text-gray-500 mt-8">&copy; 2024 Zakwan Studio. Didesain dengan Penuh Cinta.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS (Animate On Scroll) Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi Lucide Icons
+        lucide.createIcons();
+
+        // Inisialisasi AOS
+        AOS.init({
+            duration: 800, // durasi animasi
+            once: true, // animasi hanya sekali
+        });
+
+        // Script untuk menu mobile
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Script untuk header on scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
         });
     </script>
+
 </body>
 </html>
