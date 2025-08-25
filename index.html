@@ -415,6 +415,13 @@
             <!-- Total Price -->
             <div class="text-center mb-4 border-t border-b border-gray-700 py-3">
                 <p id="totalPrice" class="text-lg font-bold text-white">Estimasi Total: Rp 0</p>
+                <div id="negoSection" class="mt-2">
+                    <label class="flex items-center justify-center space-x-2 cursor-pointer text-sm text-gray-400">
+                        <input type="checkbox" id="nego-total-checkbox" class="bg-gray-700 rounded-sm border-gray-600">
+                        <span>Nego Total Harga</span>
+                    </label>
+                    <input type="number" id="nego-total-input" placeholder="Tawar Harga Total" class="nego-input hidden w-full mt-2 bg-gray-900 border-gray-600 rounded-md p-2 text-sm">
+                </div>
             </div>
 
             <div class="flex space-x-2">
@@ -466,6 +473,8 @@
         const tahunSelect = document.getElementById('tahun');
         const totalPriceEl = document.getElementById('totalPrice');
         const packageList = document.getElementById('packageList');
+        const negoTotalCheckbox = document.getElementById('nego-total-checkbox');
+        const negoTotalInput = document.getElementById('nego-total-input');
 
         // Populate Date Pickers
         const bulanNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -498,6 +507,15 @@
                 calculateTotal();
             }
         });
+        
+        negoTotalCheckbox.addEventListener('change', () => {
+            if (negoTotalCheckbox.checked) {
+                negoTotalInput.classList.remove('hidden');
+            } else {
+                negoTotalInput.classList.add('hidden');
+                negoTotalInput.value = '';
+            }
+        });
 
 
         // Modal Controls
@@ -524,6 +542,7 @@
             const bulan = bulanSelect.value;
             const tahun = tahunSelect.value;
             const totalHarga = totalPriceEl.textContent;
+            const negoTotalValue = document.getElementById('nego-total-input').value;
 
             let selectedPackages = [];
             const packageItems = packageList.querySelectorAll('.package-item');
@@ -544,7 +563,15 @@
                 message += "(Belum ada paket yang dipilih)";
             }
 
-            message += `%0A%0A💰 *${totalHarga}*%0A%0AMohon konfirmasi ketersediaan jadwalnya ya Kak. Terima kasih! 🙏`;
+            message += `%0A%0A💰 *${totalHarga}*`;
+
+            if (negoTotalCheckbox.checked && negoTotalValue) {
+                const negoPrice = parseInt(negoTotalValue).toLocaleString('id-ID');
+                message += `%0A💸 *Penawaran Nego Total:* Rp ${negoPrice}`;
+                message += `%0A%0A_Penting: Jika nego berhasil, sumber daya (jumlah tim/peralatan) akan disesuaikan dengan kesepakatan._`;
+            }
+
+            message += `%0A%0AMohon konfirmasi ketersediaan jadwalnya ya Kak. Terima kasih! 🙏`;
             
             const waNumber = "6285240057704"; // Nomor Icuk sebagai default
             const waURL = `https://wa.me/${waNumber}?text=${message}`;
